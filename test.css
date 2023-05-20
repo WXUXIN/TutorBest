@@ -1,5 +1,14 @@
-h1 body {
-    text-align: center;
+.rand, .rand2, .rand6 {
+    background-color: blue;
+}
+
+.rand
+
+%rand {
     color: red;
 }
 
+.rand2{
+    @extend %rand;
+    
+}
