@@ -9,7 +9,11 @@ import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import '../../App.css';
 
+
+// Props are arugments passed from one component to another.
 const Register = ({ setAlert, register, isAuthenticated }) => {
+  // Every time the state changes, the component re-renders, 
+  // meaning the webpage will update with the new state.
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,6 +23,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   const { name, email, password, password2 } = formData;
 
+  // Event handler
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -97,8 +102,17 @@ Register.propTypes = {
   isAuthenticated: PropTypes.bool
 };
 
+
+// The mapStateToProps function is used to map the user data from the Redux 
+// store to the user prop of the component. It assumes that the user data is stored 
+// in the auth reducer's user property. 
+// Adjust the state.auth.user path according to your actual Redux store structure.
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated
 });
+
+
+// The connect function is used to connect the component to the Redux store, 
+// making the user data available as a prop in the Dashboard component.
 
 export default connect(mapStateToProps, { setAlert, register })(Register);

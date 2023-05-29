@@ -2,6 +2,10 @@ import {REGISTER_SUCCESS, REGISTER_FAIL,
      USER_LOADED, AUTH_ERROR,
     LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT} from '../actions/types';
 
+    // The initialState object defines the initial state of the authentication module 
+    // in your Redux store. 
+    // It includes properties such as token, isAuthenticated, loading, and user.
+
 const initialState = {
     token: localStorage.getItem('token'),
 
@@ -14,6 +18,10 @@ const initialState = {
     user: null
 }
 
+// The reducer function takes 
+// the state (initially set to initialState) and an action as parameters.
+// The switch statement checks the action.type to determine which case to execute based on the dispatched action.
+
 export default function(state = initialState, action) { 
     const {type, payload} = action;
 
@@ -25,7 +33,13 @@ export default function(state = initialState, action) {
                 loading: false,
                 user: payload // user data
             }
-
+        
+        // When either REGISTER_SUCCESS or LOGIN_SUCCESS action is dispatched, it 
+        // updates the state by storing the token in the local storage, 
+        // setting isAuthenticated to true, loading to false, 
+        // and spreading the payload (which includes the token and any additional data) 
+        // into the state.
+        
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
             // set token in local storage
@@ -48,6 +62,7 @@ export default function(state = initialState, action) {
                 isAuthenticated: false,
                 loading: false
             }
+        // The default case returns the current state if none of the actions match.
         default:
             return state;
     }

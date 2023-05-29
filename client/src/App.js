@@ -12,6 +12,8 @@ import { loadUser } from './actions/auth';
 import { Provider } from 'react-redux';
 import store from './store';
 import setAuthToken from './utils/set_AuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
+import NotFound from './components/layout/NotFound';
 
 import './App.css';
 
@@ -36,13 +38,19 @@ const App = () => {
         <Navbar />
         <Alert />
         <Routes>
-
           {/* Depending on which route the user types in, we will render the Landing, 
           Register, or Login component. */}
           <Route path='/' element={<Landing />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
-          <Route path='/dashboard' element={<Dashboard />}/>
+          <Route
+            path="dashboard"
+            element={<PrivateRoute component={Dashboard} />}
+          />
+          <Route
+            path="/*"
+            element={<NotFound />}
+          />
         </Routes>
     </Router>
   </Provider>
