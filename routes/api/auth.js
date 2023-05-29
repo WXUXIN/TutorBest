@@ -37,7 +37,7 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// @route   GET api/users
+// @route   POST api/users
 // @desc    Authenticate user and get token (Login)
 // @access  Public
 router.post('/', 

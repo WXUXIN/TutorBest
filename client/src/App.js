@@ -5,7 +5,8 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login'; 
-import Alert from './components/layout/Alert'; 
+import Dashboard from './components/dashboard/Dashboard'; 
+import Alert from './components/layout/Alert';
 import { loadUser } from './actions/auth';
 //Redux
 import { Provider } from 'react-redux';
@@ -26,14 +27,22 @@ const App = () => {
   }, []);
 
   return (
+    // The provided code represents the App component in a React application. 
+    // It sets up the routing and renders different components based on the specified routes. 
+    // The below code will be placed inside the App component which will be rendered in the index.js file
+    // which  will be rendered in the root element of the HTML file.
   <Provider store={store}>
     <Router>
         <Navbar />
         <Alert />
         <Routes>
+
+          {/* Depending on which route the user types in, we will render the Landing, 
+          Register, or Login component. */}
           <Route path='/' element={<Landing />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
+          <Route path='/dashboard' element={<Dashboard />}/>
         </Routes>
     </Router>
   </Provider>

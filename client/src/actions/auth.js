@@ -5,7 +5,7 @@ import { REGISTER_FAIL, REGISTER_SUCCESS,
 import { setAlert } from './alert';
 import setAuthToken from '../utils/set_AuthToken';
 
-// Load User
+// Load User data (get user data)
 export const loadUser = () => async (dispatch) => {
 
     if(localStorage.token) {
@@ -13,12 +13,19 @@ export const loadUser = () => async (dispatch) => {
     }
 
     try {
+
+        // res here is the user data
+        // this code is from the /api/auth route
+        // const user = await User.findById(req.user.id).select('-password'); // Don't return the password
+        // res.json(user);
+
       const res = await axios.get('/api/auth');
   
       dispatch({
         type: USER_LOADED,
         payload: res.data
       });
+
     } catch (err) {
       dispatch({
         type: AUTH_ERROR
@@ -26,7 +33,7 @@ export const loadUser = () => async (dispatch) => {
     }
 }
 
-// Register User
+// Register User 
 export const register = ({name, email, password}) => async (dispatch) => {
     const config = {
         headers: {
@@ -37,13 +44,16 @@ export const register = ({name, email, password}) => async (dispatch) => {
     const body = JSON.stringify({name, email, password});
 
     try {
+    // @desc    Register user
       const res = await axios.post('/api/users', body, config);
 
+    // payload here is the token
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       });
-
+    
+    // This is to load the user right away after registration
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
@@ -70,13 +80,16 @@ export const login = (email, password) => async (dispatch) => {
     const body = JSON.stringify({email, password});
 
     try {
+      // Authenticate user and get token (Login)  
       const res = await axios.post('/api/auth', body, config);
 
+      // Payload is the token
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
 
+      // This is to load the user right away after registration
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;

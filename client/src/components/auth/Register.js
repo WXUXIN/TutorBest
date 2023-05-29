@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, Navigate } from 'react-router-dom';
-
 import { SET_ALERT } from '../../actions/types';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
+import '../../App.css';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <section className="container">
+    <section className="container register-bg">
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account

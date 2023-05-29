@@ -8,7 +8,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <a onClick={logout} href='#!'>
+        <a onClick={logout} href='/'>
           <i className='fas fa-sign-out-alt'></i>{' '}
           <span className='hide-sm'>Logout</span>
         </a>
@@ -28,7 +28,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
       <nav className="navbar bg-dark">
         <h1>
           <Link to="/">
-            <i className="fas fa-code" /> DevConnector
+             TutorBest
           </Link>
         </h1>
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
