@@ -81,15 +81,15 @@ export const login = (email, password) => async (dispatch) => {
 
     try {
       // Authenticate user and get token (Login)  
-      const res = await axios.post('/api/auth', body, config);
+      const res = await axios.post('/api/auth', body, config);  
 
-      // Payload is the token
+      // Payload is the token   
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
 
-      // This is to load the user right away after registration
+      // This is to load the user right away after login
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;

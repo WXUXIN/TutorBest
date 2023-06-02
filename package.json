@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "Orbital NUS Year 1 CP2106 (Independent Software Development Project (Orbital)) - TutorBest",
   "main": "index.js",
+
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Wang Xuxin Marcus Kim",
   "license": "ISC",
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.5",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.9",
     "express": "^4.18.2",

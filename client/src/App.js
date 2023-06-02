@@ -22,7 +22,7 @@ if(localStorage.token) {
 }
 
 // The app component is the main component that will be rendered in the index.js file.
-// Look at useEffect hook. This is a hook that will run when the component mounts.
+// Look at useEffect hook. This will run once when react renders the component.
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -35,16 +35,17 @@ const App = () => {
     // which  will be rendered in the root element of the HTML file.
   <Provider store={store}>
     <Router>
-        <Navbar />
-        <Alert />
+          <div className="app-container">
+          <Navbar /></div>
+          <div className="content-wrapper">
+            <Alert /></div>
         <Routes>
-          {/* Depending on which route the user types in, we will render the Landing, 
-          Register, or Login component. */}
+          {/* Depending on which route the user types in, we will render the Landing,  */}
           <Route path='/' element={<Landing />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
           <Route
-            path="dashboard"
+            path="/dashboard"
             element={<PrivateRoute component={Dashboard} />}
           />
           <Route

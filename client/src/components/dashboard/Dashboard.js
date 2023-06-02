@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const Dashboard = ({user}) => {
+const Dashboard = ({ auth : {user} }) => {
     return (
         <section className="container">
-            <h1>Hello! {user.name}</h1>
+            <h1>Welcome {user && user.name}</h1>
+            <h1>This will be the user's dashboard</h1>
             {/* <h1>{user.name}'s dashdboard will go here</h1> */}
         </section>
     );
 }
 
 Dashboard.propTypes = {
-    user: PropTypes.object.isRequired
+    auth: PropTypes.isRequired
   };
 
 const mapStateToProps = (state) => ({
-    user: state.auth.user
+    auth: state.auth
   });
 
-  export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(Dashboard); 

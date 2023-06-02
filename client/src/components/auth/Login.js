@@ -3,31 +3,34 @@ import { connect } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+import Spinner from '../layout/Spinner';
 
 
-const Login = ({ setAlert, login, isAuthenticated }) => {
+const Login = ({ setAlert, login, isAuthenticated, user }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+
 
   const {email, password} = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password)
-    };
+    await login(email, password);  
+  };
 
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     return <Navigate to="/dashboard" />;
-  }
+  } 
 
   return (
-    <section className="container">
-      <h1 className="large text-primary">Log In</h1>
+    <section className="container"> 
+
+      <h1 className="large text-primary x-large-landing">Log In</h1>
       <p className="lead">
         <i className="fas fa-user" /> Sign into your account
       </p>
@@ -40,10 +43,7 @@ const Login = ({ setAlert, login, isAuthenticated }) => {
             value={email}
             onChange={onChange}
           />
-          <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
+          
         </div>
         <div className="form-group">
           <input
@@ -54,7 +54,7 @@ const Login = ({ setAlert, login, isAuthenticated }) => {
             onChange={onChange}
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
+        <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary themefont" value="Login" />
       </form>
       <p className="my-1">
         Don't have an account? <Link to="/register">Register</Link>
@@ -65,11 +65,13 @@ const Login = ({ setAlert, login, isAuthenticated }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  user : PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user : state.auth.user
 });
 
 

@@ -1,23 +1,156 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
+// import { Button } from "../../../dropdown-menu"
+// import {
+//   DropdownMenu,
+//   DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuLabel,
+//   DropdownMenuRadioGroup,
+//   DropdownMenuRadioItem,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu"
 
-const Navbar = () => {
+
+
+export default function NavBar() {
+    
+  const [levelOfStudy, setLevelOfStudy] = useState('');
+  const [subject, setSubject] = useState('');
+  const [subjectOptions, setSubjectOptions] = useState([]);
+
+  // For students to select their level of study
+  const handleLevelOfStudyChange = (e) => {
+    const selectedLevelOfStudy = e.target.value;
+    setLevelOfStudy(selectedLevelOfStudy);
+
+    // Update subject options based on the selected level of study
+    if (selectedLevelOfStudy === 'Primary School') {
+      setSubjectOptions([
+        'English',
+        'Mathematics',
+        'Science',
+        'Chinese', // e.g., Chinese, Malay, Tamil
+        'Malay',
+        'Tamil'
+      ]);
+    } else if (selectedLevelOfStudy === 'Secondary School') {
+      setSubjectOptions([
+        'English',
+        'Mathematics',
+        'Science',
+        'Chinese', // e.g., Chinese, Malay, Tamil
+        'Malay',
+        'Tamil',
+        'Additional Mathematics',
+        'Principles of Accounts',
+        'Combined Humanities',
+        'Pure Sciences', // e.g., Physics, Chemistry, Biology
+        'Humanities Elective Programme (HEP)',
+        'Art',
+        'Music',
+        'Physical Education (PE)',
+        'Health Education',
+        'Design and Technology',
+        'Food and Consumer Education',
+        'Literature in English',
+        'Geography',
+        'History',
+        'Social Studies',
+        'Economics',
+        'Business Studies',
+        'Principles of Engineering',
+        'Computer Science',
+        'Media Studies',
+        'Additional Science',
+        'Biology',
+        'Chemistry',
+        'Physics'
+      ]);
+    } else if (selectedLevelOfStudy === 'Junior College') {
+      setSubjectOptions([ 'General Paper',
+      'Project Work',
+      'Chinese', // e.g., H1 Chinese Language and Literature
+      'Malay',
+      'Tamil',
+      'Mathematics',
+      'Further Mathematics',
+      'Chemistry',
+      'Physics',
+      'Biology',
+      'Computing',
+      'Economics',
+      'History',
+      'Geography',
+      'Literature in English',
+      'Art',
+      'Music']);
+    } else {
+      setSubjectOptions([]);
+    }
+
+    // Reset the selected subject
+    setSubject('');
+  };
+
+  const handleSubjectChange = (e) => {
+    setSubject(e.target.value);
+  };
+
+
     return (
     <section className="landing">
         <div className="dark-overlay">
           <div className="landing-inner">
-            <h1 className="x-large">Tuition made simple.</h1>
-            <p className="lead">
-              
-            </p>
-            <div className="buttons">
-              <Link to='/register' className="btn btn-primary">Sign Up</Link>
-              <Link to='/login' className="btn btn-light">Login</Link>
-            </div>
+          <h1 className="x-large-landing">
+            I am in
+            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown">
+              <option value="">Level of Study</option>
+              <option value="Primary School">Primary School</option>
+              <option value="Secondary School">Secondary School</option>
+              <option value="Junior College">Junior College</option>
+            </select>
+{/* 
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">Open</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+                  <DropdownMenuRadioItem value="Primary School">Primary School</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Secondary School">Secondary School</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="Junior College">Junior College</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu> */}
+            
+          </h1>
+
+          <h1 className="x-large-landing">
+                I am looking for a 
+                <select value={subject} onChange={handleSubjectChange} className="dropdown">
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+                tutor.
+              </h1>
           </div>
         </div>
       </section>
     )
 }
-
-export default Navbar;

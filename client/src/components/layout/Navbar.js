@@ -18,15 +18,15 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
 
   const guestLinks = (
     <ul>
-      <li><Link to='/register'>Register</Link></li>
-      <li><Link to="/login">Login</Link></li>
+      <li className = "navbar-register-login"><Link to='/register'>Register</Link></li>
+      <li className = "navbar-register-login"><Link to="/login">Login</Link></li>
     </ul>
     );
   
 
     return (
       <nav className="navbar bg-dark">
-        <h1>
+        <h1 className = "navbar-logo">
           <Link to="/">
              TutorBest
           </Link>
@@ -46,3 +46,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
+

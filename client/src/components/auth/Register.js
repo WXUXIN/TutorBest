@@ -55,7 +55,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={name}
             onChange={e => onChange(e)}
           />
+          <small className="form-text">
+          This will be your display name
+          </small>
         </div>
+        
         <div className="form-group">
           <input
             type="email"
@@ -64,10 +68,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             value={email}
             onChange={e => onChange(e)}
           />
-          <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
+          
         </div>
         <div className="form-group">
           <input
@@ -87,7 +88,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={onChange}
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Register" />
+        <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Register" />
       </form>
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>

@@ -1,7 +1,7 @@
 /* Global Styles */
 :root {
-  --primary-color: #17a2b8;
-  --dark-color: #343a40;
+  --primary-color: #e9c78c;
+  --dark-color: #0B1B3D;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -45,21 +45,44 @@ img {
 }
 
 /* Text Styles*/
+.x-large-login,
+.x-large-landing, 
+.large,
 .x-large {
-  font-size: 4rem;
+  font-family: 'Josefin Sans', sans-serif;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
-.large {
+.x-large-landing, 
+.x-large {
+  font-size: 4rem;
+}
+
+.x-large-login{
+  font-size: 3rem;
+}
+
+.navbar-logo {
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 3rem;
   line-height: 1.2;
-  margin-bottom: 1rem;
+}
+
+.navbar-register-login {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.large {
+  font-size: 3rem;
 }
 
 .lead {
   font-size: 1.5rem;
   margin-bottom: 1rem;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .text-center {
@@ -118,6 +141,7 @@ img {
 }
 .my-1 {
   margin: 1rem 0;
+  font-family: 'Josefin Sans', sans-serif;
 }
 .my-2 {
   margin: 2rem 0;
@@ -129,6 +153,7 @@ img {
 .btn {
   display: inline-block;
   background: var(--light-color);
+  font-family: 'Josefin Sans', sans-serif;
   color: #333;
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
@@ -154,6 +179,12 @@ img {
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-top: 600px; /* Adjust the margin-top value to align with the navbar */
+  z-index: 99; /* Adjust the z-index value to be lower than the navbar */
 }
 
 .btn-primary,
@@ -161,7 +192,11 @@ img {
 .badge-primary,
 .alert-primary {
   background: var(--primary-color);
-  color: #fff;
+  color: #ffffff;
+}
+
+.btn-primary{
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .btn-light,
@@ -256,6 +291,8 @@ img {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  font-family: 'Josefin Sans', sans-serif;
+
 }
 
 .form input[type='submit'],
@@ -305,7 +342,7 @@ button {
   align-items: center;
   padding: 0.7rem 2rem;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   width: 100%;
   top: 0;
   border-bottom: solid 1px var(--primary-color);
@@ -333,8 +370,9 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  /* background: url('./img/showcase.jpg') no-repeat center center/cover; */
   height: 100vh;
+  background-size: 100%; /* Adjust the zoom level as needed */  
 }
 
 .landing-inner {
@@ -579,5 +617,23 @@ button {
     background: url('./img/showcase.jpg') 
   };
 
+  .dropdown {
+    font-size: inherit;
+    padding: 0.5em;
+    height: inherit;
+  }
+
+  .themefont{
+    font-family: 'Josefin Sans', sans-serif;
+  }
+
+  .app-container {
+    position: relative;
+  }
+  
+  .content-wrapper {
+    /* Your existing styles for the content wrapper */
+    margin-top: 50px; /* Adjust the margin-top value to provide space for the navbar */
+  }
 }
 
