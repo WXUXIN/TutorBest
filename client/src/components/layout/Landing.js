@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 // import { Button } from "../../../dropdown-menu"
 // import {
 //   DropdownMenu,
@@ -114,21 +113,7 @@ export default function NavBar() {
               <option value="Secondary School">Secondary School</option>
               <option value="Junior College">Junior College</option>
             </select>
-{/* 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline">Open</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-                  <DropdownMenuRadioItem value="Primary School">Primary School</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="Secondary School">Secondary School</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="Junior College">Junior College</DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu> */}
-            
+          
           </h1>
 
           <h1 className="x-large-landing">
