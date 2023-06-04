@@ -11,32 +11,65 @@ import '../../App.css';
 
 
 // Props are arugments passed from one component to another.
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({ setAlert, register, isAuthenticated, user }) => {
   // Every time the state changes, the component re-renders, 
   // meaning the webpage will update with the new state.
-  const [formData, setFormData] = useState({
+  const [formData, setMainData] = useState({
     name: '',
     email: '',
     password: '',
     password2: ''
   });
 
+  const [subjects, setSubjects] = useState([]);
+
+  const [isTutor, setTutor] = useState(false);
+
   const { name, email, password, password2 } = formData;
 
   // Event handler
   const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setMainData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      register({ name, email, password });
+      register({ name, email, password, subjects });
     }
   };
 
-  if (isAuthenticated) {
+  // When tutor press button to add subjects they teach
+  const addSubject = () => {
+    const newSubject = {
+      subject: '',
+      price: '' 
+    };
+    setSubjects([...subjects, newSubject]);
+  };
+
+  const handleSubjectChange = (index, value) => {
+    const updatedSubjects = [...subjects];
+    updatedSubjects[index].subject = value;
+    setSubjects(updatedSubjects);
+  };
+
+  const handlePriceChange = (index, value) => {
+    // Remove any non-numeric characters from the input value
+    const sanitizedValue = value.replace(/[^0-9]/g, '');
+    const updatedSubjects = [...subjects];
+    updatedSubjects[index].price = sanitizedValue;
+    setSubjects(updatedSubjects);
+  };
+
+  const removeSubject = index => {
+    const updatedSubjects = [...subjects];
+    updatedSubjects.splice(index, 1);
+    setSubjects(updatedSubjects);
+  };
+
+  if (isAuthenticated && user) {
     return <Navigate to="/dashboard" />;
   }
 
@@ -88,8 +121,76 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             onChange={onChange}
           />
         </div>
+
+        <div className="form-group">
+          <label className = "themefont" style={{ fontSize: '1.5rem' }}>
+            <input
+              type="checkbox"
+              checked={isTutor}
+              onChange={e => setTutor(!isTutor)}
+            />
+            {' I want to be a tutor!'}
+          </label>
+          
+          {isTutor ? (
+            <>
+              <p style={{ fontSize: '0.9rem' }}>Select your subject(s):</p>
+
+              {subjects.map((subject, index) => (
+                <div key={index} className="form-group">
+                  <select
+                    value={subject.subject}
+                    onChange={e =>
+                      handleSubjectChange(index, e.target.value)
+                    }
+                  >
+                    <option value="">* Select Subject</option>
+                    <optgroup label="Primary School">
+                      <option value="Pri Math">Math</option>
+                      <option value="Pri Science">Science</option>
+                      <option value="Pri English">English</option>
+                    </optgroup>
+                    <optgroup label="Secondary School">
+                      <option value="Sec History">History</option>
+                      <option value="Sec Computer Science">
+                        Computer Science
+                      </option>
+                    </optgroup>
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Price"
+                    name="price"
+                    value={subject.price ? `SGD ${subject.price}/hr`: `SGD`}
+                    onChange={e =>
+                      handlePriceChange(index, e.target.value)
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeSubject(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={addSubject}
+              >
+                Add Subject
+              </button>
+            </>
+          ) : null}
+        </div>
+    
         <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Register" />
       </form>
+
+      
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
@@ -100,7 +201,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  user : PropTypes.object.isRequired
 };
 
 
@@ -109,7 +211,8 @@ Register.propTypes = {
 // in the auth reducer's user property. 
 // Adjust the state.auth.user path according to your actual Redux store structure.
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 

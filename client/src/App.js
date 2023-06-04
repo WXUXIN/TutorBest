@@ -33,6 +33,8 @@ const App = () => {
     // It sets up the routing and renders different components based on the specified routes. 
     // The below code will be placed inside the App component which will be rendered in the index.js file
     // which  will be rendered in the root element of the HTML file.
+
+    // Provider allows the app to access the redux store.
   <Provider store={store}>
     <Router>
           <div className="app-container">
