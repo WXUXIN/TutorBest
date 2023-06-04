@@ -34,19 +34,20 @@ export const loadUser = () => async (dispatch) => {
 }
 
 // Register User 
-export const register = ({name, email, password}) => async (dispatch) => {
+export const register = ({name, email, password, isTutor, subjects}) => async (dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
 
-    const body = JSON.stringify({name, email, password});
+    console.log(subjects);
+    const body = JSON.stringify({name, email, password, isTutor, subjects});
 
     try {
     // @desc    Register user
-      const res = await axios.post('/api/users', body, config);
-
+    const res = await axios.post('/api/users', body, config);
+    
     // payload here is the token
       dispatch({
         type: REGISTER_SUCCESS,

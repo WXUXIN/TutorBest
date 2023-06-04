@@ -8,6 +8,7 @@ const Dashboard = ({ auth : {user} }) => {
             <h1>Welcome {user && user.name}</h1>
             <h1>This will be the user's dashboard</h1>
             {/* <h1>{user.name}'s dashdboard will go here</h1> */}
+            <h1>This is the subjects you are teaching {user && user.subjects}</h1>
         </section>
     );
 }

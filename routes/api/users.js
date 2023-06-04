@@ -33,8 +33,8 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {name, email, password } = req.body;
-
+    const {name, email, password, isTutor, subjects } = req.body;
+ 
     try {
     // See if user exists
     let user = await User.findOne({ email });
@@ -57,11 +57,14 @@ router.post('/',
         name,
         email,
         avatar,
-        password
+        password,
+        isTutor, 
+        subjects
     });
 
     // Encrypt password
     const salt = await bcrypt.genSalt(10);
+
     // Hash the password by creating a hash and passing in the password and salt
     user.password = await bcrypt.hash(password, salt);
     await user.save()

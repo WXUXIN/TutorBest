@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Global Styles */
 :root {
   --primary-color: #e9c78c;
@@ -623,7 +627,7 @@ button {
     height: inherit;
   }
 
-  .{
+  .themefont{
     font-family: 'Josefin Sans', sans-serif;
   }
 

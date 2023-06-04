@@ -19,7 +19,25 @@ const UserSchema = new mongoose.Schema({
     "date": {
         "type": "Date",
         "default": Date.now
-    }
+    }, 
+    "isTutor": {
+        type: Boolean,
+        default: false
+      },
+    "subjects": [{
+        "subject": {
+            type: String,
+            required: true
+        },
+        "price": {
+            type: Number,
+            required: true
+        },
+        "level": {
+            type: String,
+            required: true
+        }
+    }]
 });
 
 

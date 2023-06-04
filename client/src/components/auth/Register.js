@@ -23,6 +23,8 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const [subjects, setSubjects] = useState([]);
 
+  // const [lvlOfStudy, setlvlOfStudy] = useState('');
+
   const [isTutor, setTutor] = useState(false);
 
   const { name, email, password, password2 } = formData;
@@ -31,12 +33,20 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const onChange = e =>
     setMainData({ ...formData, [e.target.name]: e.target.value });
 
+  const emptySubjectOrPrice = () => subjects.some(subject => subject.level && (subject.subject === '' || subject.price === ''));
+
+  const purgeEmptySubjects = (subjs) => subjs.filter(subject => subject.subject !== '' && subject.price !== '');
+
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
+    } else if (emptySubjectOrPrice()) {
+      setAlert('Please fill in all subject and price fields', 'danger');
     } else {
-      register({ name, email, password, subjects });
+      const updateList = purgeEmptySubjects(subjects);
+      console.log(updateList);
+      register({ name, email, password, isTutor, updateList });
     }
   };
 
@@ -44,9 +54,16 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const addSubject = () => {
     const newSubject = {
       subject: '',
+      level: '',
       price: '' 
     };
     setSubjects([...subjects, newSubject]);
+  };
+
+  const handleLevelChange = (index, value) => {
+    const updatedSubjects = [...subjects];
+    updatedSubjects[index].level = value;
+    setSubjects(updatedSubjects);
   };
 
   const handleSubjectChange = (index, value) => {
@@ -74,7 +91,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   }
 
   return (
-    <section className="container register-bg">
+    <section className="container">
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
@@ -123,68 +140,103 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
         </div>
 
         <div className="form-group">
-          <label className = "themefont" style={{ fontSize: '1.5rem' }}>
+        <label className="themefont" style={{ fontSize: '1.5rem' }}>
+
             <input
               type="checkbox"
               checked={isTutor}
               onChange={e => setTutor(!isTutor)}
             />
-            {' I want to be a tutor!'}
+            <span style={{ fontFamily: 'Josefin Sans', marginLeft: '0.5rem' }}>I want to be a tutor!</span>
           </label>
           
           {isTutor ? (
             <>
-              <p style={{ fontSize: '0.9rem' }}>Select your subject(s):</p>
-
+              <div>Select your subject(s):</div>
               {subjects.map((subject, index) => (
                 <div key={index} className="form-group">
-                  <select
-                    value={subject.subject}
-                    onChange={e =>
-                      handleSubjectChange(index, e.target.value)
-                    }
-                  >
-                    <option value="">* Select Subject</option>
-                    <optgroup label="Primary School">
-                      <option value="Pri Math">Math</option>
-                      <option value="Pri Science">Science</option>
-                      <option value="Pri English">English</option>
-                    </optgroup>
-                    <optgroup label="Secondary School">
-                      <option value="Sec History">History</option>
-                      <option value="Sec Computer Science">
-                        Computer Science
-                      </option>
-                    </optgroup>
-                  </select>
-                  <input
-                    type="text"
-                    placeholder="Price"
-                    name="price"
-                    value={subject.price ? `SGD ${subject.price}/hr`: `SGD`}
-                    onChange={e =>
-                      handlePriceChange(index, e.target.value)
-                    }
-                  />
+                  <div className="subject-wrapper">
+                    <select
+                      value={subject.level}
+                      onChange={e => handleLevelChange(index, e.target.value)}
+                      className="my"
+                    >
+                      <option value="">* Select Level of Study</option>
+                      <option value="Primary School">Primary School</option>
+                      <option value="Secondary School">Secondary School</option>
+                      <option value="Junior College">Junior College</option>
+                    </select>
+
+                    {subject.level === "Primary School" && (
+                      <select
+                        value={subject.subject}
+                        onChange={e => handleSubjectChange(index, e.target.value)}
+                        className="my"
+                      >
+                        <option value="">* Select Subject</option>
+                        <option value="Pri Math">Math</option>
+                        <option value="Pri Science">Science</option>
+                        <option value="Pri English">English</option>
+                      </select>
+                    )}
+
+                    {subject.level === "Secondary School" && (
+                      <select
+                        value={subject.subject}
+                        onChange={e => handleSubjectChange(index, e.target.value)}
+                        className="my"
+                      >
+                        <option value="">* Select Subject</option>
+                        <option value="Sec History">History</option>
+                        <option value="Sec Computer Science">Computer Science</option>
+                      </select>
+                    )}
+
+                    {subject.level === "Junior College" && (
+                      <select
+                        value={subject.subject}
+                        onChange={e => handleSubjectChange(index, e.target.value)}
+                        className="my"
+                      >
+                        <option value="">* Select Subject</option>
+                        <option value="JC Subject 1">JC Subject 1</option>
+                        <option value="JC Subject 2">JC Subject 2</option>
+                      </select>
+                    )}
+
+                    {subject.level !== '' && subject.subject !== '' && (
+                      <input
+                        type="text"
+                        placeholder="Price"
+                        name="price"
+                        value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
+                        onChange={e => handlePriceChange(index, e.target.value)}
+                        className="my"
+                      />
+                    )}
+                  </div>
+
                   <button
                     type="button"
                     className="btn btn-danger"
                     onClick={() => removeSubject(index)}
                   >
-                    Remove
+                    &#10005;
                   </button>
                 </div>
               ))}
 
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn"
                 onClick={addSubject}
               >
-                Add Subject
+                <span>&#43;</span>
               </button>
             </>
           ) : null}
+
+
         </div>
     
         <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Register" />
