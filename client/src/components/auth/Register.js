@@ -23,7 +23,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const [subjects, setSubjects] = useState([]);
 
-  // const [lvlOfStudy, setlvlOfStudy] = useState('');
+  const [qualification, setQualification] = useState('');
+
+  const [otherQualification, setOtherQualification] = useState('');
 
   const [isTutor, setTutor] = useState(false);
 
@@ -35,6 +37,8 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const emptySubjectOrPrice = () => subjects.some(subject => subject.level && (subject.subject === '' || subject.price === ''));
 
+  const emptyQualification = () => qualification === '' || (qualification === 'Others' && otherQualification === '');
+
   const purgeEmptySubjects = (subjs) => subjs.filter(subject => subject.subject !== '' && subject.price !== '');
 
   const onSubmit = async e => {
@@ -43,10 +47,13 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
       setAlert('Passwords do not match', 'danger');
     } else if (emptySubjectOrPrice()) {
       setAlert('Please fill in all subject and price fields', 'danger');
+    } else if (emptyQualification()) {
+      setAlert('Please fill in your highest qualification', 'danger');
     } else {
       const updateList = purgeEmptySubjects(subjects);
       console.log(updateList);
-      register({ name, email, password, isTutor, updateList });
+      const finalQualification = qualification === 'Others' ? otherQualification : qualification;
+      register({ name, email, password, isTutor, updateList,  finalQualification});
     }
   };
 
@@ -152,7 +159,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           
           {isTutor ? (
             <>
-              <div>Select your subject(s):</div>
+              <div style={{ fontFamily: 'Josefin Sans'}} >Select your subject(s):</div>
               {subjects.map((subject, index) => (
                 <div key={index} className="form-group">
                   <div className="subject-wrapper">
@@ -233,9 +240,37 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
               >
                 <span>&#43;</span>
               </button>
+
+              {/* Qualification dropdown and input box */}
+              <div className="form-group">
+                <div className="subject-wrapper">
+                  <select
+                    value={qualification}
+                    onChange={e => setQualification(e.target.value)}
+                    className="my"
+                  >
+                    <option value="">* Select your highest qualification</option>
+                    <option value="Secondary School">Secondary School</option>
+                    <option value="GCE A Levels">GCE A Levels</option>
+                    <option value="Undergraduate">Undergraduate</option>
+                    <option value="Graduate">Graduate</option>
+                    <option value="Others">Others</option>
+                  </select>
+
+                  {qualification === "Others" && (
+                    <input
+                      type="text"
+                      placeholder="Enter Other Qualification"
+                      name="otherQualification"
+                      value={otherQualification}
+                      onChange={e => setOtherQualification(e.target.value)}
+                      className="my"
+                    />
+                  )}
+                </div>
+              </div>
             </>
           ) : null}
-
 
         </div>
     

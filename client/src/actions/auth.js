@@ -34,7 +34,7 @@ export const loadUser = () => async (dispatch) => {
 }
 
 // Register User 
-export const register = ({name, email, password, isTutor, subjects}) => async (dispatch) => {
+export const register = ({name, email, password, isTutor, subjects, highestQualification}) => async (dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export const register = ({name, email, password, isTutor, subjects}) => async (d
     }
 
     console.log(subjects);
-    const body = JSON.stringify({name, email, password, isTutor, subjects});
+    const body = JSON.stringify({name, email, password, isTutor, subjects, highestQualification});
 
     try {
     // @desc    Register user

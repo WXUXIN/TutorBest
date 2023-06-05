@@ -183,11 +183,11 @@ img {
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  margin-top: 600px; /* Adjust the margin-top value to align with the navbar */
+  margin-top: 80px; /* Adjust the margin-top value to align with the navbar */
   z-index: 99; /* Adjust the z-index value to be lower than the navbar */
 }
 
