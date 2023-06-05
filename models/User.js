@@ -24,6 +24,8 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
       },
+
+    // Relevant to tutors only:
     "subjects": [{
         "subject": {
             type: String,
@@ -36,6 +38,40 @@ const UserSchema = new mongoose.Schema({
         "level": {
             type: String,
             required: true
+        }
+    }],
+    "description": {
+        "type": "String"
+    },
+    "highestQualification": {
+        "type": "String"
+    },
+    "tutees": [{
+        "tutee": {
+            "type": "String"
+        }
+    }],
+    "ratings": [{
+        "rating": {
+            "type": "Number"
+        }, 
+        "tutee": {
+            "type": "String"
+        }
+    }],
+
+    // Relevant to tutees only:
+    "tutors": [{
+        "tutor": {
+            "type": "String"
+        }
+    }],
+    "reviews": [{
+        "review": {
+            "type": "String"
+        },
+        "tutor": {
+            "type": "String"
         }
     }]
 });
