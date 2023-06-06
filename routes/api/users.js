@@ -9,6 +9,8 @@ const bcrypt = require('bcryptjs');
 
 // To bring in the User model and use this to interact with the database
 const User = require('../../models/User');
+const Tutor = require('../../models/TutorInfo');
+const Tutee = require('../../models/TuteeInfo');
 
 // Write this for every route
 // @route   GET/POST api/users
@@ -33,7 +35,7 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {name, email, password, isTutor, subjects } = req.body;
+    const {name, email, password, isTutor, subjects, highestQualification} = req.body;
  
     try {
     // See if user exists
@@ -58,9 +60,10 @@ router.post('/',
         email,
         avatar,
         password,
-        isTutor, 
-        subjects
+        isTutor
     });
+
+    
 
     // Encrypt password
     const salt = await bcrypt.genSalt(10);
@@ -68,6 +71,24 @@ router.post('/',
     // Hash the password by creating a hash and passing in the password and salt
     user.password = await bcrypt.hash(password, salt);
     await user.save()
+
+    // If user indicated that he/she wants to be a tutor
+    if (isTutor) {
+        const tutor = new Tutor({
+          user: user._id, // Set the user reference for the tutor
+          subjects,
+          highestQualification,
+        });
+        await tutor.save();
+    }
+
+    tutee = new Tutee({
+        user: user._id,
+        tutors: [],
+        reviews: []
+    });
+    
+    await tutee.save()
 
     // Return jsonwebtoken, this is for user to login right away after registration
     const payload = {

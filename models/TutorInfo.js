@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const TutorSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "users",
     unique: true,
     required: true,
   },
@@ -49,4 +49,4 @@ const TutorSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Tutor", TutorSchema);
+module.exports = mongoose.model("tutor", TutorSchema);
