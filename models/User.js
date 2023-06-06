@@ -1,79 +1,79 @@
 const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
-    "name": {
-        "type": "String",
-        "required": true
+    name: {
+        type: String,
+        required: true
     },
-    "email": {
-        "type": "String",
-        "required": true,
-        "unique": true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    "password": {
-        "type": "String",
-        "required": true
+    password: {
+        type: String,
+        required: true
     },
-    "avatar": {
-        "type": "String"
+    avatar: {
+        type: String
     },
-    "date": {
+    date: {
         "type": "Date",
-        "default": Date.now
+        default: Date.now
     }, 
-    "isTutor": {
+    isTutor: {
         type: Boolean,
         default: false
-      },
+    }
 
     // Relevant to tutors only:
-    "subjects": [{
-        "subject": {
-            type: String,
-            required: true
-        },
-        "price": {
-            type: Number,
-            required: true
-        },
-        "level": {
-            type: String,
-            required: true
-        }
-    }],
-    "description": {
-        "type": "String"
-    },
-    "highestQualification": {
-        "type": "String"
-    },
-    "tutees": [{
-        "tutee": {
-            "type": "String"
-        }
-    }],
-    "ratings": [{
-        "rating": {
-            "type": "Number"
-        }, 
-        "tutee": {
-            "type": "String"
-        }
-    }],
+    // "subjects": [{
+    //     "subject": {
+    //         type: String,
+    //         required: true
+    //     },
+    //     "price": {
+    //         type: Number,
+    //         required: true
+    //     },
+    //     "level": {
+    //         type: String,
+    //         required: true
+    //     }
+    // }],
+    // "description": {
+    //     "type": "String"
+    // },
+    // "highestQualification": {
+    //     "type": "String"
+    // },
+    // "tutees": [{
+    //     "tutee": {
+    //         "type": "String"
+    //     }
+    // }],
+    // "ratings": [{
+    //     "rating": {
+    //         "type": "Number"
+    //     }, 
+    //     "tutee": {
+    //         "type": "String"
+    //     }
+    // }],
 
     // Relevant to tutees only:
-    "tutors": [{
-        "tutor": {
-            "type": "String"
-        }
-    }],
-    "reviews": [{
-        "review": {
-            "type": "String"
-        },
-        "tutor": {
-            "type": "String"
-        }
-    }]
+    // "tutors": [{
+    //     "tutor": {
+    //         "type": "String"
+    //     }
+    // }],
+    // "reviews": [{
+    //     "review": {
+    //         "type": "String"
+    //     },
+    //     "tutor": {
+    //         "type": "String"
+    //     }
+    // }]
 });
 
 
