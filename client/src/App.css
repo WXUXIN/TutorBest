@@ -639,5 +639,23 @@ button {
     /* Your existing styles for the content wrapper */
     margin-top: 50px; /* Adjust the margin-top value to provide space for the navbar */
   }
+
+  .subject-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .cross-button {
+    width: 30px; /* Adjust the width as needed */
+    height: auto; /* Height will be determined by the content */
+    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+    font-size: 18px;
+    padding: 5px;
+    margin-left: 10px; /* Adjust the margin as needed */
+  }
+  
 }
 

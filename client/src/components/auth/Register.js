@@ -159,7 +159,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           
           {isTutor ? (
             <>
-              <div style={{ fontFamily: 'Josefin Sans'}} >Select your subject(s):</div>
+              <div style={{ fontFamily: 'Josefin Sans', marginLeft: '0.5rem' }} >Select your subject(s):</div>
               {subjects.map((subject, index) => (
                 <div key={index} className="form-group">
                   <div className="subject-wrapper">
@@ -221,15 +221,15 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                         className="my"
                       />
                     )}
-                  </div>
 
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => removeSubject(index)}
-                  >
-                    &#10005;
-                  </button>
+                    <button
+                      type="button"
+                      className="btn cross-button"
+                      onClick={() => removeSubject(index)}
+                    >
+                      &#10005;
+                    </button>
+                  </div>
                 </div>
               ))}
 
