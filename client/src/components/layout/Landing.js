@@ -110,6 +110,7 @@ export default function NavBar() {
             <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown">
               <option value="">Level of Study</option>
               <option value="Primary School">Primary School</option>
+              <option value="Primary School">Primary School</option>
               <option value="Secondary School">Secondary School</option>
               <option value="Junior College">Junior College</option>
             </select>
