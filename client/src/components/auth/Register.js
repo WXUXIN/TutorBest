@@ -37,7 +37,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const emptySubjectOrPrice = () => subjects.some(subject => subject.level && (subject.subject === '' || subject.price === ''));
 
-  const emptyQualification = () => qualification === '' || (qualification === 'Others' && otherQualification === '');
+  const emptyQualification = () => isTutor && (qualification === '' || (qualification === 'Others' && otherQualification === ''));
 
   const purgeEmptySubjects = (subjs) => subjs.filter(subject => subject.subject !== '' && subject.price !== '');
 

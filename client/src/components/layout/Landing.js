@@ -16,7 +16,7 @@ import {useState} from 'react';
 
 
 
-export default function NavBar() {
+export default function Landing() {
     
   const [levelOfStudy, setLevelOfStudy] = useState('');
   const [subject, setSubject] = useState('');
@@ -118,7 +118,7 @@ export default function NavBar() {
 
           <h1 className="x-large-landing">
                 I am looking for a 
-                <select value={subject} onChange={handleSubjectChange} className="dropdown">
+                <select value={subject} onChange={handleSubjectChange} className="dropdown" disabled={!levelOfStudy}> 
                   {subjectOptions.length === 0 ? (
                     <option value="">Select level of study</option>
                   ) : (
