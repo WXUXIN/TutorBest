@@ -107,9 +107,9 @@ export default function NavBar() {
           <div className="landing-inner">
           <h1 className="x-large-landing">
             I am in
-            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown">
+            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown"
+            style={{ fontSize: 'inherit' }}>
               <option value="">Level of Study</option>
-              <option value="Primary School">Primary School</option>
               <option value="Primary School">Primary School</option>
               <option value="Secondary School">Secondary School</option>
               <option value="Junior College">Junior College</option>
@@ -119,7 +119,8 @@ export default function NavBar() {
 
           <h1 className="x-large-landing">
                 I am looking for a 
-                <select value={subject} onChange={handleSubjectChange} className="dropdown">
+                <select value={subject} onChange={handleSubjectChange} className="dropdown"
+                style={{ fontSize: 'inherit' }}>
                   {subjectOptions.length === 0 ? (
                     <option value="">Select level of study</option>
                   ) : (
