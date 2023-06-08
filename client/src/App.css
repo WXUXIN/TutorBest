@@ -622,10 +622,13 @@ button {
   };
 
   .dropdown {
-    font-size: inherit;
-    padding: 0.5em;
-    height: inherit;
+    position: relative;
+    padding: 0;
+    margin-right: 1em;
+    color:#000080;
+    border: none; 
   }
+  
 
   .themefont{
     font-family: 'Josefin Sans', sans-serif;

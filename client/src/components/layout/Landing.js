@@ -107,7 +107,8 @@ export default function Landing() {
           <div className="landing-inner">
           <h1 className="x-large-landing">
             I am in
-            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown">
+            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown"
+            style={{ fontSize: 'inherit' }}>
               <option value="">Level of Study</option>
               <option value="Primary School">Primary School</option>
               <option value="Secondary School">Secondary School</option>
@@ -118,7 +119,7 @@ export default function Landing() {
 
           <h1 className="x-large-landing">
                 I am looking for a 
-                <select value={subject} onChange={handleSubjectChange} className="dropdown" disabled={!levelOfStudy}> 
+                <select value={subject} onChange={handleSubjectChange} className="dropdown">
                   {subjectOptions.length === 0 ? (
                     <option value="">Select level of study</option>
                   ) : (
