@@ -63,8 +63,6 @@ router.post('/',
         isTutor
     });
 
-    
-
     // Encrypt password
     const salt = await bcrypt.genSalt(10);
 
@@ -77,15 +75,13 @@ router.post('/',
         const tutor = new Tutor({
           user: user._id, // Set the user reference for the tutor
           subjects,
-          highestQualification,
+          highestQualification : "Placeholder for now"
         });
         await tutor.save();
     }
 
     tutee = new Tutee({
-        user: user._id,
-        tutors: [],
-        reviews: []
+        user: user._id
     });
     
     await tutee.save()

@@ -12,6 +12,7 @@ const TuteeSchema = new mongoose.Schema({
       tutor: {
         type: String,
       },
+      default: []
     },
   ],
   reviews: [
@@ -22,8 +23,9 @@ const TuteeSchema = new mongoose.Schema({
       tutor: {
         type: String,
       },
+      default: []
     },
   ],
 });
 
-module.exports = mongoose.model("tutee", TuteeSchema);
+module.exports = mongoose.model("tutees", TuteeSchema);

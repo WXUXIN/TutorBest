@@ -35,9 +35,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const onChange = e =>
     setMainData({ ...formData, [e.target.name]: e.target.value });
 
-  const emptySubjectOrPrice = () => subjects.some(subject => subject.level && (subject.subject === '' || subject.price === ''));
+  const emptySubjectOrPrice = () => isTutor && (subjects.some(subject => subject.level && (subject.subject === '' || subject.price === '')));
 
-  const emptyQualification = () => qualification === '' || (qualification === 'Others' && otherQualification === '');
+  const emptyQualification = () => isTutor && (qualification === '' || (qualification === 'Others' && otherQualification === ''));
 
   const purgeEmptySubjects = (subjs) => subjs.filter(subject => subject.subject !== '' && subject.price !== '');
 

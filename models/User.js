@@ -90,4 +90,4 @@ const UserSchema = new mongoose.Schema({
 // on the 'users' collection using Mongoose methods.
 
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('users', UserSchema);
