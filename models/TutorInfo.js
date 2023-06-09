@@ -24,6 +24,8 @@ const TutorSchema = new mongoose.Schema({
       default: []
     },
   ],
+
+    // Each tutor can have multiple ratings, so we store them in an array
   ratings: [
     {
       rating: {
@@ -40,23 +42,18 @@ const TutorSchema = new mongoose.Schema({
     required: true,
     default: ""
   },
+
+  // Each tutor can have multiple tutees, so we store them in an array
   tutees: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
-      unique: true,
-      default: []
     },
   ],
   description: {
     type: String,
-    default: ""
+    default: "",
   },
-});
-
-TutorSchema.pre("save", function (next) {
-  this.tutees = this.tutees.filter((tutee) => tutee !== undefined);
-  next();
 });
 
 module.exports = mongoose.model("tutors", TutorSchema);

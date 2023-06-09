@@ -75,6 +75,7 @@ router.post('/',
         const tutor = new Tutor({
           user: user._id, // Set the user reference for the tutor
           subjects,
+          tutees: [user._id],
           highestQualification : "Placeholder for now"
         });
         await tutor.save();
