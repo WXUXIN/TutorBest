@@ -36,7 +36,6 @@ router.post('/',
     }
 
     const {name, email, password, isTutor, subjectList, highestQualification} = req.body;
-    console.log(req.body, "this is the req.body");
  
     try {
     // See if user exists
