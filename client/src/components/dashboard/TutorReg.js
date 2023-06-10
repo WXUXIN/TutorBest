@@ -47,7 +47,6 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
         qualification === "Others" ? otherQualification : qualification;
       const isTutor = true;
       const userID = user._id;
-      console.log({ userID, isTutor, subjectList, highestQualification }, "gg to register tutee");
       tutorReg({ userID, isTutor, subjectList, highestQualification });
     }
   };

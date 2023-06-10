@@ -73,7 +73,6 @@ export const register = ({name, email, password, isTutor, subjectList, highestQu
 
 // register as tutee as tutor
 export const tutorReg = ({userID, isTutor, subjectList,  highestQualification}) => async (dispatch) => {
-  console.log("tutorReg action called");
   const config = {
       headers: {
           'Content-Type': 'application/json'
