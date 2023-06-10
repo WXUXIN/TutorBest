@@ -35,7 +35,8 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {name, email, password, isTutor, subjects, highestQualification} = req.body;
+    const {name, email, password, isTutor, subjectList, highestQualification} = req.body;
+    console.log(req.body, "this is the req.body");
  
     try {
     // See if user exists
@@ -74,9 +75,12 @@ router.post('/',
     if (isTutor) {
         const tutor = new Tutor({
           user: user._id, // Set the user reference for the tutor
-          subjects,
+          subjectList,
+        // note that 
+        // the first user in the tutees array is the tutor himself/herself
+        // due to duplicate inde error
           tutees: [user._id],
-          highestQualification : "Placeholder for now"
+          highestQualification
         });
         await tutor.save();
     }

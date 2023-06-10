@@ -50,10 +50,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     } else if (emptyQualification()) {
       setAlert('Please fill in your highest qualification', 'danger');
     } else {
-      const updateList = purgeEmptySubjects(subjects);
-      console.log(updateList);
-      const finalQualification = qualification === 'Others' ? otherQualification : qualification;
-      register({ name, email, password, isTutor, updateList,  finalQualification});
+      const subjectList = purgeEmptySubjects(subjects);
+      const highestQualification = qualification === 'Others' ? otherQualification : qualification;
+      register({ name, email, password, isTutor, subjectList,  highestQualification});
     }
   };
 

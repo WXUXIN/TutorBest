@@ -7,7 +7,7 @@ const TutorSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  subjects: [
+  subjectList: [
     {
       subject: {
         type: String,
