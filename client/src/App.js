@@ -5,7 +5,9 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login'; 
-import Dashboard from './components/dashboard/Dashboard'; 
+import TutorDashboard from './components/dashboard/TutorDashboard'; 
+import TuteeDashboard from './components/dashboard/TuteeDashboard';
+import TutorReg from './components/dashboard/TutorReg';
 import Alert from './components/layout/Alert';
 import { loadUser } from './actions/auth';
 //Redux
@@ -14,6 +16,7 @@ import store from './store';
 import setAuthToken from './utils/set_AuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import NotFound from './components/layout/NotFound';
+
 
 import './App.css';
 
@@ -47,8 +50,16 @@ const App = () => {
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
           <Route
-            path="/dashboard"
-            element={<PrivateRoute component={Dashboard} />}
+            path="/TutorDashboard"
+            element={<PrivateRoute component={TutorDashboard} />}
+          />
+          <Route
+            path="/TuteeDashboard"
+            element={<PrivateRoute component={TuteeDashboard} />}
+          />
+          <Route
+            path="/TutorReg"
+            element={<PrivateRoute component={TutorReg} />}
           />
           <Route
             path="/*"

@@ -23,9 +23,11 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
     await login(email, password);  
   };
 
-  if (isAuthenticated && user) {
-    return <Navigate to="/dashboard" />;
-  } 
+  if (isAuthenticated && user && user.isTutor) {
+    return <Navigate to="/TutorDashboard" />;
+  } else if (isAuthenticated && user && !user.isTutor) {
+    return <Navigate to="/TuteeDashboard" />;
+  }
 
   return (
     <section className="container"> 

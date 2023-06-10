@@ -69,6 +69,41 @@ export const register = ({name, email, password, isTutor, subjectList, highestQu
     }
   };
 
+export const tutorReg = ({userID, isTutor, subjectList,  highestQualification}) => async (dispatch) => {
+  const config = {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }
+
+  const body = JSON.stringify({userID, isTutor, subjectList,  highestQualification});
+
+  try {
+  // @desc    Register user
+  const res = await axios.post('/api/tutorReg', body, config);
+  
+  // // payload here is the token
+  //   dispatch({
+  //     type: REGISTER_SUCCESS,
+  //     payload: res.data
+  //   });
+  
+  // // This is to load the user right away after registration
+  //   dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      console.log(errors);
+    }
+
+    dispatch({
+      type: REGISTER_FAIL
+    });
+  }
+};
+
 // Login User
 export const login = (email, password) => async (dispatch) => {
     const config = {

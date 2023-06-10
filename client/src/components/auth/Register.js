@@ -93,8 +93,10 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     setSubjects(updatedSubjects);
   };
 
-  if (isAuthenticated && user) {
-    return <Navigate to="/dashboard" />;
+  if (isAuthenticated && user && user.isTutor) {
+    return <Navigate to="/TutorDashboard" />;
+  } else if (isAuthenticated && user && !user.isTutor) {
+    return <Navigate to="/TuteeDashboard" />;
   }
 
   return (
