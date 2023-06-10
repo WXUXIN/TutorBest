@@ -107,7 +107,7 @@ export default function NavBar() {
     <section className="landing">
         <div className="dark-overlay">
           <div className="landing-inner">
-          <h1 className="x-large-landing">
+          <h1 className="x-large-landing" style={{ marginBottom: '60px' }}>
             I am in &nbsp;&nbsp;   
          
           <select value={levelOfStudy} 
@@ -122,8 +122,7 @@ export default function NavBar() {
             </h1>
           
           
-
-          <h1 className="x-large-landing">
+          <h1 className="x-large-landing" style={{ marginBottom: '90px' }}>
                 I am looking for a &nbsp;&nbsp;
                 <select value={subject} 
                 onChange={handleSubjectChange} 
@@ -144,6 +143,10 @@ export default function NavBar() {
                 </select>
                 &nbsp; tutor.
               </h1>
+
+              <button className="x-large-landing" style={{ marginTop: '20px', border: '1px solid black', padding: '15px', 
+              borderRadius: '20px', backgroundColor:  '#e9c78c', color: 'black' }}>Find my Tutor</button> {/* Add your button element */}
+
           </div>
         </div>
       </section>
