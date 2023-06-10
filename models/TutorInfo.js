@@ -20,8 +20,7 @@ const TutorSchema = new mongoose.Schema({
       level: {
         type: String,
         required: true,
-      },
-      default: []
+      }
     },
   ],
 
@@ -34,7 +33,6 @@ const TutorSchema = new mongoose.Schema({
       tutee: {
         type: String,
       },
-      default: []
     },
   ],
   highestQualification: {

@@ -5,6 +5,7 @@ const jwt = require ('jsonwebtoken');
 const config = require('config');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const User = require('../../models/User');
 
 
 // To bring in the User model and use this to interact with the database
@@ -29,16 +30,20 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {{userID, isTutor, subjectList, highestQualification}} = req.body;
+    const {userID, isTutor, subjectList, highestQualification} = req.body;
  
     try {
     // See if user exists
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ _id: userID });
     
     if (!user) {
         // If user exists, send back error
         return res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
+    } else {
+        // Update the document without returning it
+        await User.findOneAndUpdate({ _id: userID }, { isTutor: true });
     }
+
 
     // // Get users gravatar
     // const avatar = gravatar.url(email, {
@@ -67,7 +72,7 @@ router.post('/',
     // If user indicated that he/she wants to be a tutor
     if (isTutor) {
         const tutor = new Tutor({
-          user: user._id, // Set the user reference for the tutor
+          user: userID, // Set the user reference for the tutor
           subjectList,
         // note that 
         // the first user in the tutees array is the tutor himself/herself

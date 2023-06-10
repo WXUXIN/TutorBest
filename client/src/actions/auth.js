@@ -3,6 +3,7 @@ import { REGISTER_FAIL, REGISTER_SUCCESS,
     USER_LOADED, AUTH_ERROR,
     LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT } from './types';
 import { setAlert } from './alert';
+import { SET_LOADING } from './types';
 import setAuthToken from '../utils/set_AuthToken';
 
 // Load User data (get user data)
@@ -69,7 +70,10 @@ export const register = ({name, email, password, isTutor, subjectList, highestQu
     }
   };
 
+
+// register as tutee as tutor
 export const tutorReg = ({userID, isTutor, subjectList,  highestQualification}) => async (dispatch) => {
+  console.log("tutorReg action called");
   const config = {
       headers: {
           'Content-Type': 'application/json'
@@ -82,14 +86,15 @@ export const tutorReg = ({userID, isTutor, subjectList,  highestQualification}) 
   // @desc    Register user
   const res = await axios.post('/api/tutorReg', body, config);
   
-  // // payload here is the token
-  //   dispatch({
-  //     type: REGISTER_SUCCESS,
-  //     payload: res.data
-  //   });
+  // payload here is the token
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data
+    });
   
-  // // This is to load the user right away after registration
-  //   dispatch(loadUser());
+  // This is to load the user right away after registration
+
+     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -138,6 +143,14 @@ export const login = (email, password) => async (dispatch) => {
         type: LOGIN_FAIL
       });
     }
+  };
+
+
+  export const setLoading = (isLoading) => (dispatch) => {
+    dispatch({
+      type: SET_LOADING,
+      payload: isLoading
+    });
   };
 
 // Logout

@@ -304,8 +304,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user
 });
 
-
 // The connect function is used to connect the component to the Redux store, 
 // making the user data available as a prop in the Dashboard component.
-
 export default connect(mapStateToProps, { setAlert, register })(Register);
