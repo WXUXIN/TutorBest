@@ -23,4 +23,5 @@ const Stars = ({ initialRating }) => {
   );
 };
 
+
 export default Stars;
