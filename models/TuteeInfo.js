@@ -10,7 +10,8 @@ const TuteeSchema = new mongoose.Schema({
   tutors: [
     {
       tutor: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
       },
       default: []
     },

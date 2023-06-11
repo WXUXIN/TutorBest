@@ -7,7 +7,7 @@ import Spinner from '../../components/layout/Spinner';
 import axios from 'axios';
 import { setLoading }  from '../../actions/auth';
 import { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 
 const TutorDashboard = ({ auth : { user }}) => {
 
@@ -35,6 +35,8 @@ const TutorDashboard = ({ auth : { user }}) => {
         setRole(e.target.value);
     }
 
+    // If the user is a tutor, render the tutor dashboard when the we have retrieved the data
+    // if the user is not a tutor, we will redirect them to the tutor registration page
     if (Object.entries(data).length === 0 && user.isTutor) {
         return <Spinner />;
     } else if (!user.isTutor) {
@@ -44,10 +46,9 @@ const TutorDashboard = ({ auth : { user }}) => {
     // when the user selects tutor, we will render the tutor dashboard
     if (role === 'tutee') {
         return <Navigate to="/TuteeDashboard" />;
-    }
+    }    
     
-    
-    const {subjectList, highestQualification, description} = data;
+    const {subjectList, highestQualification, description, tutees} = data;
 
     console.log(subjectList);
     return (
@@ -62,7 +63,6 @@ const TutorDashboard = ({ auth : { user }}) => {
             
             <h1>Welcome {user && user.name}</h1>
             <h1>This will be the Tutor's dashboard</h1>
-            <h1>{user.name}'s dashdboard will go here</h1>
             <h1>These are the subjects you are teaching:</h1>
             <>
                 {subjectList.map((subject, index) => (
@@ -82,8 +82,11 @@ const TutorDashboard = ({ auth : { user }}) => {
             <>
             {highestQualification}
             </>
-            <form>            
+
+            <form>
+            <Link to="/TutorSettings">            
                 <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Edit" />
+            </Link>
             </form>
         </section>
     );

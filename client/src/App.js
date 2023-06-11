@@ -16,6 +16,7 @@ import store from './store';
 import setAuthToken from './utils/set_AuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import NotFound from './components/layout/NotFound';
+import TutorSettings from './components/dashboard/TutorSettings';
 
 
 import './App.css';
@@ -60,6 +61,10 @@ const App = () => {
           <Route
             path="/TutorReg"
             element={<PrivateRoute component={TutorReg} />}
+          />
+          <Route
+            path="/TutorSettings"
+            element={<PrivateRoute component={TutorSettings} />}
           />
           <Route
             path="/*"
