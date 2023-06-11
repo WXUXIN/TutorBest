@@ -126,6 +126,52 @@ export const tutorReg =
     }
   };
 
+// Edit info for tutors
+export const tutorSettings =
+  ({ userID, subjectList, highestQualification, description }) => {
+  return async (dispatch) => {
+    console.log("tutorSettings action");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const body = JSON.stringify({
+      userID,
+      subjectList,
+      highestQualification,
+      description,
+    });
+
+    console.log(body, "Passing this to api");
+
+    try {
+      
+      const res = await axios.post("/api/tutorSettings", body, config);
+
+      // payload here is the token
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data,
+      });
+
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+        console.log(errors);
+      }
+
+      dispatch({
+        type: REGISTER_FAIL,
+      });
+    }
+  }
+};
+
 // Login User
 export const login = (email, password) => async (dispatch) => {
   const config = {
@@ -162,48 +208,7 @@ export const login = (email, password) => async (dispatch) => {
   }
 };
 
-// Edit info for tutors
-export const tutorSettings =
-  ({ userID, subjectList, highestQualification, description }) =>
-  async (dispatch) => {
-    console.log("tutorSettings action");
-    console.log(body);
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
 
-    const body = JSON.stringify({
-      userID,
-      subjectList,
-      highestQualification,
-      description,
-    });
-
-    try {
-      const res = await axios.post("/api/tutorSettings", body, config);
-
-      // payload here is the token
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
-
-      dispatch(loadUser());
-    } catch (err) {
-      const errors = err.response.data.errors;
-
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-        console.log(errors);
-      }
-
-      dispatch({
-        type: REGISTER_FAIL,
-      });
-    }
-  };
 
 export const setLoading = (isLoading) => (dispatch) => {
   dispatch({
