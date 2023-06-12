@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { tutorReg } from "../../actions/auth";
 
+
 const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
   const [subjects, setSubjects] = useState([]);
 

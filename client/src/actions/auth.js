@@ -39,7 +39,15 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register =
-  ({ name, email, password, isTutor, subjectList, highestQualification }) =>
+  ({
+    name,
+    email,
+    password,
+    isTutor,
+    subjectList,
+    description,
+    highestQualification,
+  }) =>
   async (dispatch) => {
     const config = {
       headers: {
@@ -53,6 +61,7 @@ export const register =
       password,
       isTutor,
       subjectList,
+      description,
       highestQualification,
     });
 
@@ -110,7 +119,6 @@ export const tutorReg =
       });
 
       // This is to load the user right away after registration
-
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
@@ -127,8 +135,12 @@ export const tutorReg =
   };
 
 // Edit info for tutors
-export const tutorSettings =
-  ({ userID, subjectList, highestQualification, description }) => {
+export const tutorSettings = ({
+  userID,
+  subjectList,
+  highestQualification,
+  description,
+}) => {
   return async (dispatch) => {
     console.log("tutorSettings action");
     const config = {
@@ -144,17 +156,14 @@ export const tutorSettings =
       description,
     });
 
-    console.log(body, "Passing this to api");
-
     try {
-      
       const res = await axios.post("/api/tutorSettings", body, config);
 
       // payload here is the token
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+      // dispatch({
+      //   type: LOGIN_SUCCESS,
+      //   payload: res.data,
+      // });
 
       dispatch(loadUser());
     } catch (err) {
@@ -169,7 +178,7 @@ export const tutorSettings =
         type: REGISTER_FAIL,
       });
     }
-  }
+  };
 };
 
 // Login User
@@ -207,8 +216,6 @@ export const login = (email, password) => async (dispatch) => {
     });
   }
 };
-
-
 
 export const setLoading = (isLoading) => (dispatch) => {
   dispatch({
