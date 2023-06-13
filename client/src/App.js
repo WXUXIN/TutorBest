@@ -8,6 +8,7 @@ import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard'; 
 import Alert from './components/layout/Alert';
 import { loadUser } from './actions/auth';
+import TutorRating from './components/rating system/Tuteeratetutor';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -46,6 +47,9 @@ const App = () => {
           <Route path='/' element={<Landing />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
+
+          <Route path='/rate-tutor' element={<TutorRating />}/>
+
 
           <Route
             path="/dashboard"

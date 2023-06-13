@@ -18,7 +18,7 @@ const TutorRating = ({ tutor }) => {
   
   return (
     <div>
-      <h1>{tutor.name} :</h1>
+      <h1>{tutor.id} :</h1>
       <Stars initialRating= "0"/>  
       <button onClick={handleRateTutor}>Rate tutor</button>  
     </div>

@@ -20,6 +20,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
     <ul>
       <li className = "navbar-register-login"><Link to='/register'>Register</Link></li>
       <li className = "navbar-register-login"><Link to="/login">Login</Link></li>
+      <li className = "navbar-register-login"><Link to="/rate-tutor">Login</Link></li>
     </ul>
     );
   
