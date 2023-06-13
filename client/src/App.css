@@ -265,7 +265,7 @@ img {
 
 /* Overlay */
 .dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(77, 77, 77, 0.7);
   position: absolute;
   top: 0;
   left: 0;
@@ -390,6 +390,15 @@ button {
   justify-content: center;
   text-align: center;
 }
+
+select option {
+ font-family: 'Josefin Sans', sans-serif;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: #e9c78c;
+}
+
+
 
 /* Profiles Page */
 .profile {
@@ -622,10 +631,28 @@ button {
   };
 
   .dropdown {
-    font-size: inherit;
-    padding: 0.5em;
-    height: inherit;
+    position: relative;
+    padding: 0;
+    margin-right: 1em;
+    border: none; 
   }
+
+  .special-select {
+    width: 200px;
+    color:#000080;
+    
+  }
+
+  option {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 0 30px;
+    list-style-type: none;
+ 
+  }
+  
 
   .themefont{
     font-family: 'Josefin Sans', sans-serif;
