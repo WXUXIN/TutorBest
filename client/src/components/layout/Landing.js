@@ -1,6 +1,8 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import {useState} from 'react';
+import '../../../src/App.css';
+
 // import {useEffect} from 'react';
 // import { Button } from "../../../dropdown-menu"
 // import {
@@ -16,7 +18,7 @@ import {useState} from 'react';
 
 
 
-export default function NavBar() {
+export default function Landing() {
     
   const [levelOfStudy, setLevelOfStudy] = useState('');
   const [subject, setSubject] = useState('');
@@ -106,19 +108,27 @@ export default function NavBar() {
         <div className="dark-overlay">
           <div className="landing-inner">
           <h1 className="x-large-landing">
-            I am in
-            <select value={levelOfStudy} onChange={handleLevelOfStudyChange} className = "dropdown">
+            I am in &nbsp;&nbsp;   
+         
+          <select value={levelOfStudy} 
+            onChange={handleLevelOfStudyChange} 
+            className='dropdown'
+            style={{ fontSize: 'inherit', backgroundColor: 'grey', color: '#e9c78c'}}>
               <option value="">Level of Study</option>
               <option value="Primary School">Primary School</option>
               <option value="Secondary School">Secondary School</option>
               <option value="Junior College">Junior College</option>
             </select>
+            </h1>
           
-          </h1>
+          
 
           <h1 className="x-large-landing">
-                I am looking for a 
-                <select value={subject} onChange={handleSubjectChange} className="dropdown">
+                I am looking for a &nbsp;&nbsp;
+                <select value={subject} 
+                onChange={handleSubjectChange} 
+                className="dropdown"
+                style={{ fontSize: 'inherit', backgroundColor: 'grey', color: '#e9c78c' }}>
                   {subjectOptions.length === 0 ? (
                     <option value="">Select level of study</option>
                   ) : (
@@ -132,7 +142,7 @@ export default function NavBar() {
                     </>
                   )}
                 </select>
-                tutor.
+                &nbsp; tutor.
               </h1>
           </div>
         </div>
