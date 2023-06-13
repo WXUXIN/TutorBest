@@ -1,6 +1,6 @@
 import {REGISTER_SUCCESS, REGISTER_FAIL,
      USER_LOADED, AUTH_ERROR,
-    LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT} from '../actions/types';
+    LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, SET_LOADING} from '../actions/types';
 
     // The initialState object defines the initial state of the authentication module 
     // in your Redux store. 
@@ -60,8 +60,16 @@ export default function(state = initialState, action) {
                 ...state,
                 token: null,
                 isAuthenticated: false,
-                loading: false
+                loading: false,
+                user: null // user data
             }
+
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: payload
+            }
+
         // The default case returns the current state if none of the actions match.
         default:
             return state;
