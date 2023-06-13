@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
 const path = require('path');
+const ratingRouter = require('../TutorBest/routes/api/rating');
 
 // Connect Database
 connectDB();
@@ -17,6 +18,8 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/post', require('./routes/api/post')); 
 app.use('/api/profile', require('./routes/api/profile')); 
 app.use('/api/auth', require('./routes/api/auth')); 
+
+app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
 
 // Serve static assets in production
 if(process.env.NODE_ENV === 'production') {
