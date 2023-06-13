@@ -1,12 +1,26 @@
 import React from 'react'
 import Stars from './stars rating function'
+import axios from 'axios';
 
 const TutorRating = ({ tutor }) => {
+  
+  const handleRateTutor = async () => {
+    try {
+      const response = await axios.post('/api/rate-tutor', {
+        tutorId: tutor.id, // passed in tutor's ID
+        rating: tutor.rating // passed in tutor's rating
+      });
+
+    } catch {
+        console.error("Error rating tutor");
+    }
+  }
+  
   return (
     <div>
       <h1>{tutor.name} :</h1>
       <Stars initialRating= "0"/>  
-      <button>Rate tutor</button>  
+      <button onClick={handleRateTutor}>Rate tutor</button>  
     </div>
   );
 };
