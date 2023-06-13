@@ -13,11 +13,14 @@ import axios from 'axios'
 // change className accordingly
 
 const Rating = ({ tutor }) => {
+  const sumRating = tutor.rating.reduce((a,b) => a+b, 0);
+  const averageRating = sumRating / tutor.rating.length;
+
   return (
     <div>
       <h1>{tutor.name}</h1>
       <div>
-        { tutor.Rating } &nbsp;
+        { averageRating } &nbsp;
         <FontAwesomeIcon icon={faStar} />      
       </div>       
     </div>

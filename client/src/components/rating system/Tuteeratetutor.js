@@ -2,6 +2,7 @@ import React from 'react'
 import Stars from './stars rating function'
 import axios from 'axios';
 
+// find and connect how the tutor is going to get passed in
 const TutorRating = ({ tutor }) => {
   
   const handleRateTutor = async () => {
