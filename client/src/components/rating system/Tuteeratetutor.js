@@ -5,6 +5,7 @@ import axios from 'axios';
 // find and connect how the tutor is going to get passed in
 const TutorRating = ({ tutor }) => {
   
+  // move to backend file
   const handleRateTutor = async () => {
     try {
       const response = await axios.post('/api/rate-tutor', {
