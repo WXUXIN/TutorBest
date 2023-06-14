@@ -241,14 +241,16 @@ export const findCurrentTutors = async (tuteeID) => {
 };
 
 
-export const handleRateTutor = async (tutor) => {
+export const handleRateTutor = async (tutorId, rating) => {
   try {
     const response = await axios.post('/api/rate-tutor', {
-      tutorId: tutor.id, // passed in tutor's ID
-      rating: tutor.rating // passed in tutor's rating
+      tutorId,
+      rating
     });
-  } catch {
-      console.error("Error rating tutor");
+    console.log(response.data); 
+  } catch (error) {
+    console.error('Error rating tutor:', error);
+    throw error;
   }
 }
 

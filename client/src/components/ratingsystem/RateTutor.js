@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import { findTutorById, handleRateTutor } from "../../actions/auth";
 import { useParams } from 'react-router-dom';
 import { connect } from "react-redux";
+import { useEffect } from "react";
+
 
 
 // page where tutees can rate their tutor
@@ -13,6 +15,9 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
     const { tutorId } = useParams();
 
     const [tutor, setTutor] = useState(null);
+
+    const [rating, setRating] = useState(0);
+
 
     useEffect(() => {
         const fetchTutor = async () => {
@@ -29,13 +34,7 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
     
 
     //how a tutee rates tutor page (click stars)
-    const Stars = ({ initialRating }) => {
-        const [rating, setRating] = useState(initialRating);
-    
-        const handleRatingChange = (newRating) => {
-            setRating(newRating);
-        };
-    
+    const Stars = ({ initialRating, handleRatingChange }) => {
         return (
         <div>
             {[...Array(5)].map((_, index) => (
@@ -50,11 +49,19 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
         </div>
     )}  
 
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
+
+    const rateTutor = () => {
+        handleRateTutor(tutorId, rating);
+    };
+
     return (
         <div>
             <h1>{tutor.name}</h1>
             <Stars initialRating= "0"/>  
-            <button onClick={() => handleRateTutor(tutor.id)}>Rate tutor</button>        
+            <button onClick={() => {rateTutor}}>Rate tutor</button>        
         </div>
     )}
 

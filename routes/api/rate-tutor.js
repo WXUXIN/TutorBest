@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Tutor not found' });
         }
 
-        // Update the tutor's rating
-        tutor.rating = tutor.rating.push(rating);
+        // Update the tutor's ratings array
+        tutor.ratings.push(rating);
 
         console.log("Tutor rated");
 
