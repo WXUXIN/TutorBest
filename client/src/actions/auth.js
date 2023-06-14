@@ -224,5 +224,33 @@ export const setLoading = (isLoading) => (dispatch) => {
   });
 };
 
+export const findCurrentTutors = async (tuteeID) => {
+  // array of tutors
+  try {  
+    const response = await axios.get('/api/findTutor', {
+      params: {
+        tuteeID: tuteeID
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error retrieving tutors:', error);
+    // Handle the error appropriately
+    throw error;
+  }
+};
+
+
+export const handleRateTutor = async () => {
+  try {
+    const response = await axios.post('/api/rate-tutor', {
+      tutorId: tutor.id, // passed in tutor's ID
+      rating: tutor.rating // passed in tutor's rating
+    });
+  } catch {
+      console.error("Error rating tutor");
+  }
+}
+
 // Logout
 export const logout = () => ({ type: LOGOUT });

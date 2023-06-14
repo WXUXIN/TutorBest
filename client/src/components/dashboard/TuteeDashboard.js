@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import TutorRating from '../ratingsystem/TutorRating';
 
 const TuteeDashboard = ({ auth : {user} }) => {
     const [role, setRole] = useState('tutee');
@@ -33,6 +34,10 @@ const TuteeDashboard = ({ auth : {user} }) => {
             <h1>Welcome {user && user.name}</h1>
             <h1>This will be the tutee's dashboard</h1>
             {/* <h1>{user.name}'s dashdboard will go here</h1> */}
+
+            <div>
+                <TutorRating />
+            </div>
         </section>
     );
 }
