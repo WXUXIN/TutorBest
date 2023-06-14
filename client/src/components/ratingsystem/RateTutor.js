@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { useState } from 'react';
 import PropTypes from "prop-types";
-import { handleRateTutor } from "../../actions/auth";
+import { findTutorById, handleRateTutor } from "../../actions/auth";
+import { useParams } from 'react-router-dom';
+import { connect } from "react-redux";
+
 
 // page where tutees can rate their tutor
-const RatingTutor = async ({ auth:{user} }) => {
+const RatingTutor = ({ tutorId }) => {
+    const tutor = findTutorById(tutorId);
 
     const Stars = ({ initialRating }) => {
         const [rating, setRating] = useState(initialRating);
@@ -27,12 +31,12 @@ const RatingTutor = async ({ auth:{user} }) => {
             ))}
         </div>
     )}  
-    
+    // fetch the tutor's name too, go axios...
     return (
         <div>
-            <h1>{tutor.name} :</h1>
-                <Stars initialRating= "0"/>  
-                <button onClick={handleRateTutor}>Rate tutor</button>  
+            <h1>{tutor.name}</h1>
+            <Stars initialRating= "0"/>  
+            <button onClick={() => handleRateTutor(tutor.id)}>Rate tutor</button>        
         </div>
     )}
 

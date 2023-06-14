@@ -241,7 +241,7 @@ export const findCurrentTutors = async (tuteeID) => {
 };
 
 
-export const handleRateTutor = async () => {
+export const handleRateTutor = async (tutor) => {
   try {
     const response = await axios.post('/api/rate-tutor', {
       tutorId: tutor.id, // passed in tutor's ID
@@ -250,6 +250,16 @@ export const handleRateTutor = async () => {
   } catch {
       console.error("Error rating tutor");
   }
+}
+
+export const findTutorById = async (tutorId) => {
+    try {
+      const response = await axios.get(`/api/tutorData/${tutorId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error retrieving tutor:', error);
+      throw error;
+    }
 }
 
 // Logout

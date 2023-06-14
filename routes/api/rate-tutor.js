@@ -1,3 +1,4 @@
+const Tutor = require('../../models/TutorInfo');
 const express = require('express');
 const router = express.Router();
 

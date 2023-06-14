@@ -20,6 +20,7 @@ import TutorSettings from './components/dashboard/TutorSettings';
 
 
 import './App.css';
+import RateTutor from './components/ratingsystem/RateTutor';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -70,6 +71,10 @@ const App = () => {
             path="/*"
             element={<NotFound />}
           />
+          <Route 
+            path="/tutor/:tutorId" element={<RateTutor />} 
+          />
+
         </Routes>
     </Router>
   </Provider>
