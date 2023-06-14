@@ -225,7 +225,7 @@ export const setLoading = (isLoading) => (dispatch) => {
 };
 
 export const findCurrentTutors = async (tuteeID) => {
-  // array of tutors
+  // gives array of tutors
   try {  
     const response = await axios.get('/api/findTutor', {
       params: {
@@ -254,7 +254,7 @@ export const handleRateTutor = async (tutor) => {
 
 export const findTutorById = async (tutorId) => {
     try {
-      const response = await axios.get(`/api/tutorData/${tutorId}`);
+      const response = await axios.get(`/api/fetchOneTutor/${tutorId}`);
       return response.data;
     } catch (error) {
       console.error('Error retrieving tutor:', error);

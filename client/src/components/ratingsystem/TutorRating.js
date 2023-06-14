@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
-
+// create a vertical list of currentTutors , then once click on their name, links to the stars rating page
 
 const TutorRating = ({ auth:{user} }) => {
     // array of tutors the tutee is in
@@ -25,8 +24,9 @@ const [currentTutors, setCurrentTutors] = useState([]);
 
     fetchTutors();
   }, [user._id]);
-      // create a vertical list of currentTutors , then once click on their name, links to the stars rating page
     
+      // check this part again, how are you going to pass the tutor's id into Rate
+
     return (
         <div>
             <h1>Your Tutors:</h1>

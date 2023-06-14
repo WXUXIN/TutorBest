@@ -7,9 +7,28 @@ import { connect } from "react-redux";
 
 
 // page where tutees can rate their tutor
-const RatingTutor = ({ tutorId }) => {
-    const tutor = findTutorById(tutorId);
+const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
 
+    // fetching the tutorId from the url
+    const { tutorId } = useParams();
+
+    const [tutor, setTutor] = useState(null);
+
+    useEffect(() => {
+        const fetchTutor = async () => {
+          try {
+            const fetchedTutor = await findTutorById(tutorId);
+            setTutor(fetchedTutor);
+          } catch (error) {
+            console.error('Error fetching tutor:', error);
+          }
+        };
+    
+        fetchTutor();
+      }, [findTutorById, tutorId]);
+    
+
+    //how a tutee rates tutor page (click stars)
     const Stars = ({ initialRating }) => {
         const [rating, setRating] = useState(initialRating);
     
@@ -17,7 +36,6 @@ const RatingTutor = ({ tutorId }) => {
             setRating(newRating);
         };
     
-        //how a tutee rates tutor page (click stars)
         return (
         <div>
             {[...Array(5)].map((_, index) => (
@@ -31,7 +49,7 @@ const RatingTutor = ({ tutorId }) => {
             ))}
         </div>
     )}  
-    // fetch the tutor's name too, go axios...
+
     return (
         <div>
             <h1>{tutor.name}</h1>
@@ -40,12 +58,16 @@ const RatingTutor = ({ tutorId }) => {
         </div>
     )}
 
-RatingTutor.propTypes = {
-    auth: PropTypes.isRequired
-}
     
-const mapStateToProps = (state) => ({
-    auth: state.auth
-})
-    
-export default connect(mapStateToProps)(RatingTutor); 
+    // propTypes object is used for type checking and validation of the props passed to the component.
+    RatingTutor.propTypes = {
+        findTutorById: PropTypes.func.isRequired,
+        handleRateTutor: PropTypes.func.isRequired,
+        auth: PropTypes.object.isRequired
+      };
+      
+      const mapStateToProps = (state) => ({
+        auth: state.auth
+      });
+      
+      export default connect(mapStateToProps, { findTutorById, handleRateTutor })(RatingTutor);
