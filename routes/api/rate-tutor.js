@@ -3,11 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+
     const { tutorId, rating } = req.body;
 
     try {
         // Find the tutor by ID
-        const tutor = await Tutor.findById(tutorId);
+        const tutor = await Tutor.findOne({ user: tutorId })
 
         if (!tutor) {
             return res.status(404).json({ message: 'Tutor not found' });

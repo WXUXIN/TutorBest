@@ -10,7 +10,7 @@ import { useEffect } from "react";
 // page where tutees can rate their tutor
 const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
 
-    // fetching the tutorId from the url
+    // fetching the tutorId from the url. refers to USER ID of tutor in the user model of the tutor's model
     const { tutorId } = useParams();
 
     const [tutor, setTutor] = useState(null);
@@ -21,8 +21,11 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
     useEffect(() => {
         const fetchTutor = async () => {
           try {
+
+            // contains tutor's user model
             const fetchedTutor = await findTutorById(tutorId);
             setTutor(fetchedTutor);
+
           } catch (error) {
             console.error('Error fetching tutor:', error);
           }

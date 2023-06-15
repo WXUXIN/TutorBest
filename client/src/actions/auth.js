@@ -242,12 +242,15 @@ export const findCurrentTutors = async (userID) => {
   }
 };
 
-
+// passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
 export const handleRateTutor = async (tutorId, rating) => {
+  
   try {
     const response = await axios.post('/api/rate-tutor', {
-      tutorId,
-      rating
+      params: {
+        tutorId:tutorId,
+        rating:rating
+      }
     });
     console.log(response.data); 
   } catch (error) {
@@ -256,10 +259,18 @@ export const handleRateTutor = async (tutorId, rating) => {
   }
 }
 
+// passes in the tutor's USER id in the tutor's user model
 export const findTutorById = async (tutorId) => {
     try {
-      const response = await axios.get(`/api/fetchOneTutor/${tutorId}`);
+      const response = await axios.get('/api/fetchOneTutor', {
+        params: {
+          tutorId: tutorId
+        }
+    });
+
+    // response contains tutor's user model and tutor's ratings
       return response.data;
+
     } catch (error) {
       console.error('Error retrieving tutor:', error);
       throw error;

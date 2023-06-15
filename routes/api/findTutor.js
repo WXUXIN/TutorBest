@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         // returns array of tutors with the tutee's user field in their tutees array
         const tutors = await Tutor.find({ tutees: userID }).populate('user');
 
-        // map over the fetched tutors and return only the user field, which represents the associated user object.
+        // map over the fetched tutors and return only the user field, which represents the associated user object. (user id, name, email, etc)
         const tutorUsers = tutors.map((tutor) => tutor.user);
 
         res.status(200).json(tutorUsers);

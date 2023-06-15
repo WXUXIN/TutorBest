@@ -22,10 +22,11 @@ const [currentTutors, setCurrentTutors] = useState([]);
       }
     };
 
+    // gets array of USERS OBJECTS of tutors of the tutee
     fetchTutors();
   }, [user._id]);
     
-
+  // tutor._id refers to the id of the user model in the tutor model
     return (
         <div>
             <h1>Your Tutors:</h1>
