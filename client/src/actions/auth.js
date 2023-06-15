@@ -7,6 +7,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  RATE_TUTOR_FAILURE,
+  RATE_TUTOR_SUCCESS,
+  FIND_TUTOR_SUCCESS,
+  FIND_TUTOR_FAILURE
 } from "./types";
 import { setAlert } from "./alert";
 import { SET_LOADING } from "./types";
@@ -243,7 +247,7 @@ export const findCurrentTutors = async (userID) => {
 };
 
 // passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
-export const handleRateTutor = async (tutorId, rating) => {
+export const handleRateTutor = (tutorId, rating) => async(dispatch) => {
   
   try {
     const response = await axios.post('/api/rate-tutor', {
@@ -252,27 +256,42 @@ export const handleRateTutor = async (tutorId, rating) => {
         rating:rating
       }
     });
-    console.log(response.data); 
+    console.log(response.data);
+    dispatch({
+      type: RATE_TUTOR_SUCCESS,
+      payload: response.data,
+    }); 
+
   } catch (error) {
-    console.error('Error rating tutor:', error);
+    dispatch({
+      type: RATE_TUTOR_FAILURE,
+      payload: error.response.data,
+    });    
     throw error;
   }
 }
 
 // passes in the tutor's USER id in the tutor's user model
-export const findTutorById = async (tutorId) => {
+export const findTutorById = (tutorId) => async(dispatch) => {
     try {
       const response = await axios.get('/api/fetchOneTutor', {
         params: {
           tutorId: tutorId
         }
     });
+    dispatch({
+      type: FIND_TUTOR_SUCCESS,
+      payload: response.data,
+    });
 
     // response contains tutor's user model and tutor's ratings
-      return response.data;
+    return response.data;
 
     } catch (error) {
-      console.error('Error retrieving tutor:', error);
+      dispatch({
+        type: FIND_TUTOR_FAILURE,
+        payload: error.response.data,
+      });
       throw error;
     }
 }

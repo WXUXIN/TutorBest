@@ -33,10 +33,16 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
     
         fetchTutor();
       }, [findTutorById, tutorId]);
+
+    console.log(tutor);
     
+    // star clicking function for rating tutors 
+    const handleRatingChange = (newRating) => {
+        setRating(newRating);
+    };
 
     //how a tutee rates tutor page (click stars)
-    const Stars = ({ initialRating, handleRatingChange }) => {
+    const Stars = ({ initialRating }) => {
         return (
         <div>
             {[...Array(5)].map((_, index) => (
@@ -51,17 +57,20 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
         </div>
     )}  
 
-    const handleRatingChange = (newRating) => {
-        setRating(newRating);
-    };
-
     const rateTutor = () => {
         handleRateTutor(tutorId, rating);
     };
 
+    // Display a loading state until the tutor data is fetched
+    if (!tutor) {
+      return <div>
+            <h1>Loading tutor...</h1>
+          </div>
+    }
+
     return (
-        <div>
-            <h1>{tutor.name}</h1>
+        <div style={{marginTop: '120px'}}>
+            <h1>{tutor.user.name}</h1>
             <Stars initialRating= "0"/>  
             <button onClick={rateTutor}>Rate tutor</button>        
         </div>
