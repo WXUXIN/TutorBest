@@ -72,7 +72,7 @@ const App = () => {
             element={<NotFound />}
           />
           <Route 
-            path="/tutor/:tutorId" element={<RateTutor />} 
+            path="/tutor/:tutor._id" element={<RateTutor />} 
           />
 
         </Routes>

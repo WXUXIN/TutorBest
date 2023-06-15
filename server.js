@@ -20,6 +20,7 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/tutorReg', require('./routes/api/tutorReg')); 
 app.use('/api/tutorData', require('./routes/api/tutorData')); 
 app.use('/api/tutorSettings', require('./routes/api/tutorSettings')); 
+app.use('/api/findTutor', require('./routes/api/findTutor'));
 
 
 // Serve static assets in production
