@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { useEffect } from "react";
 
 
-
 // page where tutees can rate their tutor
 const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
 
@@ -61,7 +60,7 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
         <div>
             <h1>{tutor.name}</h1>
             <Stars initialRating= "0"/>  
-            <button onClick={() => {rateTutor}}>Rate tutor</button>        
+            <button onClick={rateTutor}>Rate tutor</button>        
         </div>
     )}
 

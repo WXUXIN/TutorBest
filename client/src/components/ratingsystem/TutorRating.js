@@ -25,7 +25,6 @@ const [currentTutors, setCurrentTutors] = useState([]);
     fetchTutors();
   }, [user._id]);
     
-      // check this part again, how are you going to pass the tutor's id into Rate
 
     return (
         <div>
