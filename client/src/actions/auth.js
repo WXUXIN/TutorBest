@@ -247,16 +247,17 @@ export const findCurrentTutors = async (userID) => {
 };
 
 // passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
-export const handleRateTutor = (tutorId, rating) => async(dispatch) => {
+export const handleRateTutor = (tutorId, rating, tuteeId) => async(dispatch) => {
   
   try {
+    console.log('Sending rate tutor request:', tutorId, rating, tuteeId);
+
     const response = await axios.post('/api/rate-tutor', {
-      params: {
         tutorId:tutorId,
-        rating:rating
-      }
+        rating:rating,
+        tuteeId:tuteeId
     });
-    console.log(response.data);
+    
     dispatch({
       type: RATE_TUTOR_SUCCESS,
       payload: response.data,

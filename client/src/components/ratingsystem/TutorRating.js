@@ -9,7 +9,8 @@ import { useEffect } from "react";
 // create a vertical list of currentTutors , then once click on their name, links to the stars rating page
 
 const TutorRating = ({ auth:{user} }) => {
-    // array of tutors the tutee is in
+
+  // array of tutors the tutee is in
 const [currentTutors, setCurrentTutors] = useState([]);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 
 // page where tutees can rate their tutor
-const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
+const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
 
     // fetching the tutorId from the url. refers to USER ID of tutor in the user model of the tutor's model
     const { tutorId } = useParams();
@@ -57,8 +57,9 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth }) => {
         </div>
     )}  
 
+    // pass in the fields needed to update tutor rating, tutor's user id, rating and the tutee's user id
     const rateTutor = () => {
-        handleRateTutor(tutorId, rating);
+        handleRateTutor(tutorId, rating, user._id);
     };
 
     // Display a loading state until the tutor data is fetched

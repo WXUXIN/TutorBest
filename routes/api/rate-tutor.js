@@ -2,9 +2,10 @@ const Tutor = require('../../models/TutorInfo');
 const express = require('express');
 const router = express.Router();
 
+
 router.post('/', async (req, res) => {
 
-    const { tutorId, rating } = req.body;
+    const { tutorId, rating, tuteeId } = req.body;
 
     try {
         // Find the tutor by ID
@@ -14,8 +15,13 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Tutor not found' });
         }
 
+        const newRating = {
+            rating: rating,
+            tutee: tuteeId,
+        };
+
         // Update the tutor's ratings array
-        tutor.ratings.push(rating);
+        tutor.ratings.push(newRating);
 
         console.log("Tutor rated");
 
