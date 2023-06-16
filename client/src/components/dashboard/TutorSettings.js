@@ -13,7 +13,7 @@ import { tutorSettings } from "../../actions/auth";
 import Spinner from "../layout/Spinner";
 
 
-const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
+const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   // Every time the state changes, the component re-renders,
   // meaning the webpage will update with the new state.
   const [userData, setUserData] = useState({});

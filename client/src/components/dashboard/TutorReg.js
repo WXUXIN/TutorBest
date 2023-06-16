@@ -6,18 +6,18 @@ import { Navigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { tutorReg } from "../../actions/auth";
 
-
-const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
+const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   const [subjects, setSubjects] = useState([]);
 
   const [qualification, setQualification] = useState("");
 
   const [otherQualification, setOtherQualification] = useState("");
 
+  const [description, setDes] = useState("");
+
   const [role, setRole] = useState("tutor");
 
-  // Event handler
-
+  // Event handlers
   const emptySubjectOrPrice = () =>
     subjects.some(
       (subject) =>
@@ -31,24 +31,28 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
   const purgeEmptySubjects = (subjs) =>
     subjs.filter((subject) => subject.subject !== "" && subject.price !== "");
 
+  const emptyDescription = () => description === "";
+
   function handleChangeRoles(e) {
     setRole(e.target.value);
   }
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (emptySubjectOrPrice()) {
       setAlert("Please fill in all subject and price fields", "danger");
     } else if (emptyQualification()) {
       setAlert("Please fill in your highest qualification", "danger");
+    } else if (emptyDescription()) {
+      setAlert("Please fill in your description", "danger");
     } else {
       const subjectList = purgeEmptySubjects(subjects);
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
       const isTutor = true;
       const userID = user._id;
-      tutorReg({ userID, isTutor, subjectList, highestQualification });
+      tutorReg({ userID, isTutor, subjectList, description, highestQualification });
     }
   };
 
@@ -88,15 +92,15 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
     setSubjects(updatedSubjects);
   };
 
-//   if (user.isTutor) {
-//     return <Navigate to="/TutorDashboard" />;
-//   }
+  //   if (user.isTutor) {
+  //     return <Navigate to="/TutorDashboard" />;
+  //   }
 
   if (role === "tutor" && user && user.isTutor) {
     return <Navigate to="/TutorDashboard" />;
   } else if (role === "tutee") {
     return <Navigate to="/TuteeDashboard" />;
-    }
+  }
 
   return (
     <section className="container">
@@ -108,8 +112,8 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
         </select>
       </h1>
 
-        <h1>Please register as a tutor first:</h1>
-        <form className="form" onSubmit={onSubmit}>
+      <h1>Please register as a tutor first:</h1>
+      <form className="form" onSubmit={onSubmit}>
         <div style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}>
           Select your subject(s):
         </div>
@@ -216,6 +220,18 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
                 className="my"
               />
             )}
+
+            <div className="form-group">
+              <small>Description:</small>
+              <textarea
+                id="description"
+                name="description"
+                value={description}
+                onChange={(e) => setDes(e.target.value)}
+                className="my"
+                placeholder="Enter tutor description"
+              ></textarea>
+            </div>
           </div>
         </div>
         <input
@@ -224,20 +240,19 @@ const TutorReg = ({ auth: {user} , setAlert, tutorReg}) => {
           className="btn btn-primary"
           value="Join us as a Tutor!"
         />
-        </form>
-      
+      </form>
     </section>
   );
 };
 
 TutorReg.propTypes = {
-    setAlert: PropTypes.func.isRequired,
-    tutorReg: PropTypes.func.isRequired,
-    auth: PropTypes.isRequired
+  setAlert: PropTypes.func.isRequired,
+  tutorReg: PropTypes.func.isRequired,
+  auth: PropTypes.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { setAlert, tutorReg })(TutorReg);
