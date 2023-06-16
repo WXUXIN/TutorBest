@@ -9,6 +9,10 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const GET_PROFILE = 'GET_PROFILE';
 export const SET_LOADING = 'SET_LOADING';
+export const RATE_TUTOR_SUCCESS = 'RATE_TUTOR_SUCCESS';
+export const RATE_TUTOR_FAILURE = 'RATE_TUTOR_FAILURE';
+export const FIND_TUTOR_SUCCESS = 'FIND_TUTOR_SUCCESS';
+export const FIND_TUTOR_FAILURE = 'FIND_TUTOR_FAILURE';
 
 
 

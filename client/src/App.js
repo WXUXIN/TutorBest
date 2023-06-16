@@ -17,9 +17,8 @@ import setAuthToken from './utils/set_AuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import NotFound from './components/layout/NotFound';
 import TutorSettings from './components/dashboard/TutorSettings';
-
-
 import './App.css';
+import RateTutor from './components/ratingsystem/RateTutor';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -66,10 +65,16 @@ const App = () => {
             path="/TutorSettings"
             element={<PrivateRoute component={TutorSettings} />}
           />
+          <Route 
+            path="/tutor/:tutorId" 
+            element={<PrivateRoute component={RateTutor} />} 
+          />
           <Route
             path="/*"
             element={<NotFound />}
           />
+ 
+
         </Routes>
     </Router>
   </Provider>

@@ -20,6 +20,11 @@ app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/tutorReg', require('./routes/api/tutorReg')); 
 app.use('/api/tutorData', require('./routes/api/tutorData')); 
 app.use('/api/tutorSettings', require('./routes/api/tutorSettings')); 
+app.use('/api/findTutor', require('./routes/api/findTutor'));
+app.use('/api/fetchOneTutor', require('./routes/api/fetchOneTutor'));
+app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
+
+
 
 // Serve static assets in production
 if(process.env.NODE_ENV === 'production') {

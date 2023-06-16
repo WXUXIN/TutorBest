@@ -7,6 +7,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  RATE_TUTOR_FAILURE,
+  RATE_TUTOR_SUCCESS,
+  FIND_TUTOR_SUCCESS,
+  FIND_TUTOR_FAILURE
 } from "./types";
 import { setAlert } from "./alert";
 import { SET_LOADING } from "./types";
@@ -223,6 +227,75 @@ export const setLoading = (isLoading) => (dispatch) => {
     payload: isLoading,
   });
 };
+
+export const findCurrentTutors = async (userID) => {
+  // gives array of tutors
+  try {  
+
+    const response = await axios.get('/api/findTutor', {
+      // pass the userID of the tutee to the router
+      params: {
+        userID: userID
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error retrieving tutors:', error);
+    // Handle the error appropriately
+    throw error;
+  }
+};
+
+// passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
+export const handleRateTutor = (tutorId, rating, tuteeId) => async(dispatch) => {
+  
+  try {
+    console.log('Sending rate tutor request:', tutorId, rating, tuteeId);
+
+    const response = await axios.post('/api/rate-tutor', {
+        tutorId:tutorId,
+        rating:rating,
+        tuteeId:tuteeId
+    });
+    
+    dispatch({
+      type: RATE_TUTOR_SUCCESS,
+      payload: response.data,
+    }); 
+
+  } catch (error) {
+    dispatch({
+      type: RATE_TUTOR_FAILURE,
+      payload: error.response.data,
+    });    
+    throw error;
+  }
+}
+
+// passes in the tutor's USER id in the tutor's user model
+export const findTutorById = (tutorId) => async(dispatch) => {
+    try {
+      const response = await axios.get('/api/fetchOneTutor', {
+        params: {
+          tutorId: tutorId
+        }
+    });
+    dispatch({
+      type: FIND_TUTOR_SUCCESS,
+      payload: response.data,
+    });
+
+    // response contains tutor's user model and tutor's ratings
+    return response.data;
+
+    } catch (error) {
+      dispatch({
+        type: FIND_TUTOR_FAILURE,
+        payload: error.response.data,
+      });
+      throw error;
+    }
+}
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
