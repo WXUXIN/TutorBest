@@ -274,7 +274,7 @@ img {
 }
 
 .dark-overlay-bg {
-  background-color: rgba(77, 77, 77, 0.7);
+  background-color: rgba(54, 54, 54, 0.7);
   position: absolute;
   top: 0;
   left: 0;
@@ -326,6 +326,7 @@ img {
 .form input[type='submit'],
 button {
   font: inherit;
+  color: #0B1B3D;
 }
 
 .form .social-input {
@@ -661,12 +662,21 @@ select option {
     padding: 0;
     margin-right: 1em;
     border: none; 
+    outline: none;
   }
 
   .special-select {
     width: 200px;
     color:#000080;
     
+  }
+
+  .box-container {
+    background-color: rgba(77, 77, 77, 0.7);
+    padding: 20px;
+    opacity: 1;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   option {
