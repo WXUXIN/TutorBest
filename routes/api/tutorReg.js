@@ -30,7 +30,11 @@ router.post('/',
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {userID, isTutor, subjectList, highestQualification} = req.body;
+    const {userID,
+        isTutor,
+        subjectList,
+        description, 
+        highestQualification} = req.body;
  
     try {
     // See if user exists
@@ -41,7 +45,7 @@ router.post('/',
         return res.status(400).json({ errors: [{ msg: 'User does not exist' }] });
     } else {
         // Update the document without returning it
-        await User.findOneAndUpdate({ _id: userID }, { isTutor: true });
+        await User.findOneAndUpdate({ _id: userID }, { isTutor: true});
     }
 
 
@@ -78,6 +82,7 @@ router.post('/',
         // the first user in the tutees array is the tutor himself/herself
         // due to duplicate inde error
           tutees: [user._id],
+          description,
           highestQualification
         });
         await tutor.save();

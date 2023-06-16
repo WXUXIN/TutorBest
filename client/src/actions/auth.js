@@ -93,7 +93,7 @@ export const register =
 
 // register as tutee as tutor
 export const tutorReg =
-  ({ userID, isTutor, subjectList, highestQualification }) =>
+  ({ userID, isTutor, subjectList, description, highestQualification }) =>
   async (dispatch) => {
     const config = {
       headers: {
@@ -105,6 +105,7 @@ export const tutorReg =
       userID,
       isTutor,
       subjectList,
+      description, 
       highestQualification,
     });
 
