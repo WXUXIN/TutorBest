@@ -15,12 +15,13 @@ router.post('/', async (req, res) => {
             return res.status(404).json({ message: 'Tutor not found' });
         }
 
+        // create newrating object to add to array
         const newRating = {
             rating: rating,
             tutee: tuteeId,
         };
 
-        // Update the tutor's ratings array
+        // Update the tutor's ratings array by appending the new rating
         tutor.ratings.push(newRating);
 
         console.log("Tutor rated");

@@ -104,26 +104,30 @@ export default function Landing() {
 
 
     return (
-    <section className="landing">
-        <div className="dark-overlay">
+    <section className="landing" >
+        <div className="dark-overlay-bg"></div>
+        <div className="background-image-container"></div>
+
           <div className="landing-inner">
-          <h1 className="x-large-landing">
-            I am in &nbsp;&nbsp;   
-         
-          <select value={levelOfStudy} 
-            onChange={handleLevelOfStudyChange} 
-            className='dropdown'
-            style={{ fontSize: 'inherit', backgroundColor: 'grey', color: '#e9c78c'}}>
-              <option value="">Level of Study</option>
-              <option value="Primary School">Primary School</option>
-              <option value="Secondary School">Secondary School</option>
-              <option value="Junior College">Junior College</option>
-            </select>
-            </h1>
+
+            {/* {all below in landing-inner} */}
+            <h1 className="x-large-landing">
+              I am in &nbsp;&nbsp;   
+          
+            <select value={levelOfStudy} 
+              onChange={handleLevelOfStudyChange} 
+              className='dropdown'
+              style={{ fontSize: 'inherit', backgroundColor: 'grey', color: '#e9c78c'}}>
+                <option value="">Level of Study</option>
+                <option value="Primary School">Primary School</option>
+                <option value="Secondary School">Secondary School</option>
+                <option value="Junior College">Junior College</option>
+              </select>
+              </h1>
           
           
 
-          <h1 className="x-large-landing">
+            <h1 className="x-large-landing" style={{ marginTop: '50px' }}>
                 I am looking for a &nbsp;&nbsp;
                 <select value={subject} 
                 onChange={handleSubjectChange} 
@@ -145,7 +149,7 @@ export default function Landing() {
                 &nbsp; tutor.
               </h1>
           </div>
-        </div>
+        
       </section>
     )
 }

@@ -11,6 +11,7 @@ router.get('/', auth, async (req, res) => {
 
     // Populate the user field with the entire user object
     // creates access to tutor's user model 
+    // returns all the data of tutor and the user field of tutor will include {name, email, etc}
       const tutorData = await Tutor.findOne({ user: tutorId })
       .populate('user')
       res.json(tutorData);

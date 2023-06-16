@@ -273,6 +273,30 @@ img {
   height: 100%;
 }
 
+.dark-overlay-bg {
+  background-color: rgba(77, 77, 77, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.background-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1; /* Adjust this value to control the opacity of the image */
+  background-image: url("./images/gradcap.png");
+  background-size: 2%;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+
 /* Forms */
 .form .form-group {
   margin: 1.2rem 0;
@@ -389,6 +413,8 @@ button {
   align-items: center;
   justify-content: center;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 select option {

@@ -62,7 +62,7 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
         handleRateTutor(tutorId, rating, user._id);
     };
 
-    // Display a loading state until the tutor data is fetched
+    // Display a loading state until the tutor data is fetched, or not when theres no tutor(tutor = null) system cant run
     if (!tutor) {
       return <div>
             <h1>Loading tutor...</h1>
