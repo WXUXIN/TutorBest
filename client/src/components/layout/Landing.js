@@ -2,6 +2,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import {useState} from 'react';
 import '../../../src/App.css';
+import subjectOptionsData from '../../subjectOptionsData';
 
 // import {useEffect} from 'react';
 // import { Button } from "../../../dropdown-menu"
@@ -30,66 +31,8 @@ export default function Landing() {
     setLevelOfStudy(selectedLevelOfStudy);
 
     // Update subject options based on the selected level of study
-    if (selectedLevelOfStudy === 'Primary School') {
-      setSubjectOptions([
-        'English',
-        'Mathematics',
-        'Science',
-        'Chinese', // e.g., Chinese, Malay, Tamil
-        'Malay',
-        'Tamil'
-      ]);
-    } else if (selectedLevelOfStudy === 'Secondary School') {
-      setSubjectOptions([
-        'English',
-        'Mathematics',
-        'Science',
-        'Chinese', // e.g., Chinese, Malay, Tamil
-        'Malay',
-        'Tamil',
-        'Additional Mathematics',
-        'Principles of Accounts',
-        'Combined Humanities',
-        'Pure Sciences', // e.g., Physics, Chemistry, Biology
-        'Humanities Elective Programme (HEP)',
-        'Art',
-        'Music',
-        'Physical Education (PE)',
-        'Health Education',
-        'Design and Technology',
-        'Food and Consumer Education',
-        'Literature in English',
-        'Geography',
-        'History',
-        'Social Studies',
-        'Economics',
-        'Business Studies',
-        'Principles of Engineering',
-        'Computer Science',
-        'Media Studies',
-        'Additional Science',
-        'Biology',
-        'Chemistry',
-        'Physics'
-      ]);
-    } else if (selectedLevelOfStudy === 'Junior College') {
-      setSubjectOptions([ 'General Paper',
-      'Project Work',
-      'Chinese', // e.g., H1 Chinese Language and Literature
-      'Malay',
-      'Tamil',
-      'Mathematics',
-      'Further Mathematics',
-      'Chemistry',
-      'Physics',
-      'Biology',
-      'Computing',
-      'Economics',
-      'History',
-      'Geography',
-      'Literature in English',
-      'Art',
-      'Music']);
+    if (selectedLevelOfStudy in subjectOptionsData) {
+      setSubjectOptions(subjectOptionsData[selectedLevelOfStudy]);
     } else {
       setSubjectOptions([]);
     }
