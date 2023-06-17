@@ -42,6 +42,7 @@ const TutorSchema = new mongoose.Schema({
   },
 
   // Each tutor can have multiple tutees, so we store them in an array
+  // First element in the array is the tutor himself/herself
   tutees: [
     {
       type: mongoose.Schema.Types.ObjectId,

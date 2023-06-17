@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Spinner from '../../components/layout/Spinner';
 import axios from 'axios';
-import { setLoading }  from '../../actions/auth';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -93,12 +92,11 @@ const TutorDashboard = ({ auth : { user }}) => {
 }
 
 TutorDashboard.propTypes = {
-    auth: PropTypes.isRequired,
-    setLoading: PropTypes.func.isRequired
+    auth: PropTypes.isRequired
   };
 
 const mapStateToProps = (state) => ({
     auth: state.auth
   });
 
-export default connect(mapStateToProps, {setLoading})(TutorDashboard); 
+export default connect(mapStateToProps)(TutorDashboard); 

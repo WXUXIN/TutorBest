@@ -19,6 +19,8 @@ import NotFound from './components/layout/NotFound';
 import TutorSettings from './components/dashboard/TutorSettings';
 import './App.css';
 import RateTutor from './components/ratingsystem/RateTutor';
+import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -49,6 +51,11 @@ const App = () => {
           <Route path='/' element={<Landing />}/>
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
+          {/* <Route path='/profile/UnauthorisedProfile/:id' element={<Login />}/> */}
+
+          <Route path='/profile/:id' element={<Profile />}/>
+          <Route path='/profiles' element={<Profiles />}/>
+
           <Route
             path="/TutorDashboard"
             element={<PrivateRoute component={TutorDashboard} />}

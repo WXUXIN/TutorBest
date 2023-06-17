@@ -88,7 +88,7 @@ router.post(
           subjectList,
           // note that
           // the first user in the tutees array is the tutor himself/herself
-          // due to duplicate inde error
+          // due to duplicate index error
           description,
           tutees: [user._id],
           highestQualification,
@@ -96,7 +96,7 @@ router.post(
         await tutor.save();
       }
 
-      tutee = new Tutee({
+      const tutee = new Tutee({
         user: user._id,
       });
 
