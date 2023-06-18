@@ -8,6 +8,7 @@ import { SET_ALERT } from "../../actions/types";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import "../../App.css";
+import subjectOptionsData from "../../subjectOptionsData";
 
 // Props are arugments passed from one component to another.
 const Register = ({ setAlert, register, isAuthenticated, user }) => {
@@ -29,6 +30,8 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const [description, setDes] = useState("");
 
   const [isTutor, setTutor] = useState(false);
+
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   const { name, email, password, password2 } = formData;
 
@@ -94,6 +97,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
     setSubjects(updatedSubjects);
+
+    if (value in subjectOptionsData) {
+      setSubjectOptions(subjectOptionsData[value]);
+    } else {
+      setSubjectOptions([]);
+    }
   };
 
   const handleSubjectChange = (index, value) => {
@@ -199,7 +208,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                       <option value="Junior College">Junior College</option>
                     </select>
 
-                    {subject.level === "Primary School" && (
+                    {/* {subject.level === "Primary School" && (
                       <select
                         value={subject.subject}
                         onChange={(e) =>
@@ -241,6 +250,28 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                         <option value="">* Select Subject</option>
                         <option value="JC Subject 1">JC Subject 1</option>
                         <option value="JC Subject 2">JC Subject 2</option>
+                      </select>
+                    )} */}
+                    {subject.level && (
+                      <select
+                        value={subject.subject}
+                        onChange={(e) =>
+                          handleSubjectChange(index, e.target.value)
+                        }
+                        className="my"
+                      >
+                        {subjectOptions.length === 0 ? (
+                          <option value="">Select level of study</option>
+                        ) : (
+                          <>
+                            <option value="">Select subject</option>
+                            {subjectOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </>
+                        )}
                       </select>
                     )}
 

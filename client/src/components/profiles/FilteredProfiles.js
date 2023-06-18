@@ -1,0 +1,203 @@
+import React, { Fragment, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import Spinner from "../layout/Spinner";
+import { getAllProfiles } from "../../actions/profile";
+import { Navigate, useNavigate } from "react-router-dom";
+import ProfileItem from "./ProfileItem";
+import subjectOptionsData from "../../subjectOptionsData";
+import { getFilteredProfiles } from "../../actions/profile";
+
+const FilteredProfiles = ({
+  auth: { user, isAuthenticated },
+  profiles,
+  getAllProfiles,
+  getFilteredProfiles,
+}) => {
+  // Gets the level of study and subject from the url
+
+  const [role, setRole] = useState("tutee");
+
+  const [profilesList, setProfiles] = useState([]);
+
+  // This stores the selection of the level of study
+  const [levelOfStudy, setLevelOfStudy] = useState("");
+
+  // This stores the subject selected by tutee
+  const [subject, setSubject] = useState("");
+
+  const navigate = useNavigate();
+
+  // This stores the subjects that can be selected from the dropdown
+  const [subjectOptions, setSubjectOptions] = useState([]);
+
+  const location = useLocation();
+
+  const [profileSettled, settleProfile] = useState(false);
+
+  // For students to select their level of study
+  const handleLevelOfStudyChange = (e) => {
+    const selectedLevelOfStudy = e.target.value;
+    setLevelOfStudy(selectedLevelOfStudy);
+
+    // Update subject options based on the selected level of study
+    if (selectedLevelOfStudy in subjectOptionsData) {
+      setSubjectOptions(subjectOptionsData[selectedLevelOfStudy]);
+    } else {
+      setSubjectOptions([]);
+    }
+
+    // Reset the selected subject every time the level of study is changed
+    setSubject("");
+  };
+
+  const handleSubjectChange = (e) => {
+    setSubject(e.target.value);
+  };
+
+  // Calls the getFilteredProfiles action once to get the
+  // latest filtered list of profiles from the database
+  useEffect(() => {
+    // Get all the query parameters from the url
+
+    const queryParams = new URLSearchParams(location.search);
+    const varLevelOfStudy = queryParams.get("levelOfStudy");
+    const varSubject = queryParams.get("subject");
+
+    // This will call the getFilteredProfiles action
+    // to store all the profiles in the redux store
+    getFilteredProfiles(varLevelOfStudy, varSubject);
+
+  }, []);
+
+//   Updates the profilesList state variable
+//   Rerun when the profiles state variable is updated
+  useEffect(() => {
+    setProfiles(profiles.profiles);
+    settleProfile(true);
+  }, [profiles.profiles]);
+
+  function handleChangeRoles(e) {
+    setRole(e.target.value);
+  }
+
+  if (isAuthenticated) {
+    // when the user selects tutee, we will render the tutee dashboard
+    if (role === "tutor" && user && user.isTutor) {
+      return <Navigate to="/TutorDashboard" />;
+    } else if (role === "tutor" && user && !user.isTutor) {
+      return <Navigate to="/TutorReg" />;
+    }
+  }
+
+  //   If still setting data in profilesList, show spinner
+  if (!profileSettled) {
+    return <Spinner />;
+  }
+
+  const handleSearch = () => {
+    if (levelOfStudy && subject) {
+      navigate(
+        `/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`
+      );
+    }
+  };
+
+  // I want to now filter the list of tutors based on the level of study and subject that
+  // the student has selected
+  return (
+    <section className="container">
+      {isAuthenticated && (
+        <h1>
+          I am a
+          <select value={role} onChange={handleChangeRoles}>
+            <option value="tutee">tutee</option>
+            <option value="tutor">tutor</option>
+          </select>
+        </h1>
+      )}
+
+      <select
+        value={levelOfStudy}
+        onChange={handleLevelOfStudyChange}
+        className="dropdown"
+        style={{
+          fontSize: "inherit",
+          backgroundColor: "grey",
+          color: "#e9c78c",
+          borderRadius: "30px",
+          textAlign: "center",
+          padding: "8px",
+        }}
+      >
+        <option value="">Level of Study</option>
+        <option value="Primary School">Primary School</option>
+        <option value="Secondary School">Secondary School</option>
+        <option value="Junior College">Junior College</option>
+      </select>
+
+      <select
+        value={subject}
+        onChange={handleSubjectChange}
+        className="dropdown"
+        style={{
+          fontSize: "inherit",
+          backgroundColor: "grey",
+          color: "#e9c78c",
+          borderRadius: "30px",
+          textAlign: "center",
+          padding: "8px",
+        }}
+        disabled={subjectOptions.length === 0}
+      >
+        {subjectOptions.length === 0 ? (
+          <option value="">Select level of study</option>
+        ) : (
+          <>
+            <option value="">Select subject</option>
+            {subjectOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </>
+        )}
+      </select>
+
+      <button
+        className="btn btn-primary"
+        disabled={!levelOfStudy || !subject}
+        onClick={handleSearch}
+      >
+        Search for tutors
+      </button>
+
+      {profilesList.length > 0 ? (
+        <Fragment>
+          {profilesList.map((profile) => (
+            <ProfileItem key={profile._id} profile={profile} />
+          ))}
+        </Fragment>
+      ) : (
+        <h4>No profiles found...</h4>
+      )}
+    </section>
+  );
+};
+
+FilteredProfiles.propTypes = {
+  auth: PropTypes.isRequired,
+  getAllProfiles: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
+  getFilteredProfiles: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  profiles: state.profiles,
+});
+
+export default connect(mapStateToProps, { getFilteredProfiles })(
+  FilteredProfiles
+);

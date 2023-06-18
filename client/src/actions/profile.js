@@ -5,6 +5,7 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_PROFILES,
+  GET_FILTERED_PROFILES,
   GET_REPOS,
   NO_REPOS,
 } from "./types";
@@ -70,7 +71,7 @@ export const getProfileById = (user_id) => async (dispatch) => {
     // __v: 0
     // _id: "64820b99866cb70681a7892f"
     const res = await axios.get(`/api/profile/user/${user_id}`);
-    console.log(res.data, "this would be the tutor progile searched by id");
+    console.log(res.data, "this would be the tutor profile searched by id");
 
     dispatch({
       type: GET_PROFILE,
@@ -81,3 +82,20 @@ export const getProfileById = (user_id) => async (dispatch) => {
     console.log(err);
   }
 }
+
+export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/filter?levelOfStudy=${levelOfStudy}&subject=${subject}`);
+    console.log(res.data, "filtered data list"); // The filtered profiles based on the levelOfStudy and subject
+
+    dispatch({
+      type: GET_FILTERED_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+

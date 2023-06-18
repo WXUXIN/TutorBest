@@ -4,8 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getAllProfiles } from "../../actions/profile";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
+import subjectOptionsData from "../../subjectOptionsData";
 
 const Profiles = ({
   auth: { user, isAuthenticated },
@@ -17,7 +18,38 @@ const Profiles = ({
     const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
 
-    // Calls the getAllProfiles action once to get the 
+    // This stores the selection of the level of study
+    const [levelOfStudy, setLevelOfStudy] = useState("");
+
+    // This stores the subject selected by tutee
+    const [subject, setSubject] = useState("");
+
+    const navigate = useNavigate();
+
+    // This stores the subjects that can be selected from the dropdown
+    const [subjectOptions, setSubjectOptions] = useState([]);
+
+    // For students to select their level of study
+    const handleLevelOfStudyChange = (e) => {
+      const selectedLevelOfStudy = e.target.value;
+      setLevelOfStudy(selectedLevelOfStudy);
+
+      // Update subject options based on the selected level of study
+      if (selectedLevelOfStudy in subjectOptionsData) {
+        setSubjectOptions(subjectOptionsData[selectedLevelOfStudy]);
+      } else {
+        setSubjectOptions([]);
+      }
+
+      // Reset the selected subject every time the level of study is changed
+      setSubject("");
+    };
+
+    const handleSubjectChange = (e) => {
+      setSubject(e.target.value);
+    };
+
+    // Calls the getAllProfiles action once to get the
     // latest list of profiles from the database
     useEffect(() => {
       console.log("useEffect called for profiles");
@@ -32,10 +64,6 @@ const Profiles = ({
       setProfiles(profiles.profiles);
       console.log(profilesList);
 
-      // Run the function again when the getAllProfiles function is updated
-      // If the getAllProfiles function is updated externally
-      //   (e.g., due to a code change or a new dispatch),
-      //   the effect will re-run with the updated function.
     }, [profiles.profiles]);
 
     function handleChangeRoles(e) {
@@ -52,8 +80,14 @@ const Profiles = ({
     }
 
     if (profilesList.length === 0) {
-        return <Spinner />;
+      return <Spinner />;
     }
+
+    const handleSearch = () => {
+      if (levelOfStudy && subject) {
+        navigate(`/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`);
+      }
+    };
 
     // Display all the profiles of tutors in the database
 
@@ -68,6 +102,61 @@ const Profiles = ({
             </select>
           </h1>
         )}
+
+        <select
+          value={levelOfStudy}
+          onChange={handleLevelOfStudyChange}
+          className="dropdown"
+          style={{
+            fontSize: "inherit",
+            backgroundColor: "grey",
+            color: "#e9c78c",
+            borderRadius: "30px",
+            textAlign: "center",
+            padding: "8px",
+          }}
+        >
+          <option value="">Level of Study</option>
+          <option value="Primary School">Primary School</option>
+          <option value="Secondary School">Secondary School</option>
+          <option value="Junior College">Junior College</option>
+        </select>
+
+        <select
+          value={subject}
+          onChange={handleSubjectChange}
+          className="dropdown"
+          style={{
+            fontSize: "inherit",
+            backgroundColor: "grey",
+            color: "#e9c78c",
+            borderRadius: "30px",
+            textAlign: "center",
+            padding: "8px",
+          }}
+          disabled={subjectOptions.length === 0}
+        >
+          {subjectOptions.length === 0 ? (
+            <option value="">Select level of study</option>
+          ) : (
+            <>
+              <option value="">Select subject</option>
+              {subjectOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </>
+          )}
+        </select>
+
+        <button
+          className="btn btn-primary"
+          disabled={!levelOfStudy || !subject}
+          onClick={handleSearch}
+        >
+          Search for tutors
+        </button>
 
         {profilesList.length > 0 ? (
           <Fragment>

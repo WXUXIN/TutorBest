@@ -24,6 +24,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route   GET api/profile/filter
+// @desc    Get filtered tutor profiles
+// @access  Public
+router.get("/filter", async (req, res) => {
+  const { levelOfStudy, subject } = req.query;
+
+  try {
+    const filteredProfiles = await Tutor.find({
+      subjectList: { $elemMatch: { level: levelOfStudy, subject: subject } }
+    }).populate("user");
+
+    res.json(filteredProfiles);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route   GET api/profile/user/:user_id
 // @desc    Get tutor's information by tutor id
 // @access  Private
@@ -43,3 +61,5 @@ router.get("/user/:user_id", async ({ params: { user_id } }, res) => {
 });
 
 module.exports = router;
+
+

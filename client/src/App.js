@@ -21,6 +21,7 @@ import './App.css';
 import RateTutor from './components/ratingsystem/RateTutor';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
+import FilteredProfiles from './components/profiles/FilteredProfiles';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -54,6 +55,7 @@ const App = () => {
           {/* <Route path='/profile/UnauthorisedProfile/:id' element={<Login />}/> */}
 
           <Route path='/profile/:id' element={<Profile />}/>
+          <Route path="/filtered-profiles" element={<FilteredProfiles />} />
           <Route path='/profiles' element={<Profiles />}/>
 
           <Route
