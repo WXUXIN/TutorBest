@@ -4,13 +4,13 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_PROFILES,
+  CLEAR_PROFILES,
   GET_FILTERED_PROFILES,
 } from "../actions/types";
 
 const initialState = {
   profile: null,
   profiles: [],
-  repos: [],
   loading: true,
   error: {},
 };
@@ -43,9 +43,14 @@ function profileReducer(state = initialState, action) {
     case CLEAR_PROFILE:
       return {
         ...state,
-        profile: null,
-        repos: [],
+        profile: null
       };
+    case CLEAR_PROFILES:
+        return {
+            ...state,
+            profiles: [],
+            loading: true
+        }
     default:
       return state;
   }

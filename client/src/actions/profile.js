@@ -6,6 +6,7 @@ import {
   UPDATE_PROFILE,
   GET_PROFILES,
   GET_FILTERED_PROFILES,
+  CLEAR_PROFILES,
   GET_REPOS,
   NO_REPOS,
 } from "./types";
@@ -97,5 +98,12 @@ export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) =
   }
 };
 
+export const clearProfiles = () => async (dispatch) => {
+  // I need to clear the profiles in the state
+  console.log("clearing profiles, to be replaced by filtered profiles");
+  dispatch({
+    type: CLEAR_PROFILES
+  });
+};
 
 

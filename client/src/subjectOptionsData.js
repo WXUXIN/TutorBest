@@ -1,6 +1,6 @@
 // subjectOptionsData.js
 
-const subjectOptionsData = {
+export const subjectOptionsData = {
   "Primary School": [
     "English",
     "Mathematics",
@@ -8,6 +8,7 @@ const subjectOptionsData = {
     "Chinese",
     "Malay",
     "Tamil",
+    "Art"
   ],
   "Secondary School": [
     "English",
@@ -29,4 +30,8 @@ const subjectOptionsData = {
   ],
 };
 
-export default subjectOptionsData;
+
+// Export a list of levels of study
+//
+// export default levelOfStudy = []
+export const levelOfStudyTemplate = ["Primary School", "Secondary School", "Junior College"]

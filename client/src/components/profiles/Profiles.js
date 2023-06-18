@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 import { getAllProfiles } from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
-import subjectOptionsData from "../../subjectOptionsData";
+import {subjectOptionsData, levelOfStudyTemplate} from "../../subjectOptionsData";
 
 const Profiles = ({
   auth: { user, isAuthenticated },
@@ -117,9 +117,15 @@ const Profiles = ({
           }}
         >
           <option value="">Level of Study</option>
-          <option value="Primary School">Primary School</option>
+          {levelOfStudyTemplate.map((option) => (
+            <option key={option} value={option}>
+                {option}
+            </option>
+            ))}
+
+          {/* <option value="Primary School">Primary School</option>
           <option value="Secondary School">Secondary School</option>
-          <option value="Junior College">Junior College</option>
+          <option value="Junior College">Junior College</option> */}
         </select>
 
         <select

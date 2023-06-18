@@ -2,7 +2,11 @@ import React from "react";
 // import { Link } from 'react-router-dom';
 import { useState } from "react";
 import "../../../src/App.css";
-import subjectOptionsData from "../../subjectOptionsData";
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
+import { Navigate, useNavigate } from "react-router-dom";
 
 // import {useEffect} from 'react';
 // import { Button } from "../../../dropdown-menu"
@@ -23,6 +27,8 @@ export default function Landing() {
 
   // This stores the subjects that can be selected from the dropdown
   const [subjectOptions, setSubjectOptions] = useState([]);
+  const navigate = useNavigate();
+
 
   // For students to select their level of study
   const handleLevelOfStudyChange = (e) => {
@@ -42,6 +48,12 @@ export default function Landing() {
 
   const handleSubjectChange = (e) => {
     setSubject(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (levelOfStudy && subject) {
+      navigate(`/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`);
+    }
   };
 
   return (
@@ -78,9 +90,11 @@ export default function Landing() {
               }}
             >
               <option value="">Level of Study</option>
-              <option value="Primary School">Primary School</option>
-              <option value="Secondary School">Secondary School</option>
-              <option value="Junior College">Junior College</option>
+              {levelOfStudyTemplate.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
             </select>
           </h1>
 
@@ -97,7 +111,6 @@ export default function Landing() {
                 borderRadius: "30px",
                 textAlign: "center",
                 padding: "8px",
-                
               }}
               disabled={subjectOptions.length === 0}
             >
@@ -118,6 +131,8 @@ export default function Landing() {
           </h1>
           <div>
             <button
+              disabled={!levelOfStudy || !subject}
+              onClick={handleSearch}
               style={{
                 fontFamily: "Josefin Sans",
                 alignSelf: "flex-start",

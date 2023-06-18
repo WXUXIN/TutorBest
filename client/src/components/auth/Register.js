@@ -8,7 +8,10 @@ import { SET_ALERT } from "../../actions/types";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import "../../App.css";
-import subjectOptionsData from "../../subjectOptionsData";
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
 
 // Props are arugments passed from one component to another.
 const Register = ({ setAlert, register, isAuthenticated, user }) => {
@@ -203,9 +206,11 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                       className="my"
                     >
                       <option value="">* Select Level of Study</option>
-                      <option value="Primary School">Primary School</option>
-                      <option value="Secondary School">Secondary School</option>
-                      <option value="Junior College">Junior College</option>
+                      {levelOfStudyTemplate.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
                     </select>
 
                     {/* {subject.level === "Primary School" && (

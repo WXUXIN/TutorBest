@@ -5,6 +5,10 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { tutorReg } from "../../actions/auth";
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
 
 const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   const [subjects, setSubjects] = useState([]);
@@ -16,6 +20,8 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   const [description, setDes] = useState("");
 
   const [role, setRole] = useState("tutor");
+
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   // Event handlers
   const emptySubjectOrPrice = () =>
@@ -52,7 +58,13 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
         qualification === "Others" ? otherQualification : qualification;
       const isTutor = true;
       const userID = user._id;
-      tutorReg({ userID, isTutor, subjectList, description, highestQualification });
+      tutorReg({
+        userID,
+        isTutor,
+        subjectList,
+        description,
+        highestQualification,
+      });
     }
   };
 
@@ -70,6 +82,12 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
     setSubjects(updatedSubjects);
+
+    if (value in subjectOptionsData) {
+      setSubjectOptions(subjectOptionsData[value]);
+    } else {
+      setSubjectOptions([]);
+    }
   };
 
   const handleSubjectChange = (index, value) => {
@@ -126,45 +144,31 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                 className="my"
               >
                 <option value="">* Select Level of Study</option>
-                <option value="Primary School">Primary School</option>
-                <option value="Secondary School">Secondary School</option>
-                <option value="Junior College">Junior College</option>
+                {levelOfStudyTemplate.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
               </select>
 
-              {subject.level === "Primary School" && (
+              {subject.level && (
                 <select
                   value={subject.subject}
                   onChange={(e) => handleSubjectChange(index, e.target.value)}
                   className="my"
                 >
-                  <option value="">* Select Subject</option>
-                  <option value="Pri Math">Math</option>
-                  <option value="Pri Science">Science</option>
-                  <option value="Pri English">English</option>
-                </select>
-              )}
-
-              {subject.level === "Secondary School" && (
-                <select
-                  value={subject.subject}
-                  onChange={(e) => handleSubjectChange(index, e.target.value)}
-                  className="my"
-                >
-                  <option value="">* Select Subject</option>
-                  <option value="Sec History">History</option>
-                  <option value="Sec Computer Science">Computer Science</option>
-                </select>
-              )}
-
-              {subject.level === "Junior College" && (
-                <select
-                  value={subject.subject}
-                  onChange={(e) => handleSubjectChange(index, e.target.value)}
-                  className="my"
-                >
-                  <option value="">* Select Subject</option>
-                  <option value="JC Subject 1">JC Subject 1</option>
-                  <option value="JC Subject 2">JC Subject 2</option>
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
                 </select>
               )}
 

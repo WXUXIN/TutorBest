@@ -6,14 +6,17 @@ import Spinner from "../layout/Spinner";
 import { getAllProfiles } from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
-import subjectOptionsData from "../../subjectOptionsData";
-import { getFilteredProfiles } from "../../actions/profile";
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
+import { getFilteredProfiles, clearProfiles } from "../../actions/profile";
 
 const FilteredProfiles = ({
   auth: { user, isAuthenticated },
   profiles,
-  getAllProfiles,
   getFilteredProfiles,
+  clearProfiles,
 }) => {
   // Gets the level of study and subject from the url
 
@@ -32,9 +35,13 @@ const FilteredProfiles = ({
   // This stores the subjects that can be selected from the dropdown
   const [subjectOptions, setSubjectOptions] = useState([]);
 
+  const [sortBy, setSortBy] = useState("");
+
   const location = useLocation();
 
-  const [profileSettled, settleProfile] = useState(false);
+  const queryParams = new URLSearchParams(location.search);
+  const varLevelOfStudy = queryParams.get("levelOfStudy");
+  const varSubject = queryParams.get("subject");
 
   // For students to select their level of study
   const handleLevelOfStudyChange = (e) => {
@@ -65,17 +72,21 @@ const FilteredProfiles = ({
     const varLevelOfStudy = queryParams.get("levelOfStudy");
     const varSubject = queryParams.get("subject");
 
+    console.log("useEffect called for filtered profiles");
+
     // This will call the getFilteredProfiles action
     // to store all the profiles in the redux store
     getFilteredProfiles(varLevelOfStudy, varSubject);
 
-  }, []);
+    // React wil; re-run the effect whenever the location.search value changes.
+    // This allows us to track changes in the query string parameters of the URL.
+    // location.search property specifically represents the query string portion of the URL
+  }, [location.search, getFilteredProfiles]);
 
-//   Updates the profilesList state variable
-//   Rerun when the profiles state variable is updated
+  //   Updates the profilesList state variable
+  //   Rerun when the profiles state variable is updated
   useEffect(() => {
     setProfiles(profiles.profiles);
-    settleProfile(true);
   }, [profiles.profiles]);
 
   function handleChangeRoles(e) {
@@ -91,13 +102,73 @@ const FilteredProfiles = ({
     }
   }
 
+  const getSubjectPrice = (profile) => {
+    const subject = profile.subjectList.find(
+      (subj) => subj.subject === varSubject && subj.level === varLevelOfStudy
+    );
+    return subject ? subject.price : null;
+  };
+
+  const sortProfiles = (profiles, sortBy) => {
+    const sortedProfiles = [...profiles];
+    console.log(sortBy, sortedProfiles);
+
+    switch (sortBy) {
+      case "Pricing - Low to High":
+        sortedProfiles.sort((a, b) => {
+          const priceA = getSubjectPrice(a);
+          const priceB = getSubjectPrice(b);
+
+          console.log(priceA, priceB);
+
+          if (priceA !== null && priceB !== null) {
+            return priceA - priceB;
+          } else if (priceA !== null) {
+            return -1; // 'a' has a defined price, so it should come before 'b'
+          } else if (priceB !== null) {
+            return 1; // 'b' has a defined price, so it should come before 'a'
+          } else {
+            return 0; // Both 'a' and 'b' don't have a defined price, so their order remains unchanged
+          }
+        });
+        break;
+      case "Pricing - High to Low":
+        sortedProfiles.sort((a, b) => {
+          const priceA = getSubjectPrice(a);
+          const priceB = getSubjectPrice(b);
+
+          if (priceA !== null && priceB !== null) {
+            return priceB - priceA;
+          } else if (priceA !== null) {
+            return -1; // 'a' has a defined price, so it should come before 'b'
+          } else if (priceB !== null) {
+            return 1; // 'b' has a defined price, so it should come before 'a'
+          } else {
+            return 0; // Both 'a' and 'b' don't have a defined price, so their order remains unchanged
+          }
+        });
+        break;
+      // Add more cases for other sorting options if needed
+      default:
+        break;
+    }
+
+    console.log("sorted", sortedProfiles);
+
+    setProfiles(sortedProfiles);
+  };
+
   //   If still setting data in profilesList, show spinner
-  if (!profileSettled) {
+  if (profiles.loading) {
     return <Spinner />;
   }
 
   const handleSearch = () => {
     if (levelOfStudy && subject) {
+      // i need to clear the redux store of the profiles
+      // so that the next filtered profiles
+      // can be stored in the redux store
+      clearProfiles();
       navigate(
         `/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`
       );
@@ -132,9 +203,11 @@ const FilteredProfiles = ({
         }}
       >
         <option value="">Level of Study</option>
-        <option value="Primary School">Primary School</option>
-        <option value="Secondary School">Secondary School</option>
-        <option value="Junior College">Junior College</option>
+        {levelOfStudyTemplate.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
 
       <select
@@ -173,6 +246,30 @@ const FilteredProfiles = ({
         Search for tutors
       </button>
 
+      <select
+        value={sortBy}
+        onChange={(e) => {
+          sortProfiles(profilesList, e.target.value);
+          setSortBy(e.target.value);
+        }}
+        className="dropdown"
+        style={{
+          fontSize: "inherit",
+          backgroundColor: "grey",
+          color: "#e9c78c",
+          borderRadius: "30px",
+          textAlign: "center",
+          padding: "8px",
+        }}
+      >
+        <option value="Pricing - Low to High">
+          Sort By: Pricing - Low to High
+        </option>
+        <option value="Pricing - High to Low">
+          Sort By: Pricing - High to Low
+        </option>
+      </select>
+
       {profilesList.length > 0 ? (
         <Fragment>
           {profilesList.map((profile) => (
@@ -189,8 +286,9 @@ const FilteredProfiles = ({
 FilteredProfiles.propTypes = {
   auth: PropTypes.isRequired,
   getAllProfiles: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
   getFilteredProfiles: PropTypes.func.isRequired,
+  clearProfiles: PropTypes.func.isRequired,
+  profiles: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -198,6 +296,6 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getFilteredProfiles })(
+export default connect(mapStateToProps, { getFilteredProfiles, clearProfiles })(
   FilteredProfiles
 );
