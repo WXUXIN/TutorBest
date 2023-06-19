@@ -5,10 +5,12 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getProfileById } from "../../actions/profile";
 
+
 const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
   // This gets the id from the url
   const { id } = useParams();
 
+  // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
   useEffect(() => {
     getProfileById(id);
   }, [getProfileById, id]);
@@ -17,11 +19,31 @@ const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
     return <Spinner />;
   }
 
+  const getAverageRatings = (ratings) => {
+
+    // Return 0 if the ratings array is empty
+    if (ratings.length === 0) {
+      return 0; 
+    }
+  
+    // Calculate the sum of all ratings
+    const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
+  
+    // Calculate the average by dividing the sum by the number of ratings
+    const average = sum / ratings.length;
+  
+    // Round the average to two decimal places
+    return Math.round(average * 100) / 100;
+  };
+
+  console.log(profile);
+
   return (
     <section className="container">
       <h1>Profile</h1>
       <Fragment>
         <h1>Tutor's name: {profile.user.name}</h1>
+        <h1>Tutor's rating: {getAverageRatings(profile.ratings)} </h1>
         <h1>Tutor's email: {profile.user.email}</h1>
         <h1>Tutor's description: {profile.description}</h1>
         <h1>Tutor's subjects:</h1>
