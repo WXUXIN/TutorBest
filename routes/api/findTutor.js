@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Tutor = require('../../models/TutorInfo');
+const Tutee = require('../../models/TuteeInfo');
+const User = require('../../models/User');
+
 
 router.get('/', async (req, res) => {
 
@@ -15,12 +18,28 @@ router.get('/', async (req, res) => {
         // populate('user') method is used to populate the user field in the Tutor model, which is a reference to the User model.
         // This allows us to access the name field of the user associated with each tutor.
         // returns array of tutors with the tutee's user field in their tutees array
-        const tutors = await Tutor.find({ tutees: userID }).populate('user');
+        const tutee = await Tutee.findOne({ user: userID }).populate(
+          'tutors' // Update the model name to match your User model
+        );
+
+        if (!tutee) {
+          return res.status(404).json({ message: 'Tutee not found' });
+        }
+
+        const tutorUsers = await Promise.all(
+          tutee.tutors.map(async (tutor) => {
+            const populatedTutor = await Tutor.findOne({ user: tutor._id }).populate('user');
+            return populatedTutor;
+          })
+        );
+
+        //.populate('user');
 
         // map over the fetched tutors and return only the user field, which represents the associated user object. (user id, name, email, etc)
-        const tutorUsers = tutors.map((tutor) => tutor.user);
+        // const tutorUsers = tutors.map((tutor) => tutor.user);
 
         res.status(200).json(tutorUsers);
+        console.log('success');
 
       } catch (error) {
           console.error('Error retrieving tutors:', error);

@@ -18,6 +18,7 @@ const [currentTutors, setCurrentTutors] = useState([]);
       try {
         const tutors = await findCurrentTutors(user._id);
         setCurrentTutors(tutors);
+        console.log(tutors)
       } catch (error) {
         console.error("Error fetching current tutors:", error);
       }
@@ -34,7 +35,7 @@ const [currentTutors, setCurrentTutors] = useState([]);
             {currentTutors.map((tutor) => (
                 <div key={tutor._id}>
                     <h2>
-                        <Link to= {`/tutor/${tutor._id}`}>{tutor.name}</Link>
+                        <Link to= {`/tutor/${tutor.user._id}`}>{tutor.user.name}</Link>
                     </h2>
                 </div>
             ))}

@@ -234,7 +234,6 @@ export const setLoading = (isLoading) => (dispatch) => {
 export const findCurrentTutors = async (userID) => {
   // gives array of tutors
   try {  
-
     const response = await axios.get('/api/findTutor', {
       // pass the userID of the tutee to the router
       params: {
