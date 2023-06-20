@@ -10,7 +10,9 @@ import {
   RATE_TUTOR_FAILURE,
   RATE_TUTOR_SUCCESS,
   FIND_TUTOR_SUCCESS,
-  FIND_TUTOR_FAILURE
+  FIND_TUTOR_FAILURE,
+  TUTOR_PAIR_FAILURE,
+  TUTOR_PAIR_SUCCESS
 } from "./types";
 import { setAlert } from "./alert";
 import { SET_LOADING } from "./types";
@@ -232,7 +234,6 @@ export const setLoading = (isLoading) => (dispatch) => {
 export const findCurrentTutors = async (userID) => {
   // gives array of tutors
   try {  
-
     const response = await axios.get('/api/findTutor', {
       // pass the userID of the tutee to the router
       params: {
@@ -300,3 +301,28 @@ export const findTutorById = (tutorId) => async(dispatch) => {
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
+
+
+// making tutor-tutee pair
+export const makePair = (tutorId, tuteeId) => async(dispatch) => {
+  console.log('makePair function called');
+
+  try {
+    const response = await axios.post('/api/updatePair', {
+      
+      tutorId: tutorId,
+      tuteeId: tuteeId
+      
+    });
+    dispatch({
+      type: TUTOR_PAIR_SUCCESS,
+      payload: response.data,
+    }); 
+  } catch (error) {
+    dispatch({
+      type: TUTOR_PAIR_FAILURE,
+      payload: error.response.data,
+    });  
+    throw error
+  }
+}
