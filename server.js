@@ -23,6 +23,8 @@ app.use('/api/tutorSettings', require('./routes/api/tutorSettings'));
 app.use('/api/findTutor', require('./routes/api/findTutor'));
 app.use('/api/fetchOneTutor', require('./routes/api/fetchOneTutor'));
 app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
+app.use('/api/updatePair', require('./routes/api/updatePair'));
+
 
 // Serve static assets in production
 if(process.env.NODE_ENV === 'production') {

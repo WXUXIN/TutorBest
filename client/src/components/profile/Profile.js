@@ -7,7 +7,7 @@ import { getProfileById } from "../../actions/profile";
 import { makePair } from "../../actions/auth";
 
 
-const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
+const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
   // This gets the id from the url
   const { id } = useParams();
 
@@ -73,7 +73,7 @@ const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
 
         {auth.isAuthenticated && auth.loading === false && (
           // Link with tutor button
-          <button onClick={makePair(profile.user._id, auth.user._id)}>
+          <button onClick={() => makePair(profile.user._id, auth.user._id)}>
             Link with tutor
           </button>
         )}

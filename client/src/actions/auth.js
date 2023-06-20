@@ -306,12 +306,14 @@ export const logout = () => ({ type: LOGOUT });
 
 // making tutor-tutee pair
 export const makePair = (tutorId, tuteeId) => async(dispatch) => {
+  console.log('makePair function called');
+
   try {
-    const response = await axios.post('/api/addTutorTuteePair', {
-      params: {
-        tutorId: tutorId,
-        tuteeId: tuteeId
-      }
+    const response = await axios.post('/api/updatePair', {
+      
+      tutorId: tutorId,
+      tuteeId: tuteeId
+      
     });
     dispatch({
       type: TUTOR_PAIR_SUCCESS,
