@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getProfileById } from "../../actions/profile";
+import { makePair } from "../../actions/auth";
 
 
 const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
@@ -67,6 +68,17 @@ const Profile = ({ getProfileById, auth, profiles: { profile } }) => {
         </Link>
       )}
 
+      {/* if user is logged in */}
+      <div style={{ marginTop: '20px'}}>
+
+        {auth.isAuthenticated && auth.loading === false && (
+          // Link with tutor button
+          <button onClick={makePair(profile.user._id, auth.user._id)}>
+            Link with tutor
+          </button>
+        )}
+      </div>
+
       {!auth.isAuthenticated && auth.loading === false && (
         // Chat with tutor button
         <Link to={`/register`} className="btn btn-primary">
@@ -88,4 +100,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { getProfileById, makePair })(Profile);

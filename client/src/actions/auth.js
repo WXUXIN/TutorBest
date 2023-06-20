@@ -10,7 +10,9 @@ import {
   RATE_TUTOR_FAILURE,
   RATE_TUTOR_SUCCESS,
   FIND_TUTOR_SUCCESS,
-  FIND_TUTOR_FAILURE
+  FIND_TUTOR_FAILURE,
+  TUTOR_PAIR_FAILURE,
+  TUTOR_PAIR_SUCCESS
 } from "./types";
 import { setAlert } from "./alert";
 import { SET_LOADING } from "./types";
@@ -300,3 +302,26 @@ export const findTutorById = (tutorId) => async(dispatch) => {
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
+
+
+// making tutor-tutee pair
+export const makePair = (tutorId, tuteeId) => async(dispatch) => {
+  try {
+    const response = await axios.post('/api/addTutorTuteePair', {
+      params: {
+        tutorId: tutorId,
+        tuteeId: tuteeId
+      }
+    });
+    dispatch({
+      type: TUTOR_PAIR_SUCCESS,
+      payload: response.data,
+    }); 
+  } catch (error) {
+    dispatch({
+      type: TUTOR_PAIR_FAILURE,
+      payload: error.response.data,
+    });  
+    throw error
+  }
+}
