@@ -4,11 +4,12 @@ import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getProfileById } from "../../actions/profile";
-import { makePair } from "../../actions/auth";
+import { findCurrentTutors, makePair } from "../../actions/auth";
 
 
 const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
   // This gets the id from the url
+  // profile id
   const { id } = useParams();
 
   // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
@@ -39,6 +40,21 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
 
   console.log(profile);
 
+  async function isTutorLinked() {
+    try {
+      const tutors = await findCurrentTutors(auth.user._id);
+      const tutorIDs = tutors.map((tutor) => tutor.user._id);
+      return tutorIDs.includes(profile.user._id);
+    } catch (error) {
+      console.error("Error retrieving tutors:", error);
+      // Handle the error appropriately
+    }
+  }
+  // function isLinked() { return isTutorLinked() };
+
+  isTutorLinked().then((result) => {
+    console.log(result);
+  });
   return (
     <section className="container">
       <h1>Profile</h1>
@@ -70,14 +86,20 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
 
       {/* if user is logged in */}
       <div style={{ marginTop: '20px'}}>
-
-        {auth.isAuthenticated && auth.loading === false && (
+        
+        {auth.isAuthenticated && auth.loading === false &&  (
           // Link with tutor button
-          <button onClick={() => makePair(profile.user._id, auth.user._id)}>
+          <button onClick={() => makePair(profile.user._id, auth.user._id)}
+          style={{border: '1px solid #000'}}>
             Link with tutor
           </button>
         )}
       </div>
+        
+      {auth.isAuthenticated && auth.loading === false && (
+        <Link to= {`/tutor/${profile.user._id}`}>Rate Tutor!</Link>
+      )}
+          
 
       {!auth.isAuthenticated && auth.loading === false && (
         // Chat with tutor button
