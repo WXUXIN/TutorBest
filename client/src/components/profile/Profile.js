@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from "react";
+import { useState } from 'react';
 import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
@@ -11,6 +12,23 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
   // This gets the id from the url
   // profile id
   const { id } = useParams();
+
+    // control state of whether the tutor and tutee is linked to render link button
+    const [isLinked, setIsLinked] = useState(false);
+
+    useEffect(() => {
+      const checkTutorLink = async () => {
+        try {
+          const linked = await isTutorLinked();
+          setIsLinked(linked);
+        } catch (error) {
+          console.error("Error retrieving tutors:", error);
+          // Handle the error appropriately
+        }
+      };
+  
+      checkTutorLink();
+    }, []);
 
   // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
   useEffect(() => {
@@ -87,20 +105,22 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
       {/* if user is logged in */}
       <div style={{ marginTop: '20px'}}>
         
-        {auth.isAuthenticated && auth.loading === false &&  (
-          // Link with tutor button
-          <button onClick={() => makePair(profile.user._id, auth.user._id)}
-          style={{border: '1px solid #000'}}>
-            Link with tutor
-          </button>
-        )}
+      {auth.isAuthenticated && auth.loading === false && !isLinked && (
+        // Link with tutor button
+        <button
+          onClick={() => makePair(profile.user._id, auth.user._id)}
+          style={{ border: '1px solid #000' }}
+        >
+          Link with tutor
+        </button>
+      )}
       </div>
-        
+      
+      {/* rating tutor link */}
       {auth.isAuthenticated && auth.loading === false && (
         <Link to= {`/tutor/${profile.user._id}`}>Rate Tutor!</Link>
       )}
           
-
       {!auth.isAuthenticated && auth.loading === false && (
         // Chat with tutor button
         <Link to={`/register`} className="btn btn-primary">
