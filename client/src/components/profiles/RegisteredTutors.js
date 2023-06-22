@@ -84,7 +84,7 @@ const RegisterdTutors = ({
       }
     }
 
-    if (profilesList.length === 0 && !user) {
+    if (profiles.loading) {
       return <Spinner />;
     }
 

@@ -3,19 +3,23 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllProfiles } from "../../actions/profile";
+import { getAllProfiles, clearProfiles } from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
-import {subjectOptionsData, levelOfStudyTemplate} from "../../subjectOptionsData";
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
 
 const Profiles = ({
   auth: { user, isAuthenticated },
   profiles,
   getAllProfiles,
+  clearProfiles
 }) =>
   // I want to display all of the tutors in the database
   {
-    const [profilesList, setProfiles] = useState([]);
+    // const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
 
     // This stores the selection of the level of study
@@ -52,6 +56,8 @@ const Profiles = ({
     // Calls the getAllProfiles action once to get the
     // latest list of profiles from the database
     useEffect(() => {
+      
+      // clearProfiles();
       console.log("useEffect called for profiles");
       // This will call the getAllProfiles action
       // to store all the profiles in the redux store
@@ -60,11 +66,10 @@ const Profiles = ({
 
     // Updates the profilesList state variable
     // Rerun when the profiles state variable is updated
-    useEffect(() => {
-      setProfiles(profiles.profiles);
-      console.log(profilesList);
-
-    }, [profiles.profiles]);
+    // useEffect(() => {
+    //   setProfiles(profiles.profiles);
+    //   console.log(profilesList);
+    // }, [profiles.profiles]);
 
     function handleChangeRoles(e) {
       setRole(e.target.value);
@@ -79,13 +84,15 @@ const Profiles = ({
       }
     }
 
-    if (profilesList.length === 0) {
+    if (profiles.loading) {
       return <Spinner />;
     }
 
     const handleSearch = () => {
       if (levelOfStudy && subject) {
-        navigate(`/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`);
+        navigate(
+          `/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`
+        );
       }
     };
 
@@ -103,7 +110,7 @@ const Profiles = ({
           </h1>
         )}
 
-        <div style={{ marginRight: '10px' }}>
+        <div style={{ marginRight: "10px" }}>
           <select
             value={levelOfStudy}
             onChange={handleLevelOfStudyChange}
@@ -120,17 +127,17 @@ const Profiles = ({
             <option value="">Level of Study</option>
             {levelOfStudyTemplate.map((option) => (
               <option key={option} value={option}>
-                  {option}
+                {option}
               </option>
-              ))}
+            ))}
 
             {/* <option value="Primary School">Primary School</option>
             <option value="Secondary School">Secondary School</option>
             <option value="Junior College">Junior College</option> */}
           </select>
         </div>
-        
-        <div style={{ marginRight: '10px' }}>
+
+        <div style={{ marginRight: "10px" }}>
           <select
             value={subject}
             onChange={handleSubjectChange}
@@ -159,7 +166,6 @@ const Profiles = ({
             )}
           </select>
         </div>
-        
 
         <button
           className="btn btn-primary"
@@ -169,20 +175,23 @@ const Profiles = ({
           Search for tutors
         </button>
 
-        <Link to={`/registered-tutors/${user._id} `} className='btn btn-primary'>
-          View all YOUR tutors
-        </Link>
+        {isAuthenticated && (
+          <Link
+            to={`/registered-tutors/${user._id} `}
+            className="btn btn-primary"
+          >
+            View all YOUR tutors
+          </Link>
+        )}
 
-        
-
-        {profilesList.length > 0 ? (
+        {profiles.profiles.length > 0 && !profiles.loading ? (
           <Fragment>
-            {profilesList.map((profile) => (
-              <ProfileItem key={profile._id} profile={profile} />
+            {profiles.profiles.map((profile) => (
+              <ProfileItem key={profile._id} profile={profile}/>
             ))}
           </Fragment>
-        ) : (
-          <h4>No profiles found...</h4>
+        ) : ( (profiles.profiles.length === 0 && !profiles.loading)
+           ? (<h4>No profiles found...</h4>) : (<Spinner />)
         )}
       </section>
     );
@@ -192,6 +201,7 @@ Profiles.propTypes = {
   auth: PropTypes.isRequired,
   getAllProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  clearProfiles: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -199,4 +209,4 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getAllProfiles })(Profiles);
+export default connect(mapStateToProps, { getAllProfiles, clearProfiles })(Profiles);

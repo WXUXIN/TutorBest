@@ -45,7 +45,8 @@ function profileReducer(state = initialState, action) {
     case CLEAR_PROFILE:
       return {
         ...state,
-        profile: null
+        profile: null,
+        loading: true
       };
     case CLEAR_PROFILES:
         return {

@@ -3,36 +3,42 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getProfileById } from "../../actions/profile";
+import { getProfileById, clearProfile } from "../../actions/profile";
 import { makePair } from "../../actions/auth";
 
-
-const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
+const Profile = ({
+  getProfileById,
+  auth,
+  profiles: { profile, loading },
+  makePair,
+  clearProfile,
+}) => {
   // This gets the id from the url
   const { id } = useParams();
 
   // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
   useEffect(() => {
+    clearProfile();
     getProfileById(id);
   }, [getProfileById, id]);
 
+  // Only when the profile is loaded, display the profile
   if (profile === null) {
     return <Spinner />;
   }
 
   const getAverageRatings = (ratings) => {
-
     // Return 0 if the ratings array is empty
     if (ratings.length === 0) {
-      return 0; 
+      return 0;
     }
-  
+
     // Calculate the sum of all ratings
     const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
-  
+
     // Calculate the average by dividing the sum by the number of ratings
     const average = sum / ratings.length;
-  
+
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
   };
@@ -69,8 +75,7 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
       )}
 
       {/* if user is logged in */}
-      <div style={{ marginTop: '20px'}}>
-
+      <div style={{ marginTop: "20px" }}>
         {auth.isAuthenticated && auth.loading === false && (
           // Link with tutor button
           <button onClick={() => makePair(profile.user._id, auth.user._id)}>
@@ -91,6 +96,7 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
 
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
+  clearProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
 };
@@ -100,4 +106,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfileById, makePair })(Profile);
+export default connect(mapStateToProps, { getProfileById, makePair, clearProfile })(Profile);

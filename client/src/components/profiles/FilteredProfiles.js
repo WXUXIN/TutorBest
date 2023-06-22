@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllProfiles } from "../../actions/profile";
+import { getAllProfiles, getFilteredProfiles, clearProfiles } from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
 import {
   subjectOptionsData,
   levelOfStudyTemplate,
 } from "../../subjectOptionsData";
-import { getFilteredProfiles, clearProfiles } from "../../actions/profile";
 
 const FilteredProfiles = ({
   auth: { user, isAuthenticated },
@@ -42,6 +41,7 @@ const FilteredProfiles = ({
   const queryParams = new URLSearchParams(location.search);
   const varLevelOfStudy = queryParams.get("levelOfStudy");
   const varSubject = queryParams.get("subject");
+  const subjectAndLevel = { varSubject, varLevelOfStudy };
 
   // For students to select their level of study
   const handleLevelOfStudyChange = (e) => {
@@ -66,11 +66,16 @@ const FilteredProfiles = ({
   // Calls the getFilteredProfiles action once to get the
   // latest filtered list of profiles from the database
   useEffect(() => {
-    // Get all the query parameters from the url
+    
 
     const queryParams = new URLSearchParams(location.search);
     const varLevelOfStudy = queryParams.get("levelOfStudy");
     const varSubject = queryParams.get("subject");
+
+    setLevelOfStudy(varLevelOfStudy)
+    setSubject(varSubject)
+
+    setSubjectOptions(subjectOptionsData[varLevelOfStudy]);
 
     console.log("useEffect called for filtered profiles");
 
@@ -272,7 +277,7 @@ const FilteredProfiles = ({
       {profilesList.length > 0 ? (
         <Fragment>
           {profilesList.map((profile) => (
-            <ProfileItem key={profile._id} profile={profile} />
+            <ProfileItem key={profile._id} profile={profile} subjectAndLevel = {subjectAndLevel} />
           ))}
         </Fragment>
       ) : (

@@ -27,7 +27,7 @@ const Navbar = ({ auth: { isAuthenticated }, logout }) => {
     return (
       <nav className="navbar bg-dark">
         <h1 className = "navbar-logo">
-          <Link to="/">
+          <Link to="/profiles">
              TutorBest
           </Link>
         </h1>

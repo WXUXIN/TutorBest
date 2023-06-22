@@ -38,7 +38,14 @@ export const getAllProfiles = () => async (dispatch) => {
     //   [[Prototype]]: Object
     // __v: 0
     // _id: "64820b99866cb70681a7892f"
-    const res = await axios.get("/api/profile");
+
+    // Makes sure to clear all the profiles in the state, and set 
+    // loading to true
+    dispatch({
+      type: CLEAR_PROFILES,
+    });
+
+    const res =  await axios.get("/api/profile");
 
     dispatch({
       type: GET_PROFILES,
@@ -87,6 +94,11 @@ export const getProfileById = (user_id) => async (dispatch) => {
 
 export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) => {
   try {
+
+    dispatch({
+      type: CLEAR_PROFILE
+    });
+    
     const res = await axios.get(`/api/profile/filter?levelOfStudy=${levelOfStudy}&subject=${subject}`);
     console.log(res.data, "filtered data list"); // The filtered profiles based on the levelOfStudy and subject
 
@@ -101,6 +113,11 @@ export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) =
 
 export const getRegisteredProfiles = (user_id) => async (dispatch) => {
   try {
+
+    dispatch({
+      type: CLEAR_PROFILES
+    });
+
     console.log("getting the registered profiles");
     const res = await axios.get(`/api/profile/registeredTutors/${user_id}`);
 
@@ -120,4 +137,10 @@ export const clearProfiles = () => async (dispatch) => {
   });
 };
 
+export const clearProfile = () => async (dispatch) => {
+  // I need to clear the profiles in the state
+    dispatch({
+    type: CLEAR_PROFILE
+  });
+};
 
