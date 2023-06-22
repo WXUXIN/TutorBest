@@ -26,6 +26,7 @@ app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
 app.use('/api/updatePair', require('./routes/api/updatePair'));
 
 
+
 // Serve static assets in production
 if(process.env.NODE_ENV === 'production') {
     // Set static folder

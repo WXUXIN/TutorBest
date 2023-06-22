@@ -25,7 +25,7 @@ export const subjectOptionsData = {
     "Project Work",
     "Chinese",
     "Malay",
-    "Tamil",
+    "Tamil"
     // ...other subjects
   ],
 };

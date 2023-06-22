@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const Tutor = require("../../models/TutorInfo");
+const Tutee = require("../../models/TuteeInfo");
 const User = require("../../models/User");
 const { check, validationResult } = require("express-validator");
 
@@ -32,7 +33,7 @@ router.get("/filter", async (req, res) => {
 
   try {
     const filteredProfiles = await Tutor.find({
-      subjectList: { $elemMatch: { level: levelOfStudy, subject: subject } }
+      subjectList: { $elemMatch: { level: levelOfStudy, subject: subject } },
     }).populate("user");
 
     res.json(filteredProfiles);
@@ -60,6 +61,39 @@ router.get("/user/:user_id", async ({ params: { user_id } }, res) => {
   }
 });
 
+
+// @route   GET api/profile/registeredTutors
+// @desc    Get all of tutee's registered tutors
+// @access  Private
+router.get("/registeredTutors/:user_id", async ({ params: { user_id } }, res) => {
+  try {
+    const tutee = await Tutee.findOne({ user: user_id })
+    .populate({
+      path: 'tutors',
+      model: 'tutors' // Assuming the tutor documents are stored in the "users" collection
+    })
+    .exec();
+    
+    console.log(tutee, "these are the registered tutors");
+
+    if (!tutee) {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+
+    const tutorUsers = await Promise.all(
+      tutee.tutors.map(async (tutor_user_id) => {
+        const populatedTutor = await Tutor.findOne({ user: tutor_user_id }).populate('user');
+        return populatedTutor;
+      })
+    );
+
+    console.log(tutorUsers, "these should be the registerd tutors documents");
+
+    return res.json(tutorUsers);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: "Server error" });
+  }
+});
+
 module.exports = router;
-
-

@@ -262,12 +262,11 @@ const FilteredProfiles = ({
           padding: "8px",
         }}
       >
-        <option value="Pricing - Low to High">
-          Sort By: Pricing - Low to High
+        <option disabled value="">
+          Sort By
         </option>
-        <option value="Pricing - High to Low">
-          Sort By: Pricing - High to Low
-        </option>
+        <option value="Pricing - Low to High">Pricing - Low to High</option>
+        <option value="Pricing - High to Low">Pricing - High to Low</option>
       </select>
 
       {profilesList.length > 0 ? (

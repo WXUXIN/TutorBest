@@ -44,7 +44,7 @@ const TutorDashboard = ({ auth : { user }}) => {
 
     // when the user selects tutor, we will render the tutor dashboard
     if (role === 'tutee') {
-        return <Navigate to="/TuteeDashboard" />;
+        return <Navigate to="/profiles" />;
     }    
     
     const {subjectList, highestQualification, description, tutees} = data;

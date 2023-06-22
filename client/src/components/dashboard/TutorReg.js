@@ -117,7 +117,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   if (role === "tutor" && user && user.isTutor) {
     return <Navigate to="/TutorDashboard" />;
   } else if (role === "tutee") {
-    return <Navigate to="/TuteeDashboard" />;
+    return <Navigate to="/profiles" />;
   }
 
   return (

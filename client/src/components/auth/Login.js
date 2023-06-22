@@ -26,7 +26,7 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
   if (isAuthenticated && user && user.isTutor) {
     return <Navigate to="/TutorDashboard" />;
   } else if (isAuthenticated && user && !user.isTutor) {
-    return <Navigate to="/TuteeDashboard" />;
+    return <Navigate to="/profiles" />;
   }
 
   return (

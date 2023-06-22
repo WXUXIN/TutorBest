@@ -6,6 +6,7 @@ import {
   GET_PROFILES,
   CLEAR_PROFILES,
   GET_FILTERED_PROFILES,
+  GET_REGISTERED_PROFILES
 } from "../actions/types";
 
 const initialState = {
@@ -28,6 +29,7 @@ function profileReducer(state = initialState, action) {
       };
     case GET_PROFILES:
     case GET_FILTERED_PROFILES:
+    case GET_REGISTERED_PROFILES:
       return {
         ...state,
         profiles: payload,

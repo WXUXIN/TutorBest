@@ -38,7 +38,6 @@ const TutorSchema = new mongoose.Schema({
   highestQualification: {
     type: "String",
     required: true,
-    default: ""
   },
 
   // Each tutor can have multiple tutees, so we store them in an array
@@ -50,8 +49,7 @@ const TutorSchema = new mongoose.Schema({
     },
   ],
   description: {
-    type: String,
-    default: "",
+    type: String
   },
 });
 

@@ -12,8 +12,7 @@ const TuteeSchema = new mongoose.Schema({
       tutor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",
-      },
-      default: []
+      }
     },
   ],
   reviews: [
@@ -23,8 +22,7 @@ const TuteeSchema = new mongoose.Schema({
       },
       tutor: {
         type: String,
-      },
-      default: []
+      }
     },
   ],
 });

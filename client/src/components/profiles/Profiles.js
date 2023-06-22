@@ -169,6 +169,12 @@ const Profiles = ({
           Search for tutors
         </button>
 
+        <Link to={`/registered-tutors/${user._id} `} className='btn btn-primary'>
+          View all YOUR tutors
+        </Link>
+
+        
+
         {profilesList.length > 0 ? (
           <Fragment>
             {profilesList.map((profile) => (

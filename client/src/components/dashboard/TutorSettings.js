@@ -194,7 +194,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
   // Makes sure no tuteee can access this page
   if (isAuthenticated && user && !user.isTutor) {
-    return <Navigate to="/TuteeDashboard" />;
+    return <Navigate to="/profiles" />;
   }
 
   // Make sure that the website is ready to track the user data

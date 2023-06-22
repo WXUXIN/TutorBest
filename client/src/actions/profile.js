@@ -6,6 +6,7 @@ import {
   UPDATE_PROFILE,
   GET_PROFILES,
   GET_FILTERED_PROFILES,
+  GET_REGISTERED_PROFILES,
   CLEAR_PROFILES,
   GET_REPOS,
   NO_REPOS,
@@ -98,10 +99,23 @@ export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) =
   }
 };
 
+export const getRegisteredProfiles = (user_id) => async (dispatch) => {
+  try {
+    console.log("getting the registered profiles");
+    const res = await axios.get(`/api/profile/registeredTutors/${user_id}`);
+
+    dispatch({
+      type: GET_REGISTERED_PROFILES,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const clearProfiles = () => async (dispatch) => {
   // I need to clear the profiles in the state
-  console.log("clearing profiles, to be replaced by filtered profiles");
-  dispatch({
+    dispatch({
     type: CLEAR_PROFILES
   });
 };

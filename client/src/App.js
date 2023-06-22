@@ -22,6 +22,7 @@ import RateTutor from './components/ratingsystem/RateTutor';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import FilteredProfiles from './components/profiles/FilteredProfiles';
+import RegisteredTutors from './components/profiles/RegisteredTutors';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -59,12 +60,13 @@ const App = () => {
           <Route path='/profiles' element={<Profiles />}/>
 
           <Route
+            path="/registered-tutors/:id"
+            element={<PrivateRoute component={RegisteredTutors} />}
+          />
+
+          <Route
             path="/TutorDashboard"
             element={<PrivateRoute component={TutorDashboard} />}
-          />
-          <Route
-            path="/TuteeDashboard"
-            element={<PrivateRoute component={TuteeDashboard} />}
           />
           <Route
             path="/TutorReg"
