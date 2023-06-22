@@ -5,13 +5,20 @@ import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getProfileById } from "../../actions/profile";
-import { findCurrentTutors, makePair } from "../../actions/auth";
+import { findCurrentTutors, makePair, findTutorById, handleRateTutor } from "../../actions/auth";
+import RatingTutor from "../ratingsystem/RateTutor";
 
 
 const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
   // This gets the id from the url
   // profile id
   const { id } = useParams();
+  const [isRatingVisible, setIsRatingVisible] = useState(false);
+
+
+  const toggleRatingVisibility = () => {
+    setIsRatingVisible(!isRatingVisible);
+  };
 
     // control state of whether the tutor and tutee is linked to render link button
     const [isLinked, setIsLinked] = useState(false);
@@ -77,12 +84,6 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
     return Math.round(average * 100) / 100;
   };
 
-  console.log(profile);
-
-  isTutorLinked().then((result) => {
-    console.log(result);
-  });
-
   return (
     <section className="container">
       <h1>Profile</h1>
@@ -127,8 +128,17 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
       </div>
       
       {/* rating tutor link */}
-      {auth.isAuthenticated && auth.loading === false &&  !hasRated && (
-        <Link to= {`/tutor/${profile.user._id}`}>Rate Tutor!</Link>
+      {auth.isAuthenticated && auth.loading === false && isLinked && !hasRated && (
+        <>
+          <button onClick={toggleRatingVisibility}>Rate Tutor!</button>
+          {isRatingVisible && (
+            <RatingTutor tutorId={profile.user._id}
+              findTutorById={findTutorById}
+              handleRateTutor={handleRateTutor}
+              auth={auth}
+            />
+          )}
+        </>
       )}
           
       {!auth.isAuthenticated && auth.loading === false && (

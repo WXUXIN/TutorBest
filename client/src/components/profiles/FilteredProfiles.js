@@ -178,7 +178,19 @@ const FilteredProfiles = ({
   // I want to now filter the list of tutors based on the level of study and subject that
   // the student has selected
   return (
-    <section className="container">
+    <section className="dark-overlay-bg">
+    <div className="background-image-container"></div>
+    
+    <div className="container">
+      <div className="box-container"
+            style={{
+              backgroundColor: "grey",
+              padding: "100px 20px 100px",
+              opacity: "1",
+              borderRadius: "30px",
+              position: "relative",
+            }}
+          >
       {isAuthenticated && (
         <h1>
           I am a
@@ -278,7 +290,11 @@ const FilteredProfiles = ({
       ) : (
         <h4>No profiles found...</h4>
       )}
+    
+        </div>
+    </div>
     </section>
+    
   );
 };
 

@@ -8,10 +8,11 @@ import { useEffect } from "react";
 
 
 // page where tutees can rate their tutor
-const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
+const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) => {
 
     // fetching the tutorId from the url. refers to USER ID of tutor in the user model of the tutor's model
-    const { tutorId } = useParams();
+
+    console.log(tutorId);
 
     const [tutor, setTutor] = useState(null);
 
@@ -80,6 +81,7 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
     
     // propTypes object is used for type checking and validation of the props passed to the component.
     RatingTutor.propTypes = {
+        tutorId: PropTypes.string.isRequired,
         findTutorById: PropTypes.func.isRequired,
         handleRateTutor: PropTypes.func.isRequired,
         auth: PropTypes.object.isRequired
