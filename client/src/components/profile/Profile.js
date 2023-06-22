@@ -16,6 +16,19 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
     // control state of whether the tutor and tutee is linked to render link button
     const [isLinked, setIsLinked] = useState(false);
 
+    // control state of whether the tutee has rated the tutor
+    const [hasRated, setHasRated] = useState(false);
+
+    // function to check if tutor and tutee have linked and change the state of isLinked
+    async function isTutorLinked() {
+      try {
+        const tutors = await findCurrentTutors(auth.user._id);
+        const tutorIDs = tutors.map((tutor) => tutor.user._id);
+        return tutorIDs.includes(profile.user._id);
+      } catch (error) {
+        console.error("Error retrieving tutors:", error);
+      }
+    }
     useEffect(() => {
       const checkTutorLink = async () => {
         try {
@@ -23,12 +36,20 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
           setIsLinked(linked);
         } catch (error) {
           console.error("Error retrieving tutors:", error);
-          // Handle the error appropriately
         }
       };
-  
       checkTutorLink();
     }, []);
+
+  
+    // function to check if tutor and tutee have linked and change the state of isLinked
+    useEffect(() => {
+      if (profile && profile.ratings.length > 0) {
+        const tuteeIds = profile.ratings.map((rating) => rating.tutee);
+        const tuteeId = auth.user._id;
+        setHasRated(tuteeIds.includes(tuteeId));
+      }
+    }, [profile, auth.user._id]);
 
   // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
   useEffect(() => {
@@ -58,21 +79,10 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
 
   console.log(profile);
 
-  async function isTutorLinked() {
-    try {
-      const tutors = await findCurrentTutors(auth.user._id);
-      const tutorIDs = tutors.map((tutor) => tutor.user._id);
-      return tutorIDs.includes(profile.user._id);
-    } catch (error) {
-      console.error("Error retrieving tutors:", error);
-      // Handle the error appropriately
-    }
-  }
-  // function isLinked() { return isTutorLinked() };
-
   isTutorLinked().then((result) => {
     console.log(result);
   });
+
   return (
     <section className="container">
       <h1>Profile</h1>
@@ -117,7 +127,7 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
       </div>
       
       {/* rating tutor link */}
-      {auth.isAuthenticated && auth.loading === false && (
+      {auth.isAuthenticated && auth.loading === false &&  !hasRated && (
         <Link to= {`/tutor/${profile.user._id}`}>Rate Tutor!</Link>
       )}
           
