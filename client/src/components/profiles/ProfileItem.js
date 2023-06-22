@@ -11,7 +11,7 @@ const ProfileItem = ({
   }
 }) => {
   return (
-    <div className='profile bg-light'>
+    <div className='profile bg-light normal-text'>
       <div>
         <h2>{name}</h2>
         

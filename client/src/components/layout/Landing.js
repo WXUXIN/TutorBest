@@ -67,11 +67,8 @@ export default function Landing() {
         <div
           className="box-container"
           style={{
-            backgroundColor: "grey",
             padding: "100px 20px 100px",
-            opacity: "1",
-            borderRadius: "30px",
-            position: "relative",
+ 
           }}
         >
           <h1 className="x-large-landing">
