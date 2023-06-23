@@ -52,41 +52,47 @@ const TutorDashboard = ({ auth : { user }}) => {
     console.log(subjectList);
     return (
         <section className="container">
-          <h1>
-            I am a
-                <select value={role} onChange={handleChangeRoles}>
-                    <option value="tutee">tutee</option>
-                    <option value="tutor">tutor</option>
-                </select>
-            </h1>
-            
-            <h1>Welcome {user && user.name}</h1>
-            <h1>This will be the Tutor's dashboard</h1>
-            <h1>These are the subjects you are teaching:</h1>
-            <>
-                {subjectList.map((subject, index) => (
-                    <div key={index}>
-                        <>Subject: {subject.subject}</>
-                        <>Level: {subject.level}</>
-                        <>Price: {subject.price}/hr</>
-                    </div>
-                ))}
-            </>
-            <h1>Your Description</h1>
-            <>
-            {description ? description : "You have not written a description yet"}
-            </>
+          <div className="dark-overlay-bg"></div>
+          <div className="background-image-container"></div>
+            <div className="box-container">
+              <h1 className="normal-text">
+                I am a
+                    <select value={role} onChange={handleChangeRoles} className="role-dropdown">
+                        <option value="tutee">tutee</option>
+                        <option value="tutor">tutor</option>
+                    </select>
+                </h1>
+                
+                <h1 className="normal-text" style={{ marginTop: "20px" }}> Welcome {user && <span style={{ fontWeight: 'bold', fontSize: "25px" }}>{user.name}</span>}</h1>
+                <h1 className="normal-text" style={{ marginTop:"20px"}}>This will be the Tutor's dashboard</h1>
+                <h1 className="normal-text" style={{ marginTop:"20px"}}>These are the subjects you are teaching:</h1>
+                <>
+                    {subjectList.map((subject, index) => (
+                        <div className="normal-text" style={{ marginTop:"20px"}} key={index}>
+                          <ul style={{ listStyleType: "disc", marginLeft: "20px", marginBottom: "10px" }}>
+                          <li>
+                            Subject: {subject.subject} | Level: {subject.level} | Price: {subject.price}/hr
+                          </li>
+                          </ul>
+                        </div>
+                    ))}
+                </>
+                <h1 className="normal-text" style={{ marginTop:"20px",  marginBottom:"10px"}}>Your Description:</h1>
+                <div className='white-box normal-text'>
+                  {description ? description : "You have not written a description yet"}
+                </div>
 
-            <h1>Highest Qualification</h1>
-            <>
-            {highestQualification}
-            </>
+                <h1 className="normal-text" style={{ marginTop:"20px", marginBottom:"10px"}}>Highest Qualification:</h1>
+                <div className='normal-text' style={{ marginBottom:"20px"}}>
+                  {highestQualification}
+                </div>
 
-            <form>
-            <Link to="/TutorSettings">            
-                <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Edit" />
-            </Link>
-            </form>
+                <form>
+                <Link to="/TutorSettings">            
+                    <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary" value="Edit" />
+                </Link>
+                </form>
+              </div>
         </section>
     );
 }

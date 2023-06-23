@@ -8,14 +8,17 @@ import { useEffect } from "react";
 
 
 // page where tutees can rate their tutor
-const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
+const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) => {
 
     // fetching the tutorId from the url. refers to USER ID of tutor in the user model of the tutor's model
-    const { tutorId } = useParams();
+
+    console.log(tutorId);
 
     const [tutor, setTutor] = useState(null);
 
     const [rating, setRating] = useState(0);
+
+    const [isRated, setIsRated] = useState(false);
 
 
     useEffect(() => {
@@ -60,26 +63,36 @@ const RatingTutor = ({ findTutorById, handleRateTutor, auth:{user} }) => {
     // pass in the fields needed to update tutor rating, tutor's user id, rating and the tutee's user id
     const rateTutor = () => {
         handleRateTutor(tutorId, rating, user._id);
+        setIsRated(true);
     };
 
     // Display a loading state until the tutor data is fetched, or not when theres no tutor(tutor = null) system cant run
     if (!tutor) {
       return <div>
-            <h1>Loading tutor...</h1>
+            <h1 className="normal-text" style={{marginTop: '10px'}}>Loading tutor...</h1>
           </div>
     }
 
     return (
-        <div style={{marginTop: '120px'}}>
-            <h1>{tutor.user.name}</h1>
-            <Stars initialRating= "0"/>  
-            <button onClick={rateTutor}>Rate tutor</button>        
-        </div>
+      <div>
+        {!isRated ? (
+          <div style={{marginTop: '20px'}}>
+              <h1 className="normal-text">Click Stars to Rate!</h1>
+              <Stars initialRating= "0"/>  
+              <button style={{ border: "1px solid #000000",  padding: "10px" }} className="normal-text" onClick={rateTutor}>Rate</button>        
+          </div>
+        ) : (
+          <div style={{marginTop: '20px'}}>
+            <h1 className="normal-text">Tutor has been rated!</h1>
+          </div>
+        )}
+      </div>
     )}
 
     
     // propTypes object is used for type checking and validation of the props passed to the component.
     RatingTutor.propTypes = {
+        tutorId: PropTypes.string.isRequired,
         findTutorById: PropTypes.func.isRequired,
         handleRateTutor: PropTypes.func.isRequired,
         auth: PropTypes.object.isRequired

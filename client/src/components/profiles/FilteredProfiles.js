@@ -183,70 +183,86 @@ const FilteredProfiles = ({
   // I want to now filter the list of tutors based on the level of study and subject that
   // the student has selected
   return (
-    <section className="container">
+    <section className="dark-overlay-bg">
+    <div className="background-image-container"></div>
+    
+    <div className="container">
+      <div className="box-container">
       {isAuthenticated && (
-        <h1>
+        <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
           I am a
-          <select value={role} onChange={handleChangeRoles}>
+          <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
             <option value="tutee">tutee</option>
             <option value="tutor">tutor</option>
           </select>
         </h1>
       )}
+            
+      <div style={{ marginTop: "20px" }}>
+        <select
+          value={levelOfStudy}
+          onChange={handleLevelOfStudyChange}
+          className="dropdown normal-text"
+          style={{
+            fontSize: "inherit",
+            backgroundColor: "grey",
+            color: "#e9c78c",
+            borderRadius: "30px",
+            textAlign: "center",
+            padding: "8px",
+            width: "200px",
+            float: "left",
+            marginRight: "10px"
+          }}
+        >
+          <option value="">Level of Study</option>
+          {levelOfStudyTemplate.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
 
-      <select
-        value={levelOfStudy}
-        onChange={handleLevelOfStudyChange}
-        className="dropdown"
-        style={{
-          fontSize: "inherit",
-          backgroundColor: "grey",
-          color: "#e9c78c",
-          borderRadius: "30px",
-          textAlign: "center",
-          padding: "8px",
-        }}
-      >
-        <option value="">Level of Study</option>
-        {levelOfStudyTemplate.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={subject}
-        onChange={handleSubjectChange}
-        className="dropdown"
-        style={{
-          fontSize: "inherit",
-          backgroundColor: "grey",
-          color: "#e9c78c",
-          borderRadius: "30px",
-          textAlign: "center",
-          padding: "8px",
-        }}
-        disabled={subjectOptions.length === 0}
-      >
-        {subjectOptions.length === 0 ? (
-          <option value="">Select level of study</option>
-        ) : (
-          <>
-            <option value="">Select subject</option>
-            {subjectOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </>
-        )}
-      </select>
+        <select
+          value={subject}
+          onChange={handleSubjectChange}
+          className="dropdown normal-text"
+          style={{
+            fontSize: "inherit",
+            backgroundColor: "grey",
+            color: "#e9c78c",
+            borderRadius: "30px",
+            textAlign: "center",
+            padding: "8px",
+            width: "200px",
+            float: "left",
+          }}
+          disabled={subjectOptions.length === 0}
+        >
+          {subjectOptions.length === 0 ? (
+            <option value="">Select level of study</option>
+          ) : (
+            <>
+              <option value="">Select subject</option>
+              {subjectOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </>
+          )}
+        </select>
+      
 
       <button
         className="btn btn-primary"
         disabled={!levelOfStudy || !subject}
         onClick={handleSearch}
+        style={{
+          textAlign: "center",
+          borderRadius: "30px",
+          marginLeft: "30px"
+        }}
       >
         Search for tutors
       </button>
@@ -257,7 +273,7 @@ const FilteredProfiles = ({
           sortProfiles(profilesList, e.target.value);
           setSortBy(e.target.value);
         }}
-        className="dropdown"
+        className="dropdown normal-text"
         style={{
           fontSize: "inherit",
           backgroundColor: "grey",
@@ -265,6 +281,8 @@ const FilteredProfiles = ({
           borderRadius: "30px",
           textAlign: "center",
           padding: "8px",
+          marginLeft: "60px"
+
         }}
       >
         <option disabled value="">
@@ -273,7 +291,9 @@ const FilteredProfiles = ({
         <option value="Pricing - Low to High">Pricing - Low to High</option>
         <option value="Pricing - High to Low">Pricing - High to Low</option>
       </select>
-
+      </div>
+      
+      <div style={{ marginTop: '10px' }}>
       {profilesList.length > 0 ? (
         <Fragment>
           {profilesList.map((profile) => (
@@ -283,7 +303,12 @@ const FilteredProfiles = ({
       ) : (
         <h4>No profiles found...</h4>
       )}
+      </div>
+    
+        </div>
+    </div>
     </section>
+    
   );
 };
 

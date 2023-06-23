@@ -99,74 +99,83 @@ const Profiles = ({
     // Display all the profiles of tutors in the database
 
     return (
-      <section className="container">
+      <section className="dark-overlay-bg">
+      <div className="background-image-container"></div>
+
+      <div className="container">
+        <div className="box-container">
         {isAuthenticated && (
-          <h1>
+          <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
             I am a
-            <select value={role} onChange={handleChangeRoles}>
+            <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
               <option value="tutee">tutee</option>
               <option value="tutor">tutor</option>
             </select>
           </h1>
         )}
+        <div style={{ marginTop: "20px", marginBottom:"20px" }}>
 
-        <div style={{ marginRight: "10px" }}>
-          <select
-            value={levelOfStudy}
-            onChange={handleLevelOfStudyChange}
-            className="dropdown"
-            style={{
-              fontSize: "inherit",
-              backgroundColor: "grey",
-              color: "#e9c78c",
-              borderRadius: "30px",
-              textAlign: "center",
-              padding: "8px",
-            }}
-          >
-            <option value="">Level of Study</option>
-            {levelOfStudyTemplate.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-
-            {/* <option value="Primary School">Primary School</option>
-            <option value="Secondary School">Secondary School</option>
-            <option value="Junior College">Junior College</option> */}
-          </select>
-        </div>
-
-        <div style={{ marginRight: "10px" }}>
-          <select
-            value={subject}
-            onChange={handleSubjectChange}
-            className="dropdown"
-            style={{
-              fontSize: "inherit",
-              backgroundColor: "grey",
-              color: "#e9c78c",
-              borderRadius: "30px",
-              textAlign: "center",
-              padding: "8px",
-            }}
-            disabled={subjectOptions.length === 0}
-          >
-            {subjectOptions.length === 0 ? (
-              <option value="">Select level of study</option>
-            ) : (
-              <>
-                <option value="">Select subject</option>
-                {subjectOptions.map((option) => (
-                  <option key={option} value={option}>
+          <div style={{ marginRight: '10px' }}>
+            <select
+              value={levelOfStudy}
+              onChange={handleLevelOfStudyChange}
+              className="dropdown"
+              style={{
+                fontSize: "inherit",
+                backgroundColor: "grey",
+                color: "#e9c78c",
+                borderRadius: "30px",
+                textAlign: "center",
+                padding: "8px",
+                float: "left",
+                marginRight: "10px"
+              }}
+            >
+              <option value="">Level of Study</option>
+              {levelOfStudyTemplate.map((option) => (
+                <option key={option} value={option}>
                     {option}
-                  </option>
+                </option>
                 ))}
-              </>
-            )}
-          </select>
-        </div>
 
+              {/* <option value="Primary School">Primary School</option>
+              <option value="Secondary School">Secondary School</option>
+              <option value="Junior College">Junior College</option> */}
+            </select>
+          </div>
+          
+          <div style={{ marginRight: '10px' }}>
+            <select
+              value={subject}
+              onChange={handleSubjectChange}
+              className="dropdown"
+              style={{
+                fontSize: "inherit",
+                backgroundColor: "grey",
+                color: "#e9c78c",
+                borderRadius: "30px",
+                textAlign: "center",
+                padding: "8px",
+                float: "left",
+                marginRight: "10px"
+              }}
+              disabled={subjectOptions.length === 0}
+            >
+              {subjectOptions.length === 0 ? (
+                <option value="">Select level of study</option>
+              ) : (
+                <>
+                  <option value="">Select subject</option>
+                  {subjectOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </>
+              )}
+            </select>
+          </div>
+        
         <button
           className="btn btn-primary"
           disabled={!levelOfStudy || !subject}
@@ -193,6 +202,9 @@ const Profiles = ({
         ) : ( (profiles.profiles.length === 0 && !profiles.loading)
            ? (<h4>No profiles found...</h4>) : (<Spinner />)
         )}
+          </div>
+        </div>
+      </div>
       </section>
     );
   };

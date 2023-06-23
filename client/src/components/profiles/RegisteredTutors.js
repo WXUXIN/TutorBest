@@ -99,16 +99,22 @@ const RegisterdTutors = ({
     // Display all the profiles of tutors in the database
 
     return (
-      <section className="container">
+      <section className="dark-overlay-bg">
+      <div className="background-image-container"></div>
+      
+      <div className="container">
+        <div className="box-container">
         {isAuthenticated && (
-          <h1>
+          <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
             I am a
-            <select value={role} onChange={handleChangeRoles}>
+            <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
               <option value="tutee">tutee</option>
               <option value="tutor">tutor</option>
             </select>
           </h1>
         )}
+
+        <div style={{ marginTop: "20px", marginBottom:"20px" }}>
 
         <div style={{ marginRight: "10px" }}>
           <select
@@ -122,6 +128,8 @@ const RegisterdTutors = ({
               borderRadius: "30px",
               textAlign: "center",
               padding: "8px",
+              float: "left",
+              marginRight: "10px"
             }}
           >
             <option value="">Level of Study</option>
@@ -149,6 +157,8 @@ const RegisterdTutors = ({
               borderRadius: "30px",
               textAlign: "center",
               padding: "8px",
+              float: "left",
+              marginRight: "10px"
             }}
             disabled={subjectOptions.length === 0}
           >
@@ -182,6 +192,8 @@ const RegisterdTutors = ({
           View all YOUR tutors
         </Link>
 
+        </div>
+
         {profilesList.length > 0 ? (
           <Fragment>
             {profilesList.map((profile) => (
@@ -191,6 +203,8 @@ const RegisterdTutors = ({
         ) : (
           <h4>No profiles found...</h4>
         )}
+        </div>
+        </div>
       </section>
     );
   };
