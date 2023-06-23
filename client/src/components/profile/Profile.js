@@ -131,7 +131,10 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
           {auth.isAuthenticated && auth.loading === false && !isLinked && (
             // Link with tutor button
             <button
-              onClick={() => makePair(profile.user._id, auth.user._id)}
+              onClick={() => {
+                makePair(profile.user._id, auth.user._id);
+                setIsLinked(true);
+              }}
               className="btn btn-primary"
             >
               Link with tutor

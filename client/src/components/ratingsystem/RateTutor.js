@@ -18,6 +18,8 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
 
     const [rating, setRating] = useState(0);
 
+    const [isRated, setIsRated] = useState(false);
+
 
     useEffect(() => {
         const fetchTutor = async () => {
@@ -61,6 +63,7 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
     // pass in the fields needed to update tutor rating, tutor's user id, rating and the tutee's user id
     const rateTutor = () => {
         handleRateTutor(tutorId, rating, user._id);
+        setIsRated(true);
     };
 
     // Display a loading state until the tutor data is fetched, or not when theres no tutor(tutor = null) system cant run
@@ -71,11 +74,19 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
     }
 
     return (
-        <div style={{marginTop: '20px'}}>
-            <h1 className="normal-text">Click Stars to Rate!</h1>
-            <Stars initialRating= "0"/>  
-            <button style={{ border: "1px solid #000000",  padding: "10px" }} className="normal-text" onClick={rateTutor}>Rate</button>        
-        </div>
+      <div>
+        {!isRated ? (
+          <div style={{marginTop: '20px'}}>
+              <h1 className="normal-text">Click Stars to Rate!</h1>
+              <Stars initialRating= "0"/>  
+              <button style={{ border: "1px solid #000000",  padding: "10px" }} className="normal-text" onClick={rateTutor}>Rate</button>        
+          </div>
+        ) : (
+          <div style={{marginTop: '20px'}}>
+            <h1 className="normal-text">Tutor has been rated!</h1>
+          </div>
+        )}
+      </div>
     )}
 
     
