@@ -63,8 +63,7 @@ const TutorDashboard = ({ auth : { user }}) => {
                     </select>
                 </h1>
                 
-                <h1 className="normal-text" style={{ marginTop: "20px" }}> Welcome {user && <span style={{ fontWeight: 'bold', fontSize: "25px" }}>{user.name}</span>}
-</h1>
+                <h1 className="normal-text" style={{ marginTop: "20px" }}> Welcome {user && <span style={{ fontWeight: 'bold', fontSize: "25px" }}>{user.name}</span>}</h1>
                 <h1 className="normal-text" style={{ marginTop:"20px"}}>This will be the Tutor's dashboard</h1>
                 <h1 className="normal-text" style={{ marginTop:"20px"}}>These are the subjects you are teaching:</h1>
                 <>
@@ -78,15 +77,15 @@ const TutorDashboard = ({ auth : { user }}) => {
                         </div>
                     ))}
                 </>
-                <h1 className="normal-text" style={{ marginTop:"20px"}}>Your Description</h1>
-                <>
-                {description ? description : "You have not written a description yet"}
-                </>
+                <h1 className="normal-text" style={{ marginTop:"20px",  marginBottom:"10px"}}>Your Description:</h1>
+                <div className='white-box normal-text'>
+                  {description ? description : "You have not written a description yet"}
+                </div>
 
-                <h1 className="normal-text" style={{ marginTop:"20px"}}>Highest Qualification</h1>
-                <>
-                {highestQualification}
-                </>
+                <h1 className="normal-text" style={{ marginTop:"20px", marginBottom:"10px"}}>Highest Qualification:</h1>
+                <div className='normal-text' style={{ marginBottom:"20px"}}>
+                  {highestQualification}
+                </div>
 
                 <form>
                 <Link to="/TutorSettings">            

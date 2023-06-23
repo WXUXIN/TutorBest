@@ -135,8 +135,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   }
 
   return (
-    <section className="container">
-      <h1 className="large text-primary">Sign Up</h1>
+    <section  className="dark-overlay-bg">
+    <div className="background-image-container"></div>
+
+    <div className="container">
+      <div className="box-container">
+      <h1 className="large text-primary" style={{color:"black"}}>Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" /> Create Your Account
       </p>
@@ -364,9 +368,11 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
         />
       </form>
 
-      <p className="my-1">
+      <p className="my-1" style={{ fontWeight: 'bold' }}>
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
+      </div>
+      </div>
     </section>
   );
 };

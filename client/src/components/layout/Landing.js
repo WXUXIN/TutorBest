@@ -133,9 +133,9 @@ export default function Landing() {
               style={{
                 fontFamily: "Josefin Sans",
                 alignSelf: "flex-start",
-                backgroundColor: "#0B1B3D",
-                color: "white",
-                borderRadius: "5px",
+                backgroundColor: "#e9c78c",
+                color: "black",
+                borderRadius: "20px",
                 padding: "20px 30px",
                 border: "none",
                 outline: "none",

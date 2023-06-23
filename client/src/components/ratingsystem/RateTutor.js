@@ -66,15 +66,15 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
     // Display a loading state until the tutor data is fetched, or not when theres no tutor(tutor = null) system cant run
     if (!tutor) {
       return <div>
-            <h1>Loading tutor...</h1>
+            <h1 className="normal-text" style={{marginTop: '10px'}}>Loading tutor...</h1>
           </div>
     }
 
     return (
-        <div style={{marginTop: '120px'}}>
-            <h1>{tutor.user.name}</h1>
+        <div style={{marginTop: '20px'}}>
+            <h1 className="normal-text">Click Stars to Rate!</h1>
             <Stars initialRating= "0"/>  
-            <button onClick={rateTutor}>Rate tutor</button>        
+            <button style={{ border: "1px solid #000000",  padding: "10px" }} className="normal-text" onClick={rateTutor}>Rate</button>        
         </div>
     )}
 

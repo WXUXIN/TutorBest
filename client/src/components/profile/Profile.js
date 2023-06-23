@@ -85,68 +85,82 @@ const Profile = ({ getProfileById, auth, profiles: { profile }, makePair }) => {
   };
 
   return (
-    <section className="container">
-      <h1>Profile</h1>
-      <Fragment>
-        <h1>Tutor's name: {profile.user.name}</h1>
-        <h1>Tutor's rating: {getAverageRatings(profile.ratings)} </h1>
-        <h1>Tutor's email: {profile.user.email}</h1>
-        <h1>Tutor's description: {profile.description}</h1>
-        <h1>Tutor's subjects:</h1>
-        {profile.subjectList.length > 0 ? (
-          profile.subjectList.map((subject, index) => (
-            <Fragment key={index}>
-              <h1>Subject Name: {subject.subject}</h1>
-              <h1>Level: {subject.level}</h1>
-              <h1>Rate: ${subject.price}/hr</h1>
-            </Fragment>
-          ))
-        ) : (
-          <h1>No subjects</h1>
-        )}
-      </Fragment>
+    <section className="dark-overlay-bg">
+      <div className="background-image-container"></div>
+      <div className="container">
+        <div className="box-container">
 
-      {auth.isAuthenticated && auth.loading === false && (
-        // Chat with tutor button
-        <Link to={`/chat/${profile.user._id}`} className="btn btn-primary">
-          Chat with tutor
-        </Link>
-      )}
+          <h1 className="normal-text" style={{ fontWeight: 'bold', fontSize: "25px" }}>Profile</h1>
+          <Fragment>
+            <h1 className="normal-text" style={{ marginTop: "20px" }} >Tutor's name: {profile.user.name}</h1>
+            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's rating: {getAverageRatings(profile.ratings)} /5 </h1>
+            <h1 className="normal-text" style={{ marginTop: "20px" }}> Tutor's email: {profile.user.email}</h1>
+            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's subjects:</h1>
 
-      {/* if user is logged in */}
-      <div style={{ marginTop: '20px'}}>
-        
-      {auth.isAuthenticated && auth.loading === false && !isLinked && (
-        // Link with tutor button
-        <button
-          onClick={() => makePair(profile.user._id, auth.user._id)}
-          style={{ border: '1px solid #000' }}
-        >
-          Link with tutor
-        </button>
-      )}
-      </div>
-      
-      {/* rating tutor link */}
-      {auth.isAuthenticated && auth.loading === false && isLinked && !hasRated && (
-        <>
-          <button onClick={toggleRatingVisibility}>Rate Tutor!</button>
-          {isRatingVisible && (
-            <RatingTutor tutorId={profile.user._id}
-              findTutorById={findTutorById}
-              handleRateTutor={handleRateTutor}
-              auth={auth}
-            />
+            {profile.subjectList.length > 0 ? (
+              profile.subjectList.map((subject, index) => (
+                <div className="normal-text" style={{ marginTop:"20px", marginBottom:"20px"}} key={index}>
+                  <ul style={{ listStyleType: "disc", marginLeft: "20px", marginBottom: "10px" }}>
+                      <li>
+                        Subject: {subject.subject} | Level: {subject.level} | Price: ${subject.price}/hr
+                      </li>
+                    </ul>
+                </div>
+              ))
+            ) : (
+              <h1>No subjects</h1>
+            )}
+          </Fragment>
+
+          <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's description:</h1>
+           <div className="white-box">
+            {profile.description}
+           </div>
+
+
+          {auth.isAuthenticated && auth.loading === false && (
+            // Chat with tutor button
+            <Link to={`/chat/${profile.user._id}`} className="btn btn-primary">
+              Chat with tutor
+            </Link>
           )}
-        </>
-      )}
+
+          {/* if user is logged in */}
+          <div style={{ marginTop: '20px'}}>
+            
+          {auth.isAuthenticated && auth.loading === false && !isLinked && (
+            // Link with tutor button
+            <button
+              onClick={() => makePair(profile.user._id, auth.user._id)}
+              className="btn btn-primary"
+            >
+              Link with tutor
+            </button>
+          )}
+          </div>
           
-      {!auth.isAuthenticated && auth.loading === false && (
-        // Chat with tutor button
-        <Link to={`/register`} className="btn btn-primary">
-          Sign up to chat!
-        </Link>
-      )}
+          {/* rating tutor link */}
+          {auth.isAuthenticated && auth.loading === false && isLinked && !hasRated && (
+            <>
+              <button className="btn btn-primary" onClick={toggleRatingVisibility}>Rate Tutor!</button>
+              {isRatingVisible && (
+                <RatingTutor tutorId={profile.user._id}
+                  findTutorById={findTutorById}
+                  handleRateTutor={handleRateTutor}
+                  auth={auth}
+                />
+              )}
+            </>
+          )}
+              
+          {!auth.isAuthenticated && auth.loading === false && (
+            // Chat with tutor button
+            <Link to={`/register`} className="btn btn-primary">
+              Sign up to chat!
+            </Link>
+          )}
+          </div>
+        </div>
     </section>
   );
 };

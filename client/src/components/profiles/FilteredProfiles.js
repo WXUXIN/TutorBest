@@ -186,7 +186,7 @@ const FilteredProfiles = ({
       {isAuthenticated && (
         <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
           I am a
-          <select style={{ marginLeft: "10px", borderRadius: "10px"}} value={role} onChange={handleChangeRoles}>
+          <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
             <option value="tutee">tutee</option>
             <option value="tutor">tutor</option>
           </select>

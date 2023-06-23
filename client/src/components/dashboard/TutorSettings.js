@@ -209,177 +209,182 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
   console.log(subjects, "123");
   return (
-    <section className="container">
-      <h1 className="large text-primary">Edit your information here</h1>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <small className="form-text">Name</small>
-          <input
-            type="text"
-            placeholder="Name"
-            name="name"
-            value={name}
-            onChange={(e) => onUserDataChange(e)}
-            disabled={true}
-          />
-        </div>
-
-        <div className="form-group">
-          <small className="form-text">Email</small>
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={(e) => onUserDataChange(e)}
-            disabled={true}
-          />
-        </div>
-
-        <div className="form-group">
-          <>
-            <div style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}>
-              Edit your subject(s):
-            </div>
-            {subjects.map((subject, index) => (
-              <div key={index} className="form-group">
-                <div className="subject-wrapper">
-                  <select
-                    value={subject.level}
-                    onChange={(e) => handleLevelChange(index, e.target.value)}
-                    className="my"
-                  >
-                    <option value="">* Select Level of Study</option>
-                    <option value="Primary School">Primary School</option>
-                    <option value="Secondary School">Secondary School</option>
-                    <option value="Junior College">Junior College</option>
-                  </select>
-
-                  {subject.level === "Primary School" && (
-                    <select
-                      value={subject.subject}
-                      onChange={(e) =>
-                        handleSubjectChange(index, e.target.value)
-                      }
-                      className="my"
-                    >
-                      <option value="">* Select Subject</option>
-                      <option value="Pri Math">Math</option>
-                      <option value="Pri Science">Science</option>
-                      <option value="Pri English">English</option>
-                    </select>
-                  )}
-
-                  {subject.level === "Secondary School" && (
-                    <select
-                      value={subject.subject}
-                      onChange={(e) =>
-                        handleSubjectChange(index, e.target.value)
-                      }
-                      className="my"
-                    >
-                      <option value="">* Select Subject</option>
-                      <option value="Sec History">History</option>
-                      <option value="Sec Computer Science">
-                        Computer Science
-                      </option>
-                    </select>
-                  )}
-
-                  {subject.level === "Junior College" && (
-                    <select
-                      value={subject.subject}
-                      onChange={(e) =>
-                        handleSubjectChange(index, e.target.value)
-                      }
-                      className="my"
-                    >
-                      <option value="">* Select Subject</option>
-                      <option value="JC Subject 1">JC Subject 1</option>
-                      <option value="JC Subject 2">JC Subject 2</option>
-                    </select>
-                  )}
-
-                  {subject.level !== "" && subject.subject !== "" && (
-                    <input
-                      type="text"
-                      placeholder="Price"
-                      name="price"
-                      value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
-                      onChange={(e) => handlePriceChange(index, e.target.value)}
-                      className="my"
-                    />
-                  )}
-
-                  <button
-                    type="button"
-                    className="btn cross-button"
-                    onClick={() => removeSubject(index)}
-                  >
-                    &#10005;
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            <button type="button" className="btn" onClick={addSubject}>
-              <span>&#43;</span>
-            </button>
-
-            {/* Qualification dropdown and input box */}
+    <section className="dark-overlay-bg">
+    <div className="background-image-container"></div>
+      <div className="container">
+        <div className="box-container">
+          <h1 className="large text-primary" style={{ color: "black"}}>Edit your information here</h1>
+          <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
-            <small>Highest Qualification:</small>
-              <div className="subject-wrapper">
-                <select
-                  value={hqTracker}
-                  name="hqTracker"
-                  onChange={(e) => setHqTracker(e.target.value)}
-                  className="my"
-                >
-                  <option value="">* Select your highest qualification</option>
-                  <option value="Secondary School">Secondary School</option>
-                  <option value="GCE A Levels">GCE A Levels</option>
-                  <option value="Undergraduate">Undergraduate</option>
-                  <option value="Graduate">Graduate</option>
-                  <option value="Others">Others</option>
-                </select>
+              <small className="form-text">Name</small>
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={name}
+                onChange={(e) => onUserDataChange(e)}
+                disabled={true}
+              />
+            </div>
 
-                {hqTracker === "Others" && (
-                  <input
-                    type="text"
-                    placeholder="Enter Other Qualification"
-                    name="otherQualification"
-                    value={otherQualification}
-                    // update the otherQualification state
-                    onChange={(e) => setOtherQualification(e.target.value)}
-                    className="my"
-                  />
-                )}
+            <div className="form-group">
+              <small className="form-text">Email</small>
+              <input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                value={email}
+                onChange={(e) => onUserDataChange(e)}
+                disabled={true}
+              />
+            </div>
+
+            <div className="form-group">
+              <>
+                <div style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}>
+                  Edit your subject(s):
+                </div>
+                {subjects.map((subject, index) => (
+                  <div key={index} className="form-group">
+                    <div className="subject-wrapper">
+                      <select
+                        value={subject.level}
+                        onChange={(e) => handleLevelChange(index, e.target.value)}
+                        className="my"
+                      >
+                        <option value="">* Select Level of Study</option>
+                        <option value="Primary School">Primary School</option>
+                        <option value="Secondary School">Secondary School</option>
+                        <option value="Junior College">Junior College</option>
+                      </select>
+
+                      {subject.level === "Primary School" && (
+                        <select
+                          value={subject.subject}
+                          onChange={(e) =>
+                            handleSubjectChange(index, e.target.value)
+                          }
+                          className="my"
+                        >
+                          <option value="">* Select Subject</option>
+                          <option value="Pri Math">Math</option>
+                          <option value="Pri Science">Science</option>
+                          <option value="Pri English">English</option>
+                        </select>
+                      )}
+
+                      {subject.level === "Secondary School" && (
+                        <select
+                          value={subject.subject}
+                          onChange={(e) =>
+                            handleSubjectChange(index, e.target.value)
+                          }
+                          className="my"
+                        >
+                          <option value="">* Select Subject</option>
+                          <option value="Sec History">History</option>
+                          <option value="Sec Computer Science">
+                            Computer Science
+                          </option>
+                        </select>
+                      )}
+
+                      {subject.level === "Junior College" && (
+                        <select
+                          value={subject.subject}
+                          onChange={(e) =>
+                            handleSubjectChange(index, e.target.value)
+                          }
+                          className="my"
+                        >
+                          <option value="">* Select Subject</option>
+                          <option value="JC Subject 1">JC Subject 1</option>
+                          <option value="JC Subject 2">JC Subject 2</option>
+                        </select>
+                      )}
+
+                      {subject.level !== "" && subject.subject !== "" && (
+                        <input
+                          type="text"
+                          placeholder="Price"
+                          name="price"
+                          value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
+                          onChange={(e) => handlePriceChange(index, e.target.value)}
+                          className="my"
+                        />
+                      )}
+
+                      <button
+                        type="button"
+                        className="btn cross-button"
+                        onClick={() => removeSubject(index)}
+                      >
+                        &#10005;
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                <button type="button" className="btn" onClick={addSubject}>
+                  <span>&#43;</span>
+                </button>
+
+                {/* Qualification dropdown and input box */}
+                <div className="form-group">
+                <small>Highest Qualification:</small>
+                  <div className="subject-wrapper">
+                    <select
+                      value={hqTracker}
+                      name="hqTracker"
+                      onChange={(e) => setHqTracker(e.target.value)}
+                      className="my"
+                    >
+                      <option value="">* Select your highest qualification</option>
+                      <option value="Secondary School">Secondary School</option>
+                      <option value="GCE A Levels">GCE A Levels</option>
+                      <option value="Undergraduate">Undergraduate</option>
+                      <option value="Graduate">Graduate</option>
+                      <option value="Others">Others</option>
+                    </select>
+
+                    {hqTracker === "Others" && (
+                      <input
+                        type="text"
+                        placeholder="Enter Other Qualification"
+                        name="otherQualification"
+                        value={otherQualification}
+                        // update the otherQualification state
+                        onChange={(e) => setOtherQualification(e.target.value)}
+                        className="my"
+                      />
+                    )}
+                  </div>
+                </div>
+              </>
+
+              {/* Description input box */}
+              <div className="form-group">
+                <small>Description:</small>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={descTracker}
+                  onChange={(e) => setDescTracker(e.target.value)}
+                  className="my"
+                  placeholder="Enter tutor description"
+                ></textarea>
               </div>
             </div>
-          </>
 
-          {/* Description input box */}
-          <div className="form-group">
-            <small>Description:</small>
-            <textarea
-              id="description"
-              name="description"
-              value={descTracker}
-              onChange={(e) => setDescTracker(e.target.value)}
-              className="my"
-              placeholder="Enter tutor description"
-            ></textarea>
+            <input
+              type="submit"
+              style={{ fontFamily: "Josefin Sans" }}
+              className="btn btn-primary"
+              value="Submit Edits"
+            />
+          </form>
           </div>
         </div>
-
-        <input
-          type="submit"
-          style={{ fontFamily: "Josefin Sans" }}
-          className="btn btn-primary"
-          value="Submit Edits"
-        />
-      </form>
     </section>
   );
 };
