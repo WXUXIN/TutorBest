@@ -11,7 +11,10 @@ import axios from "axios";
 import { useEffect } from "react";
 import { tutorSettings } from "../../actions/auth";
 import Spinner from "../layout/Spinner";
-
+import {
+  subjectOptionsData,
+  levelOfStudyTemplate,
+} from "../../subjectOptionsData";
 
 const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   // Every time the state changes, the component re-renders,
@@ -30,6 +33,8 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   const [descTracker, setDescTracker] = useState("");
 
   const [otherQualification, setOtherQualification] = useState("");
+
+  const [subjectOptions, setSubjectOptions] = useState([]);
 
   // This is to track if the user has submitted the form
   const [detailsUpdated, setDetailsUpdated] = useState(false);
@@ -54,10 +59,19 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
         setTutorData(tutorData);
 
         // Create a deep copy of subjectList and store it in subjects
-        const copiedSubjectList = tutorData.subjectList.map((subject) => ({
-          ...subject,
-        }));
-        
+        const copiedSubjectList = tutorData.subjectList.map((subject) => {
+          if (subject.level in subjectOptionsData) {
+            return {
+              ...subject,
+              subjectOptions: subjectOptionsData[subject.level],
+            };
+          } else {
+            return {
+              ...subject,
+            };
+          }
+        });
+
         // Set the states of all the trackers
         setSubjects(copiedSubjectList);
         setHqTracker(tutorData.highestQualification);
@@ -67,14 +81,16 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
         // and the otherQualification to being the current qualification
 
         if (
-          !["Secondary School", "GCE A Levels", "Undergraduate", "Graduate"].includes(
-            tutorData.highestQualification
-          )
+          ![
+            "Secondary School",
+            "GCE A Levels",
+            "Undergraduate",
+            "Graduate",
+          ].includes(tutorData.highestQualification)
         ) {
           setHqTracker("Others");
           setOtherQualification(tutorData.highestQualification);
         }
-
       } catch (error) {
         console.error(error);
         // Handle error
@@ -87,7 +103,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   const { name, email } = userData;
   const { subjectList, highestQualification, description } = tutorData;
 
-//   Event handler
+  //   Event handler
   const onUserDataChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
     console.log(userData, name);
@@ -115,8 +131,15 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
     } else if (emptyQualification()) {
       setAlert("Please fill in your highest qualification", "danger");
     } else {
-
-      const tempCompareList = purgeEmptySubjects(subjects);
+      console.log(subjects, "subjects");
+      let tempCompareList = purgeEmptySubjects(subjects);
+      console.log(tempCompareList, "subjects after filtering");
+      tempCompareList = tempCompareList.map((subject) => ({
+        // Remove subjectOptions from the subject object
+        subject: subject.subject,
+        level: subject.level,
+        price: subject.price,
+      }));
 
       const newSubjectList =
         JSON.stringify(tempCompareList) !== JSON.stringify(subjectList)
@@ -162,6 +185,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
       subject: "",
       level: "",
       price: "",
+      subjectOptions: [],
     };
     setSubjects([...subjects, newSubject]);
   };
@@ -169,6 +193,11 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   const handleLevelChange = (index, value) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
+    
+    if (value in subjectOptionsData) {
+      updatedSubjects[index].subjectOptions = subjectOptionsData[value];
+    } 
+
     setSubjects(updatedSubjects);
   };
 
@@ -210,13 +239,15 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   console.log(subjects, "123");
   return (
     <section className="dark-overlay-bg">
-    <div className="background-image-container"></div>
+      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
-          <h1 className="large text-primary" style={{ color: "black"}}>Edit your information here</h1>
+          <h1 className="large text-primary" style={{ color: "black" }}>
+            Edit your information here
+          </h1>
           <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
-              <small className="form-text">Name</small>
+              <small className="normal-text">Name</small>
               <input
                 type="text"
                 placeholder="Name"
@@ -228,7 +259,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
             </div>
 
             <div className="form-group">
-              <small className="form-text">Email</small>
+              <small className="normal-text">Email</small>
               <input
                 type="email"
                 placeholder="Email Address"
@@ -241,7 +272,9 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
             <div className="form-group">
               <>
-                <div style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}>
+                <div
+                  style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}
+                >
                   Edit your subject(s):
                 </div>
                 {subjects.map((subject, index) => (
@@ -249,16 +282,20 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                     <div className="subject-wrapper">
                       <select
                         value={subject.level}
-                        onChange={(e) => handleLevelChange(index, e.target.value)}
+                        onChange={(e) =>
+                          handleLevelChange(index, e.target.value)
+                        }
                         className="my"
                       >
                         <option value="">* Select Level of Study</option>
-                        <option value="Primary School">Primary School</option>
-                        <option value="Secondary School">Secondary School</option>
-                        <option value="Junior College">Junior College</option>
+                        {levelOfStudyTemplate.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
                       </select>
 
-                      {subject.level === "Primary School" && (
+                      {subject.level && (
                         <select
                           value={subject.subject}
                           onChange={(e) =>
@@ -266,40 +303,18 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                           }
                           className="my"
                         >
-                          <option value="">* Select Subject</option>
-                          <option value="Pri Math">Math</option>
-                          <option value="Pri Science">Science</option>
-                          <option value="Pri English">English</option>
-                        </select>
-                      )}
-
-                      {subject.level === "Secondary School" && (
-                        <select
-                          value={subject.subject}
-                          onChange={(e) =>
-                            handleSubjectChange(index, e.target.value)
-                          }
-                          className="my"
-                        >
-                          <option value="">* Select Subject</option>
-                          <option value="Sec History">History</option>
-                          <option value="Sec Computer Science">
-                            Computer Science
-                          </option>
-                        </select>
-                      )}
-
-                      {subject.level === "Junior College" && (
-                        <select
-                          value={subject.subject}
-                          onChange={(e) =>
-                            handleSubjectChange(index, e.target.value)
-                          }
-                          className="my"
-                        >
-                          <option value="">* Select Subject</option>
-                          <option value="JC Subject 1">JC Subject 1</option>
-                          <option value="JC Subject 2">JC Subject 2</option>
+                          {subject.subjectOptions.length === 0 ? (
+                            <option value="">Select level of study</option>
+                          ) : (
+                            <>
+                              <option value="">Select subject</option>
+                              {subject.subjectOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </>
+                          )}
                         </select>
                       )}
 
@@ -308,8 +323,12 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                           type="text"
                           placeholder="Price"
                           name="price"
-                          value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
-                          onChange={(e) => handlePriceChange(index, e.target.value)}
+                          value={
+                            subject.price ? `SGD ${subject.price}/hr` : `SGD`
+                          }
+                          onChange={(e) =>
+                            handlePriceChange(index, e.target.value)
+                          }
                           className="my"
                         />
                       )}
@@ -331,7 +350,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
                 {/* Qualification dropdown and input box */}
                 <div className="form-group">
-                <small>Highest Qualification:</small>
+                  <small className="normal-text">Highest Qualification:</small>
                   <div className="subject-wrapper">
                     <select
                       value={hqTracker}
@@ -339,7 +358,9 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                       onChange={(e) => setHqTracker(e.target.value)}
                       className="my"
                     >
-                      <option value="">* Select your highest qualification</option>
+                      <option value="">
+                        * Select your highest qualification
+                      </option>
                       <option value="Secondary School">Secondary School</option>
                       <option value="GCE A Levels">GCE A Levels</option>
                       <option value="Undergraduate">Undergraduate</option>
@@ -364,7 +385,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
               {/* Description input box */}
               <div className="form-group">
-                <small>Description:</small>
+                <small className="normal-text">Description:</small>
                 <textarea
                   id="description"
                   name="description"
@@ -383,8 +404,8 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
               value="Submit Edits"
             />
           </form>
-          </div>
         </div>
+      </div>
     </section>
   );
 };

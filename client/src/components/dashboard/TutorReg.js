@@ -53,7 +53,15 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
     } else if (emptyDescription()) {
       setAlert("Please fill in your description", "danger");
     } else {
-      const subjectList = purgeEmptySubjects(subjects);
+      let subjectList = purgeEmptySubjects(subjects);
+
+      subjectList = subjectList.map((subject) => ({
+        // Remove subjectOptions from the subject object
+        subject: subject.subject,
+        level: subject.level,
+        price: subject.price,
+      }));
+
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
       const isTutor = true;
@@ -74,6 +82,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
       subject: "",
       level: "",
       price: "",
+      subjectOptions : []
     };
     setSubjects([...subjects, newSubject]);
   };
@@ -81,13 +90,12 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   const handleLevelChange = (index, value) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
-    setSubjects(updatedSubjects);
-
+    
     if (value in subjectOptionsData) {
-      setSubjectOptions(subjectOptionsData[value]);
-    } else {
-      setSubjectOptions([]);
-    }
+      updatedSubjects[index].subjectOptions = subjectOptionsData[value];
+    } 
+
+    setSubjects(updatedSubjects);
   };
 
   const handleSubjectChange = (index, value) => {
@@ -135,7 +143,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
 
         <h1 className="normal-text" style={{ fontWeight: "bold", marginTop: "10px", fontSize: "30px"}}>Please register as a tutor first:</h1>
         <form className="form" onSubmit={onSubmit}>
-          <div style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem" }}>
+          <div  style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem" }}>
             Select your subject(s):
           </div>
           {subjects.map((subject, index) => (
@@ -160,12 +168,12 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                     onChange={(e) => handleSubjectChange(index, e.target.value)}
                     className="my"
                   >
-                    {subjectOptions.length === 0 ? (
+                    {subject.subjectOptions.length === 0 ? (
                       <option value="">Select level of study</option>
                     ) : (
                       <>
                         <option value="">Select subject</option>
-                        {subjectOptions.map((option) => (
+                        {subject.subjectOptions.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>

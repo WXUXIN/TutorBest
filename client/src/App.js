@@ -23,6 +23,7 @@ import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import FilteredProfiles from './components/profiles/FilteredProfiles';
 import RegisteredTutors from './components/profiles/RegisteredTutors';
+import UnauthorisedViewing from './components/profile/UnauthorisedViewing';
 
 if(localStorage.token) {
   setAuthToken(localStorage.token);
@@ -54,7 +55,7 @@ const App = () => {
           <Route path='/register' element={<Register />}/>
           <Route path='/login' element={<Login />}/>
           {/* <Route path='/profile/UnauthorisedProfile/:id' element={<Login />}/> */}
-
+          <Route path='/unauthorised-profile-viewing/:id' element={<UnauthorisedViewing />}/>
           <Route path='/profile/:id' element={<Profile />}/>
           <Route path="/filtered-profiles" element={<FilteredProfiles />} />
           <Route path='/profiles' element={<Profiles />}/>
