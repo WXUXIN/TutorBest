@@ -64,8 +64,7 @@ const TutorDashboard = ({ auth : { user }}) => {
                 </h1>
                 
                 <h1 className="normal-text" style={{ marginTop: "20px" }}> Welcome {user && <span style={{ fontWeight: 'bold', fontSize: "25px" }}>{user.name}</span>}</h1>
-                <h1 className="normal-text" style={{ marginTop:"20px"}}>This will be the Tutor's dashboard</h1>
-                <h1 className="normal-text" style={{ marginTop:"20px"}}>These are the subjects you are teaching:</h1>
+                <h1 className="normal-text" style={{ marginTop:"20px" ,fontWeight: 'bold', fontSize: "25px",}}>Subjects you are teaching:</h1>
                 <>
                     {subjectList.map((subject, index) => (
                         <div className="normal-text" style={{ marginTop:"20px"}} key={index}>
@@ -77,12 +76,12 @@ const TutorDashboard = ({ auth : { user }}) => {
                         </div>
                     ))}
                 </>
-                <h1 className="normal-text" style={{ marginTop:"20px",  marginBottom:"10px"}}>Your Description:</h1>
+                <h1 className="normal-text" style={{ marginTop:"20px", fontWeight: 'bold', fontSize: "25px", marginBottom:"10px"}}>Your Description:</h1>
                 <div className='white-box normal-text'>
                   {description ? description : "You have not written a description yet"}
                 </div>
 
-                <h1 className="normal-text" style={{ marginTop:"20px", marginBottom:"10px"}}>Highest Qualification:</h1>
+                <h1 className="normal-text" style={{ fontWeight: 'bold', fontSize: "25px", marginTop:"20px", marginBottom:"10px"}}>Highest Qualification:</h1>
                 <div className='normal-text' style={{ marginBottom:"20px"}}>
                   {highestQualification}
                 </div>

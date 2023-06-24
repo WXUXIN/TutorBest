@@ -79,6 +79,10 @@ export const getProfileById = (user_id) => async (dispatch) => {
     //   [[Prototype]]: Object
     // __v: 0
     // _id: "64820b99866cb70681a7892f"
+    dispatch({
+    type: CLEAR_PROFILE
+  });
+
     const res = await axios.get(`/api/profile/user/${user_id}`);
     console.log(res.data, "this would be the tutor profile searched by id");
 

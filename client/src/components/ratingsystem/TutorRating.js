@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { findCurrentTutors } from "../../actions/auth";
+import { getRegisteredProfiles } from "../../actions/profile";
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const [currentTutors, setCurrentTutors] = useState([]);
   useEffect(() => {
     const fetchTutors = async () => {
       try {
-        const tutors = await findCurrentTutors(user._id);
+        const tutors = await getRegisteredProfiles(user._id);
         setCurrentTutors(tutors);
         console.log(tutors)
       } catch (error) {

@@ -33,7 +33,7 @@ const ProfileItem = ({
   return (
     <div className='profile bg-light normal-text'>
       <div>
-        <h2>{name}</h2>
+        <h2 style = {{ fontWeight: "bold", fontSize: "30px" }}>{name}</h2>
 
         {/* Subject and level is to check if ProfileItem is being used in
         Profiles, RegisteredTutors or FilteredProfiles */}

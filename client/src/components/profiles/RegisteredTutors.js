@@ -14,7 +14,7 @@ import {
 const RegisterdTutors = ({
   auth: { user, isAuthenticated },
   profiles,
-  getRegisteredProfiles,
+  getRegisteredProfiles
 }) =>
   // I want to display all of the registered tutors in the database
   {
