@@ -78,7 +78,7 @@ const Profile = ({
   const getAverageRatings = (ratings) => {
     // Return 0 if the ratings array is empty
     if (ratings.length === 0) {
-      return 0;
+      return "No Ratings yet..";
     }
 
     // Calculate the sum of all ratings
@@ -100,7 +100,7 @@ const Profile = ({
           <h1 className="normal-text" style={{ fontWeight: 'bold', fontSize: "25px" }}>Profile</h1>
           <Fragment>
             <h1 className="normal-text" style={{ marginTop: "20px" }} >Tutor's name: {profile.user.name}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's rating: {getAverageRatings(profile.ratings)} /5 </h1>
+            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's rating: {getAverageRatings(profile.ratings)}</h1>
             <h1 className="normal-text" style={{ marginTop: "20px" }}> Tutor's email: {profile.user.email}</h1>
             <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's subjects:</h1>
 
