@@ -231,22 +231,22 @@ export const setLoading = (isLoading) => (dispatch) => {
   });
 };
 
-export const findCurrentTutors = async (userID) => {
-  // gives array of tutors
-  try {  
-    const response = await axios.get('/api/findTutor', {
-      // pass the userID of the tutee to the router
-      params: {
-        userID: userID
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error retrieving tutors:', error);
-    // Handle the error appropriately
-    throw error;
-  }
-};
+// export const findCurrentTutors = (userID) => async  => {
+//   // gives array of tutors
+//   try {  
+//     const response = axios.get('/profile/registeredTutors/${userID}', {
+//       // pass the userID of the tutee to the router
+//       params: {
+//         userID: userID
+//       }
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error retrieving tutors:', error);
+//     // Handle the error appropriately
+//     throw error;
+//   }
+// };
 
 // passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
 export const handleRateTutor = (tutorId, rating, tuteeId) => async(dispatch) => {
@@ -309,10 +309,8 @@ export const makePair = (tutorId, tuteeId) => async(dispatch) => {
 
   try {
     const response = await axios.post('/api/updatePair', {
-      
       tutorId: tutorId,
       tuteeId: tuteeId
-      
     });
     dispatch({
       type: TUTOR_PAIR_SUCCESS,

@@ -39,13 +39,16 @@ export const getAllProfiles = () => async (dispatch) => {
     // __v: 0
     // _id: "64820b99866cb70681a7892f"
 
-    // Makes sure to clear all the profiles in the state, and set 
+    // Makes sure to clear all the profiles in the state, and set
     // loading to true
+    
+    console.log("running getAllProfiles action")
     dispatch({
       type: CLEAR_PROFILES,
     });
 
-    const res =  await axios.get("/api/profile");
+    
+    const res = await axios.get("/api/profile");
 
     dispatch({
       type: GET_PROFILES,
@@ -56,7 +59,7 @@ export const getAllProfiles = () => async (dispatch) => {
   }
 };
 
-// Get profile by ID
+// Get profile by tutor ID
 export const getProfileById = (user_id) => async (dispatch) => {
   try {
     // this returns a list of objects
@@ -79,6 +82,12 @@ export const getProfileById = (user_id) => async (dispatch) => {
     //   [[Prototype]]: Object
     // __v: 0
     // _id: "64820b99866cb70681a7892f"
+    
+    dispatch({
+      type: CLEAR_PROFILE,
+    });
+
+    console.log("running getProfileById action")
     const res = await axios.get(`/api/profile/user/${user_id}`);
     console.log(res.data, "this would be the tutor profile searched by id");
 
@@ -86,24 +95,26 @@ export const getProfileById = (user_id) => async (dispatch) => {
       type: GET_PROFILE,
       payload: res.data,
     });
-
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) => {
+
+// Get profile by tutor ID
+export const getTutorProfileByUserId = (user_id) => async (dispatch) => {
   try {
-
+  
     dispatch({
-      type: CLEAR_PROFILE
+      type: CLEAR_PROFILE,
     });
-    
-    const res = await axios.get(`/api/profile/filter?levelOfStudy=${levelOfStudy}&subject=${subject}`);
-    console.log(res.data, "filtered data list"); // The filtered profiles based on the levelOfStudy and subject
+
+    console.log("running getProfileById action")
+    const res = await axios.get(`/api/profile/tutorInfoByUserId/${user_id}`);
+    console.log(res.data, "this would be the tutor profile searched by id");
 
     dispatch({
-      type: GET_FILTERED_PROFILES,
+      type: GET_PROFILE,
       payload: res.data,
     });
   } catch (err) {
@@ -111,11 +122,32 @@ export const getFilteredProfiles = (levelOfStudy, subject) => async (dispatch) =
   }
 };
 
+
+export const getFilteredProfiles =
+  (levelOfStudy, subject) => async (dispatch) => {
+    try {
+      dispatch({
+        type: CLEAR_PROFILE,
+      });
+
+      const res = await axios.get(
+        `/api/profile/filter?levelOfStudy=${levelOfStudy}&subject=${subject}`
+      );
+      console.log(res.data, "filtered data list"); // The filtered profiles based on the levelOfStudy and subject
+
+      dispatch({
+        type: GET_FILTERED_PROFILES,
+        payload: res.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 export const getRegisteredProfiles = (user_id) => async (dispatch) => {
   try {
-
     dispatch({
-      type: CLEAR_PROFILES
+      type: CLEAR_PROFILES,
     });
 
     console.log("getting the registered profiles");
@@ -132,15 +164,14 @@ export const getRegisteredProfiles = (user_id) => async (dispatch) => {
 
 export const clearProfiles = () => async (dispatch) => {
   // I need to clear the profiles in the state
-    dispatch({
-    type: CLEAR_PROFILES
+  dispatch({
+    type: CLEAR_PROFILES,
   });
 };
 
 export const clearProfile = () => async (dispatch) => {
   // I need to clear the profiles in the state
-    dispatch({
-    type: CLEAR_PROFILE
+  dispatch({
+    type: CLEAR_PROFILE,
   });
 };
-

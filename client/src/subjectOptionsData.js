@@ -8,7 +8,8 @@ export const subjectOptionsData = {
     "Chinese",
     "Malay",
     "Tamil",
-    "Art"
+    "Art",
+    "Music"
   ],
   "Secondary School": [
     "English",

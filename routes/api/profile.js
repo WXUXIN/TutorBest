@@ -44,12 +44,30 @@ router.get("/filter", async (req, res) => {
 });
 
 // @route   GET api/profile/user/:user_id
-// @desc    Get tutor's information by tutor id
+// @desc    Get tutor's information by TUTOR id
 // @access  Private
-router.get("/user/:user_id", async ({ params: { user_id } }, res) => {
+router.get("/user/:tutor_id", async ({ params: { tutor_id } }, res) => {
   try {
     const profile = await Tutor.findOne({
-      _id: user_id,
+      _id: tutor_id,
+    }).populate("user");
+
+    if (!profile) return res.status(400).json({ msg: "Profile not found" });
+
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: "Server error" });
+  }
+});
+
+// @route   GET api/profile/tutorInfoByUserId/:user_id
+// @desc    Get tutor's information by USER id
+// @access  Private
+router.get("/tutorInfoByUserId/:user_id", async ({ params: { user_id } }, res) => {
+  try {
+    const profile = await Tutor.findOne({
+      user: user_id,
     }).populate("user");
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });

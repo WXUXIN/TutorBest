@@ -25,85 +25,15 @@ const Profile = ({
   // This gets the id from the url
   // profile id
   const { id } = useParams();
-  const [isRatingVisible, setIsRatingVisible] = useState(false);
-
-  const toggleRatingVisibility = () => {
-    setIsRatingVisible(!isRatingVisible);
-    setHasRated(true);
-  };
-
-  // control state of whether the tutor and tutee is linked to render link button
-  const [isLinked, setIsLinked] = useState(false);
-
-  // control state of whether the tutee has rated the tutor
-  const [hasRated, setHasRated] = useState(false);
-
-  // function to check if tutor and tutee have linked and change the state of isLinked
-  const isTutorLinked = () => {
-    console.log("isTutorLinked");
-    try {
-      const tutorIDs = profiles.map((tutor) => tutor.user._id);
-
-      console.log(
-        tutorIDs.includes(profile.user._id),
-        "If true, tutor and tutee are linked"
-      );
-
-      console.log(profiles, profile.user._id);
-
-      return tutorIDs.includes(profile.user._id);
-    } catch (error) {
-      console.error("Error retrieving tutors:", error);
-    }
-  };
-
-  useEffect(() => {
-    try {
-      const linked = isTutorLinked();
-      setIsLinked(linked);
-    } catch (error) {
-      console.error("Error retrieving tutors:", error);
-    }
-
-    // Since loading will be updated once the registedProfiles are loaded, we
-    // will check if the tutor and tutee are linked once the loading is updated
-  }, [loading]);
-
-  useEffect(() => {
-    // This checks if the tutee has rated the tutor
-
-    if (profile && auth.user) {
-      getRegisteredProfiles(auth.user._id);
-
-      const tuteeIds = profile.ratings.map((rating) => rating.tutee);
-
-      if (auth.user._id) {
-        const tuteeId = auth.user._id;
-        setHasRated(tuteeIds.includes(tuteeId));
-      }
-    }
-  }, [profile, auth.user]);
 
   // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
   useEffect(() => {
     getProfileById(id);
   }, [getProfileById, id]);
 
-  // If user unauthorised, redirect to unauthorised viewing
-  if (!auth.isAuthenticated) {
-    // Include in the id inside the route
-    return <Navigate to={`/unauthorised-profile-viewing/${id}`} />;
-
-  }
-
   // Only when the profile is loaded, display the profile
   if (profile === null || loading) {
     return <Spinner />;
-  }
-
-  // Makes sure if the user is logged in, they cannot view their own profile
-  if (profile.user._id === auth.user._id) {
-    return <Navigate to="/TutorDashboard" />;
   }
 
   const getAverageRatings = (ratings) => {
@@ -134,12 +64,6 @@ const Profile = ({
             {profile.user.name}
           </h1>
           <Fragment>
-<<<<<<< HEAD
-            <h1 className="normal-text" style={{ marginTop: "20px" }} >Tutor's name: {profile.user.name}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's rating: {getAverageRatings(profile.ratings)}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}> Tutor's email: {profile.user.email}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's subjects:</h1>
-=======
             <h1
               className="normal-text"
               style={{
@@ -159,7 +83,7 @@ const Profile = ({
               )}
             </h1>
 
-            {auth.isAuthenticated && (<h1
+           <h1
               className="normal-text"
               style={{
                 marginTop: "20px",
@@ -168,7 +92,8 @@ const Profile = ({
               }}
             >
               Email:
-            </h1>)}
+            </h1>
+
             {auth.isAuthenticated ? (
               <h1 className="normal-text" style={{ marginTop: "20px" }}>
                 {profile.user.email}
@@ -189,7 +114,6 @@ const Profile = ({
             >
               Subjects:
             </h1>
->>>>>>> 095524dcd9953e1c6841ac687e3f5cd9d16dd684
 
             {profile.subjectList.length > 0 ? (
               profile.subjectList.map((subject, index) => (
@@ -226,53 +150,6 @@ const Profile = ({
           <div className="white-box normal-text" style={{ marginTop: "20px" }}>
             {profile.description}
           </div>
-
-          {/* {auth.isAuthenticated && auth.loading === false && (
-            // Chat with tutor button
-            // <Link to={`/chat/${profile.user._id}`} className="btn btn-primary">
-            //   Chat with tutor
-            // </Link>
-          )} */}
-
-          {/* if user is logged in */}
-          <div style={{ marginTop: "20px" }}>
-            {auth.isAuthenticated && auth.loading === false && !isLinked && (
-              // Link with tutor button
-              <button
-                onClick={() => {
-                  makePair(profile.user._id, auth.user._id);
-                  setIsLinked(true);
-                }}
-                className="btn btn-primary"
-              >
-                Link with tutor
-              </button>
-            )}
-          </div>
-
-          {/* rating tutor link */}
-          {auth.isAuthenticated &&
-            auth.loading === false &&
-            isLinked &&
-            !hasRated && (
-              <>
-                <button
-                  className="btn btn-primary"
-                  onClick={toggleRatingVisibility}
-                >
-                  Rate Tutor!
-                </button>
-              </>
-            )}
-
-          {isRatingVisible && (
-            <RateTutor
-              tutorId={profile.user._id}
-              findTutorById={findTutorById}
-              handleRateTutor={handleRateTutor}
-              auth={auth}
-            />
-          )}
 
           {!auth.isAuthenticated && auth.loading === false && (
             // Chat with tutor button

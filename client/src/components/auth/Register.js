@@ -70,7 +70,14 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     } else if (emptyDescription()) {
       setAlert("Please fill in your description", "danger");
     } else {
-      const subjectList = purgeEmptySubjects(subjects);
+      let subjectList = purgeEmptySubjects(subjects);
+
+      subjectList = subjectList.map((subject) => ({
+        // Remove subjectOptions from the subject object
+        subject: subject.subject,
+        level: subject.level,
+        price: subject.price,
+      }));
 
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
@@ -99,13 +106,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const handleLevelChange = (index, value) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
-    setSubjects(updatedSubjects);
-
+    
     if (value in subjectOptionsData) {
-      setSubjectOptions(subjectOptionsData[value]);
-    } else {
-      setSubjectOptions([]);
-    }
+      updatedSubjects[index].subjectOptions = subjectOptionsData[value];
+    } 
+
+    setSubjects(updatedSubjects);
   };
 
   const handleSubjectChange = (index, value) => {
@@ -217,72 +223,27 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                       ))}
                     </select>
 
-                    {/* {subject.level === "Primary School" && (
-                      <select
-                        value={subject.subject}
-                        onChange={(e) =>
-                          handleSubjectChange(index, e.target.value)
-                        }
-                        className="my"
-                      >
-                        <option value="">* Select Subject</option>
-                        <option value="Pri Math">Math</option>
-                        <option value="Pri Science">Science</option>
-                        <option value="Pri English">English</option>
-                      </select>
-                    )}
-
-                    {subject.level === "Secondary School" && (
-                      <select
-                        value={subject.subject}
-                        onChange={(e) =>
-                          handleSubjectChange(index, e.target.value)
-                        }
-                        className="my"
-                      >
-                        <option value="">* Select Subject</option>
-                        <option value="Sec History">History</option>
-                        <option value="Sec Computer Science">
-                          Computer Science
-                        </option>
-                      </select>
-                    )}
-
-                    {subject.level === "Junior College" && (
-                      <select
-                        value={subject.subject}
-                        onChange={(e) =>
-                          handleSubjectChange(index, e.target.value)
-                        }
-                        className="my"
-                      >
-                        <option value="">* Select Subject</option>
-                        <option value="JC Subject 1">JC Subject 1</option>
-                        <option value="JC Subject 2">JC Subject 2</option>
-                      </select>
-                    )} */}
+              
                     {subject.level && (
-                      <select
-                        value={subject.subject}
-                        onChange={(e) =>
-                          handleSubjectChange(index, e.target.value)
-                        }
-                        className="my"
-                      >
-                        {subjectOptions.length === 0 ? (
-                          <option value="">Select level of study</option>
-                        ) : (
-                          <>
-                            <option value="">Select subject</option>
-                            {subjectOptions.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </>
-                        )}
-                      </select>
+                  <select
+                    value={subject.subject}
+                    onChange={(e) => handleSubjectChange(index, e.target.value)}
+                    className="my"
+                  >
+                    {subject.subjectOptions.length === 0 ? (
+                      <option value="">Select level of study</option>
+                    ) : (
+                      <>
+                        <option value="">Select subject</option>
+                        {subject.subjectOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </>
                     )}
+                  </select>
+                )}
 
                     {subject.level !== "" && subject.subject !== "" && (
                       <input
