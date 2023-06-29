@@ -68,11 +68,14 @@ const RegisterdTutors = ({
     // Rerun when the profiles state variable is updated
     useEffect(() => {
       setProfiles(profiles.profiles);
-      console.log(profilesList);
     }, [profiles.profiles]);
 
     function handleChangeRoles(e) {
       setRole(e.target.value);
+    }
+
+    if (profiles.loading || !user) {
+      return <Spinner />;
     }
 
     if (isAuthenticated) {
@@ -82,10 +85,6 @@ const RegisterdTutors = ({
       } else if (role === "tutor" && user && !user.isTutor) {
         return <Navigate to="/TutorReg" />;
       }
-    }
-
-    if (profiles.loading) {
-      return <Spinner />;
     }
 
     const handleSearch = () => {

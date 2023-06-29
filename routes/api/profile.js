@@ -85,6 +85,8 @@ router.get("/tutorInfoByUserId/:user_id", async ({ params: { user_id } }, res) =
 // @access  Private
 router.get("/registeredTutors/:user_id", async ({ params: { user_id } }, res) => {
   try {
+
+    // 1 Find the tutee by user id
     const tutee = await Tutee.findOne({ user: user_id })
     .populate({
       path: 'tutors',
@@ -92,20 +94,17 @@ router.get("/registeredTutors/:user_id", async ({ params: { user_id } }, res) =>
     })
     .exec();
     
-    console.log(tutee, "these are the registered tutors");
-
     if (!tutee) {
       return res.status(400).json({ msg: "Profile not found" });
     }
 
+    // 2 Find the tutor documents by user ID of tutors
     const tutorUsers = await Promise.all(
       tutee.tutors.map(async (tutor_user_id) => {
         const populatedTutor = await Tutor.findOne({ user: tutor_user_id }).populate('user');
         return populatedTutor;
       })
     );
-
-    console.log(tutorUsers, "these should be the registerd tutors documents");
 
     return res.json(tutorUsers);
   } catch (err) {

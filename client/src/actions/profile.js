@@ -42,9 +42,12 @@ export const getAllProfiles = () => async (dispatch) => {
     // Makes sure to clear all the profiles in the state, and set
     // loading to true
     
-    console.log("running getAllProfiles action")
     dispatch({
       type: CLEAR_PROFILES,
+    });
+
+    dispatch({
+      type: CLEAR_PROFILE,
     });
 
     
@@ -144,6 +147,8 @@ export const getFilteredProfiles =
     }
   };
 
+
+// Update redux state of all tutee's registered tutors using user_id 
 export const getRegisteredProfiles = (user_id) => async (dispatch) => {
   try {
     dispatch({

@@ -12,6 +12,7 @@ import {
 import { makePair, findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Profile = ({
   getProfileById,
@@ -27,16 +28,18 @@ const Profile = ({
   const { id } = useParams();
   const [isRatingVisible, setIsRatingVisible] = useState(false);
 
-  const toggleRatingVisibility = () => {
-    setIsRatingVisible(!isRatingVisible);
-    setHasRated(true);
-  };
-
   // control state of whether the tutor and tutee is linked to render link button
   const [isLinked, setIsLinked] = useState(false);
 
   // control state of whether the tutee has rated the tutor
   const [hasRated, setHasRated] = useState(false);
+
+  const navigate = useNavigate();
+
+  const toggleRatingVisibility = () => {
+    setIsRatingVisible(!isRatingVisible);
+    setHasRated(true);
+  };
 
   // function to check if tutor and tutee have linked and change the state of isLinked
   const isTutorLinked = () => {
@@ -57,55 +60,6 @@ const Profile = ({
     }
   };
 
-  useEffect(() => {
-    try {
-      const linked = isTutorLinked();
-      setIsLinked(linked);
-    } catch (error) {
-      console.error("Error retrieving tutors:", error);
-    }
-
-    // Since loading will be updated once the registedProfiles are loaded, we
-    // will check if the tutor and tutee are linked once the loading is updated
-  }, [loading]);
-
-  useEffect(() => {
-    // This checks if the tutee has rated the tutor
-
-    if (profile && auth.user) {
-      getRegisteredProfiles(auth.user._id);
-
-      const tuteeIds = profile.ratings.map((rating) => rating.tutee);
-
-      if (auth.user._id) {
-        const tuteeId = auth.user._id;
-        setHasRated(tuteeIds.includes(tuteeId));
-      }
-    }
-  }, [profile, auth.user]);
-
-  // useEffect hook in your code is used to fetch a profile by ID when the component mounts or when the id value changes
-  useEffect(() => {
-    getProfileById(id);
-  }, [getProfileById, id]);
-
-  // If user unauthorised, redirect to unauthorised viewing
-  if (!auth.isAuthenticated) {
-    // Include in the id inside the route
-    return <Navigate to={`/unauthorised-profile-viewing/${id}`} />;
-
-  }
-
-  // Only when the profile is loaded, display the profile
-  if (profile === null || loading) {
-    return <Spinner />;
-  }
-
-  // Makes sure if the user is logged in, they cannot view their own profile
-  if (profile.user._id === auth.user._id) {
-    return <Navigate to="/TutorDashboard" />;
-  }
-
   const getAverageRatings = (ratings) => {
     // Return 0 if the ratings array is empty
     if (ratings.length === 0) {
@@ -121,6 +75,58 @@ const Profile = ({
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
   };
+
+  // Update redux profile by tutor ID
+  useEffect(() => {
+    getProfileById(id);
+  }, [getProfileById, id]);
+
+  // Used to check if the user has rated the tutor
+  useEffect(() => {
+    if (profile && auth.user) {
+      // Makes sure if the user is logged in, they cannot view their own profile
+      if (profile.user._id === auth.user._id) {
+        navigate("/TutorDashboard");
+      }
+
+      getRegisteredProfiles(auth.user._id);
+
+      const tuteeIds = profile.ratings.map((rating) => rating.tutee);
+
+      if (auth.user._id) {
+        const tuteeId = auth.user._id;
+        setHasRated(tuteeIds.includes(tuteeId));
+      }
+    }
+  }, [profile, auth.user]);
+
+  useEffect(() => {
+    try {
+      const linked = isTutorLinked();
+      setIsLinked(linked);
+    } catch (error) {
+      console.error("Error retrieving tutors:", error);
+    }
+
+    // Since loading will be updated once the registedProfiles are loaded, we
+    // will check if the tutor and tutee are linked once the loading is updated
+  }, [loading]);
+
+  // If user unauthorised, redirect to unauthorised viewing
+  if (auth.isAuthenticated === false) {
+    // Include in the id inside the route
+    return <Navigate to={`/unauthorised-profile-viewing/${id}`} />;
+  }
+
+  // Only when the profile is loaded, display the profile
+  if (!profile || loading || !auth.user) {
+    return <Spinner />;
+  }
+
+  // Makes sure if the user is logged in, they cannot view their own profile
+  if (profile.user._id === auth.user._id) {
+    return <Navigate to="/TutorDashboard" />;
+  }
 
   return (
     <section className="dark-overlay-bg">
@@ -153,16 +159,18 @@ const Profile = ({
               )}
             </h1>
 
-            {auth.isAuthenticated && (<h1
-              className="normal-text"
-              style={{
-                marginTop: "20px",
-                fontWeight: "bold",
-                fontSize: "25px",
-              }}
-            >
-              Email:
-            </h1>)}
+            {auth.isAuthenticated && (
+              <h1
+                className="normal-text"
+                style={{
+                  marginTop: "20px",
+                  fontWeight: "bold",
+                  fontSize: "25px",
+                }}
+              >
+                Email:
+              </h1>
+            )}
             {auth.isAuthenticated ? (
               <h1 className="normal-text" style={{ marginTop: "20px" }}>
                 {profile.user.email}

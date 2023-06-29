@@ -53,7 +53,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
 
   // If the user is a tutor, render the tutor dashboard when the we have retrieved the data
   // if the user is not a tutor, we will redirect them to the tutor registration page
-  if (Object.entries(data).length === 0 && user.isTutor || loading) {
+  if (Object.entries(data).length === 0 && user.isTutor || !profile || loading || !user) {
     return <Spinner />;
   } else if (!user.isTutor) {
     return <Navigate to="/TutorReg" />;
