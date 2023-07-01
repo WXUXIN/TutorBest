@@ -9,6 +9,7 @@
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
+  --secondary-color: #0b1b3d;
 }
 
 * {
@@ -169,6 +170,10 @@ img {
   margin: 3rem 0;
 }
 
+.ml-1 {
+  margin-left: 1rem;
+}
+
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -242,10 +247,10 @@ img {
 .badge-danger,
 .alert-danger {
   background: var(--danger-color);
-  color: #fff;
+  color: #ffffff;
 }
 
-.btn-success,
+.btn-success, 
 .bg-success,
 .badge-success,
 .alert-success {
@@ -301,6 +306,20 @@ img {
   z-index: -1;
 }
 
+.bright-overlay-bg {
+  background-color: #e9c78c;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  background-image: url("../public/transp_white_gradcap.png");
+  background-size: 15%;
+  background-repeat: repeat;
+  background-position: center;
+  z-index: -1;
+}
+s
 .background-image-container {
   position: absolute;
   top: 0;
@@ -315,7 +334,7 @@ img {
 }
 
 .box-container {
-  background-color: lightgrey;
+  background-color: var(--secondary-color);
   opacity: 1;
   border-radius: 30px;
   position: relative;
@@ -457,7 +476,6 @@ select option {
   margin-bottom: 1rem;
   color: #e9c78c;
 }
-
 
 
 /* Profiles Page */
@@ -712,7 +730,7 @@ select option {
   }
 
   .box-container {
-    background-color: rgba(77, 77, 77, 0.7);
+    background-color: var(--secondary-color);
     padding: 20px;
     opacity: 1;
     border-radius: 10px;
@@ -762,3 +780,12 @@ select option {
   
 }
 
+.form-font-white{
+  font-family: 'Josefin Sans', sans-serif;
+  color: #ffffff;
+}
+
+.form-font-gold{
+  font-family: 'Josefin Sans', sans-serif;
+  color: #e9c78c;
+}
