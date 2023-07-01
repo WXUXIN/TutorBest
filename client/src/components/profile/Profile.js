@@ -134,12 +134,6 @@ const Profile = ({
             {profile.user.name}
           </h1>
           <Fragment>
-<<<<<<< HEAD
-            <h1 className="normal-text" style={{ marginTop: "20px" }} >Tutor's name: {profile.user.name}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's rating: {getAverageRatings(profile.ratings)}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}> Tutor's email: {profile.user.email}</h1>
-            <h1 className="normal-text" style={{ marginTop: "20px" }}>Tutor's subjects:</h1>
-=======
             <h1
               className="normal-text"
               style={{
@@ -189,7 +183,6 @@ const Profile = ({
             >
               Subjects:
             </h1>
->>>>>>> 095524dcd9953e1c6841ac687e3f5cd9d16dd684
 
             {profile.subjectList.length > 0 ? (
               profile.subjectList.map((subject, index) => (
