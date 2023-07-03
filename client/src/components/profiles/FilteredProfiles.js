@@ -183,8 +183,7 @@ const FilteredProfiles = ({
   // I want to now filter the list of tutors based on the level of study and subject that
   // the student has selected
   return (
-    <section className="dark-overlay-bg">
-    <div className="background-image-container"></div>
+    <section className="bright-overlay-bg">
     
     <div className="container">
       <div className="box-container">

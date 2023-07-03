@@ -58,8 +58,7 @@ export default function Landing() {
 
   return (
     <section className="landing">
-      <div className="dark-overlay-bg"></div>
-      <div className="background-image-container"></div>
+      <div className="bright-overlay-bg"></div>
 
       <div className="landing-inner">
         {/* {all below in landing-inner} */}
@@ -71,7 +70,7 @@ export default function Landing() {
  
           }}
         >
-          <h1 className="x-large-landing">
+          <h1 className="x-large-landing" style={{ color: "white" }}>
             I am in &nbsp;&nbsp;
             <select
               value={levelOfStudy}
@@ -95,7 +94,7 @@ export default function Landing() {
             </select>
           </h1>
 
-          <h1 className="x-large-landing" style={{ marginTop: "30px" }}>
+          <h1 className="x-large-landing" style={{ marginTop: "30px", color: "white" }}>
             I am looking for a &nbsp;&nbsp;
             <select
               value={subject}

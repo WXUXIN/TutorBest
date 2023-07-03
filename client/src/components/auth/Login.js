@@ -30,14 +30,13 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
   }
 
   return (
-    <section className="dark-overlay-bg"> 
-    <div className="background-image-container"></div>
+    <section className="bright-overlay-bg"> 
 
     <div className="container">
       <div className="box-container">
-      <h1 className="large text-primary x-large-landing" style={{color:"black"}}>Log In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign into your account
+      <h1 className="large text-primary x-large-landing" style={{color:"white"}}>Log In</h1>
+      <p className="lead" style={{color:"white"}}>
+        <i  className="fas fa-user text-primary"/> Sign into your account
       </p>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
@@ -61,7 +60,7 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
         </div>
         <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary themefont" value="Login" />
       </form>
-      <p className="my-1" style={{ fontWeight: 'bold' }}>
+      <p className="my-1" style={{ fontWeight: 'bold', color: 'white' }}>
         Don't have an account? <Link to="/register">Register</Link>
       </p>
       </div>

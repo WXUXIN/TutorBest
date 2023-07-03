@@ -238,11 +238,10 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
   console.log(subjects, "123");
   return (
-    <section className="dark-overlay-bg">
-      <div className="background-image-container"></div>
+    <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <h1 className="large text-primary" style={{ color: "black" }}>
+          <h1 className="large text-primary" style={{ color: "white" }}>
             Edit your information here
           </h1>
           <form className="form" onSubmit={onSubmit}>
@@ -273,7 +272,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
             <div className="form-group">
               <>
                 <div
-                  style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}
+                  style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" , color: '#e9c78c'}}
                 >
                   Edit your subject(s):
                 </div>

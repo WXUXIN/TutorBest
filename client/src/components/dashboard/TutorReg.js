@@ -130,8 +130,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
 
   return (
     <section className="container">
-      <div className="dark-overlay-bg"></div>
-      <div className="background-image-container"></div>
+      <div className="bright-overlay-bg"></div>
       <div className="box-container">
         <h1 className="normal-text">
           I am a
@@ -143,7 +142,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
 
         <h1 className="normal-text" style={{ fontWeight: "bold", marginTop: "10px", fontSize: "30px"}}>Please register as a tutor first:</h1>
         <form className="form" onSubmit={onSubmit}>
-          <div  style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem" }}>
+          <div  style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem", color:'#e9c78c', marginTop: '20px' }}>
             Select your subject(s):
           </div>
           {subjects.map((subject, index) => (

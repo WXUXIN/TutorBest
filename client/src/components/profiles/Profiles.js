@@ -99,13 +99,12 @@ const Profiles = ({
     // Display all the profiles of tutors in the database
 
     return (
-      <section className="dark-overlay-bg">
-      <div className="background-image-container"></div>
+      <section className="bright-overlay-bg">
 
       <div className="container">
         <div className="box-container">
         {isAuthenticated && (
-          <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
+          <h1 className="normal-text" style={{ position: "absolute", top: "10px", color: 'white' }}>
             I am a
             <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
               <option value="tutee">tutee</option>
@@ -183,7 +182,8 @@ const Profiles = ({
         >
           Search for tutors
         </button>
-
+        
+        <div style={{ marginTop: '10px'}}>
         {isAuthenticated && (
           <Link
             to={`/registered-tutors/${user._id} `}
@@ -202,6 +202,7 @@ const Profiles = ({
         ) : ( (profiles.profiles.length === 0 && !profiles.loading)
            ? (<h4>No profiles found...</h4>) : (<Spinner />)
         )}
+        </div>
           </div>
         </div>
       </div>
