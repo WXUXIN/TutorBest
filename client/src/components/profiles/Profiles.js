@@ -184,24 +184,24 @@ const Profiles = ({
         </button>
         
         <div style={{ marginTop: '10px'}}>
-        {isAuthenticated && (
-          <Link
-            to={`/registered-tutors/${user._id} `}
-            className="btn btn-primary"
-          >
-            View all YOUR tutors
-          </Link>
-        )}
+          {isAuthenticated && (
+            <Link
+              to={`/registered-tutors/${user._id} `}
+              className="btn btn-primary"
+            >
+              View all YOUR tutors
+            </Link>
+          )}
 
-        {profiles.profiles.length > 0 && !profiles.loading ? (
-          <Fragment>
-            {profiles.profiles.map((profile) => (
-              <ProfileItem key={profile._id} profile={profile}/>
-            ))}
-          </Fragment>
-        ) : ( (profiles.profiles.length === 0 && !profiles.loading)
-           ? (<h4>No profiles found...</h4>) : (<Spinner />)
-        )}
+          {profiles.profiles.length > 0 && !profiles.loading ? (
+            <Fragment>
+              {profiles.profiles.map((profile) => (
+                <ProfileItem key={profile._id} profile={profile}/>
+              ))}
+            </Fragment>
+          ) : ( (profiles.profiles.length === 0 && !profiles.loading)
+            ? (<h4>No profiles found...</h4>) : (<Spinner />)
+          )}
         </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ const ProfileItem = ({
     subjectList,
     // This is the id of the TutorInfo model
     _id,
+    ratings
   },
   subjectAndLevel,
 }) => {
@@ -26,6 +27,24 @@ const ProfileItem = ({
 
   console.log(subjectList);
 
+  const getAverageRatings = (ratings) => {
+    // Return 0 if the ratings array is empty
+    if (ratings.length === 0) {
+      return "No ratings yet";
+    }
+
+    // Calculate the sum of all ratings
+    const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
+
+    // Calculate the average by dividing the sum by the number of ratings
+    const average = sum / ratings.length;
+
+    // Round the average to two decimal places
+    const roundedAverage = Math.round(average * 100) / 100;
+
+    return `${roundedAverage}/5`; // Append '/5' to the average rating
+  };
+
   if (!subjectList[0]) {
     return <Spinner />
   }
@@ -34,6 +53,13 @@ const ProfileItem = ({
     <div className='profile bg-light normal-text'>
       <div>
         <h2 style = {{ fontWeight: "bold", fontSize: "30px" }}>{name}</h2>
+        <div style={{ marginBottom: '5px' }}>
+        <p>
+          {ratings.length > 0
+            ? `Average Rating: ${getAverageRatings(ratings)}`
+            : "No ratings yet.."}
+        </p>        
+      </div>
 
         {/* Subject and level is to check if ProfileItem is being used in
         Profiles, RegisteredTutors or FilteredProfiles */}
