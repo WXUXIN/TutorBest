@@ -59,10 +59,16 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const purgeEmptySubjects = (subjs) =>
     subjs.filter((subject) => subject.subject !== "" && subject.price !== "");
 
+  const emptySubjectList = () => {
+    return isTutor && subjects.length === 0;
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlert("Passwords do not match", "danger");
+    } else if (emptySubjectList()) {
+      setAlert("Please add at least one subject", "danger");
     } else if (emptySubjectOrPrice()) {
       setAlert("Please fill in all subject and price fields", "danger");
     } else if (emptyQualification()) {
@@ -79,9 +85,15 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
         price: subject.price,
       }));
 
+      if (subjectList.length === 0) {
+        setAlert("Please add at least one subject", "danger");
+        return
+      }
+
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
-      register({
+
+      await register({
         name,
         email,
         password,
@@ -146,14 +158,15 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
       <div className="container">
         <div className="box-container">
-          <h1 className="large form-font-white">
-            Sign Up
-          </h1>
+          <h1 className="large form-font-white">Sign Up</h1>
           <p className="lead form-font form-font-white">
             <i className="fas fa-user text-primary" /> Create Your Account
           </p>
           <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Display name
+              </small>
               <input
                 type="text"
                 placeholder="Name"
@@ -161,12 +174,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 value={name}
                 onChange={(e) => onChange(e)}
               />
-              <small className="text-primary form-font-white">
-                This will be your display name
-              </small>
             </div>
 
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Email Address
+              </small>
               <input
                 type="email"
                 placeholder="Email Address"
@@ -175,7 +188,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 onChange={(e) => onChange(e)}
               />
             </div>
+
             <div className="form-group">
+              <small className="text-primary form-font-white">Password</small>
               <input
                 type="password"
                 placeholder="Password"
@@ -184,7 +199,11 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 onChange={(e) => onChange(e)}
               />
             </div>
+
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Confirm Password
+              </small>
               <input
                 type="password"
                 placeholder="Confirm Password"
@@ -201,20 +220,14 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                   checked={isTutor}
                   onChange={(e) => setTutor(!isTutor)}
                 />
-                <span
-                  className="form-font-gold ml-1"
-                >
+                <span className="form-font-gold ml-1">
                   I want to be a tutor!
                 </span>
               </label>
 
               {isTutor ? (
                 <>
-                  <h3
-                    className="form-font-white"
-                  >
-                    Select your subject(s):
-                  </h3>
+                  <h3 className="form-font-white">Select your subject(s):</h3>
                   {subjects.map((subject, index) => (
                     <div key={index} className="form-group">
                       <div className="subject-wrapper">
@@ -256,23 +269,22 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                           </select>
                         )}
 
-
                         {subject.level !== "" && subject.subject !== "" && (
-                          <>
-                          <small className="form-font-white">Whare are your rates?</small>
-                          <input
-                            type="text"
-                            placeholder="Price"
-                            name="price"
-                            value={
-                              subject.price ? `SGD ${subject.price}/hr` : `SGD`
-                            }
-                            onChange={(e) =>
-                              handlePriceChange(index, e.target.value)
-                            }
-                            className="my"
-                          />
-                          </>
+                          <div>
+                            <small className="text-primary form-font-white">
+                              Whare is your rate? ( /hr)
+                            </small>
+                            <input
+                              type="text"
+                              placeholder="Price"
+                              name="price"
+                              value={subject.price ? `$${subject.price}` : "$"}
+                              onChange={(e) =>
+                                handlePriceChange(index, e.target.value)
+                              }
+                              className="my"
+                            />
+                          </div>
                         )}
 
                         <button
@@ -286,14 +298,18 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                     </div>
                   ))}
 
-                  <button type="button" className="btn" onClick={addSubject}>
+                  <button
+                    type="button"
+                    className="btn  btn-success cross-button  "
+                    onClick={addSubject}
+                  >
                     <span>&#43;</span>
                   </button>
 
                   {/* Qualification dropdown and input box */}
-                  
+
                   <div className="form-group">
-                  <h2 className="form-font-white" >Highest Qualification:</h2>
+                    <h2 className="form-font-white">Highest Qualification:</h2>
                     <div className="subject-wrapper">
                       <select
                         value={qualification}
@@ -328,7 +344,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                   </div>
 
                   <div className="form-group">
-                    <h2 className="form-font-white" >Description:</h2>
+                    <h2 className="form-font-white">Description:</h2>
                     <textarea
                       id="description"
                       name="description"
@@ -351,7 +367,10 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           </form>
 
           <p className="my-1 form-font-white">
-            Already have an account? <Link className="form-font-gold" to="/login ">Sign In</Link>
+            Already have an account?{" "}
+            <Link className="form-font-gold" to="/login ">
+              Sign In
+            </Link>
           </p>
         </div>
       </div>

@@ -12,7 +12,9 @@ import {
   FIND_TUTOR_SUCCESS,
   FIND_TUTOR_FAILURE,
   TUTOR_PAIR_FAILURE,
-  TUTOR_PAIR_SUCCESS
+  TUTOR_PAIR_SUCCESS,
+  SET_ALERT,
+  REMOVE_ALERT
 } from "./types";
 import { setAlert } from "./alert";
 import { SET_LOADING } from "./types";
@@ -81,7 +83,19 @@ export const register =
         payload: res.data,
       });
 
-      // This is to load the user right away after registration
+      const id = Math.random().toString(36).substring(2, 9);
+      dispatch({
+        type: SET_ALERT,
+        payload: {
+          msg: "Account Successfully Registered!",
+          alertType: "success",
+          id,
+        },
+      });
+
+      setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
+
+      //This is to load the user right away after registration
       dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
@@ -111,7 +125,7 @@ export const tutorReg =
       userID,
       isTutor,
       subjectList,
-      description, 
+      description,
       highestQualification,
     });
 
@@ -233,7 +247,7 @@ export const setLoading = (isLoading) => (dispatch) => {
 
 // export const findCurrentTutors = (userID) => async  => {
 //   // gives array of tutors
-//   try {  
+//   try {
 //     const response = axios.get('/profile/registeredTutors/${userID}', {
 //       // pass the userID of the tutee to the router
 //       params: {
@@ -249,38 +263,37 @@ export const setLoading = (isLoading) => (dispatch) => {
 // };
 
 // passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
-export const handleRateTutor = (tutorId, rating, tuteeId) => async(dispatch) => {
-  
-  try {
-    console.log('Sending rate tutor request:', tutorId, rating, tuteeId);
+export const handleRateTutor =
+  (tutorId, rating, tuteeId) => async (dispatch) => {
+    try {
+      console.log("Sending rate tutor request:", tutorId, rating, tuteeId);
 
-    const response = await axios.post('/api/rate-tutor', {
-        tutorId:tutorId,
-        rating:rating,
-        tuteeId:tuteeId
-    });
-    
-    dispatch({
-      type: RATE_TUTOR_SUCCESS,
-      payload: response.data,
-    }); 
+      const response = await axios.post("/api/rate-tutor", {
+        tutorId: tutorId,
+        rating: rating,
+        tuteeId: tuteeId,
+      });
 
-  } catch (error) {
-    dispatch({
-      type: RATE_TUTOR_FAILURE,
-      payload: error.response.data,
-    });    
-    throw error;
-  }
-}
+      dispatch({
+        type: RATE_TUTOR_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: RATE_TUTOR_FAILURE,
+        payload: error.response.data,
+      });
+      throw error;
+    }
+  };
 
 // passes in the tutor's USER id in the tutor's user model
-export const findTutorById = (tutorId) => async(dispatch) => {
-    try {
-      const response = await axios.get('/api/fetchOneTutor', {
-        params: {
-          tutorId: tutorId
-        }
+export const findTutorById = (tutorId) => async (dispatch) => {
+  try {
+    const response = await axios.get("/api/fetchOneTutor", {
+      params: {
+        tutorId: tutorId,
+      },
     });
     dispatch({
       type: FIND_TUTOR_SUCCESS,
@@ -289,38 +302,36 @@ export const findTutorById = (tutorId) => async(dispatch) => {
 
     // response contains tutor's user model and tutor's ratings
     return response.data;
-
-    } catch (error) {
-      dispatch({
-        type: FIND_TUTOR_FAILURE,
-        payload: error.response.data,
-      });
-      throw error;
-    }
-}
+  } catch (error) {
+    dispatch({
+      type: FIND_TUTOR_FAILURE,
+      payload: error.response.data,
+    });
+    throw error;
+  }
+};
 
 // Logout
 export const logout = () => ({ type: LOGOUT });
 
-
 // making tutor-tutee pair
-export const makePair = (tutorId, tuteeId) => async(dispatch) => {
-  console.log('makePair function called');
+export const makePair = (tutorId, tuteeId) => async (dispatch) => {
+  console.log("makePair function called");
 
   try {
-    const response = await axios.post('/api/updatePair', {
+    const response = await axios.post("/api/updatePair", {
       tutorId: tutorId,
-      tuteeId: tuteeId
+      tuteeId: tuteeId,
     });
     dispatch({
       type: TUTOR_PAIR_SUCCESS,
       payload: response.data,
-    }); 
+    });
   } catch (error) {
     dispatch({
       type: TUTOR_PAIR_FAILURE,
       payload: error.response.data,
-    });  
-    throw error
+    });
+    throw error;
   }
-}
+};

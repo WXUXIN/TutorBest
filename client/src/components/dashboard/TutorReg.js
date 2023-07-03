@@ -43,11 +43,17 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
     setRole(e.target.value);
   }
 
+  const emptySubjectList = () => {
+    return subjects.length === 0;
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
     if (emptySubjectOrPrice()) {
       setAlert("Please fill in all subject and price fields", "danger");
+    } else if (emptySubjectList()) {
+      setAlert("Please add at least one subject", "danger");
     } else if (emptyQualification()) {
       setAlert("Please fill in your highest qualification", "danger");
     } else if (emptyDescription()) {
@@ -82,7 +88,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
       subject: "",
       level: "",
       price: "",
-      subjectOptions : []
+      subjectOptions: [],
     };
     setSubjects([...subjects, newSubject]);
   };
@@ -90,10 +96,10 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   const handleLevelChange = (index, value) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
-    
+
     if (value in subjectOptionsData) {
       updatedSubjects[index].subjectOptions = subjectOptionsData[value];
-    } 
+    }
 
     setSubjects(updatedSubjects);
   };
@@ -135,15 +141,24 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
       <div className="box-container">
         <h1 className="normal-text">
           I am a
-          <select value={role} onChange={handleChangeRoles} className="role-dropdown">
+          <select
+            value={role}
+            onChange={handleChangeRoles}
+            className="role-dropdown"
+          >
             <option value="tutee">tutee</option>
             <option value="tutor">tutor</option>
           </select>
         </h1>
 
-        <h1 className="normal-text" style={{ fontWeight: "bold", marginTop: "10px", fontSize: "30px"}}>Please register as a tutor first:</h1>
+        <h1
+          className="normal-text"
+          style={{ fontWeight: "bold", marginTop: "10px", fontSize: "30px" }}
+        >
+          Please register as a tutor first:
+        </h1>
         <form className="form" onSubmit={onSubmit}>
-          <div  style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem" }}>
+          <div style={{ fontFamily: "Josefin Sans", marginLeft: "0 rem" }}>
             Select your subject(s):
           </div>
           {subjects.map((subject, index) => (

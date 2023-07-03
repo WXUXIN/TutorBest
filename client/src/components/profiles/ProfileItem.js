@@ -24,8 +24,6 @@ const ProfileItem = ({
     }
   }, []);
 
-  console.log(subjectList);
-
   if (!subjectList[0]) {
     return <Spinner />
   }
