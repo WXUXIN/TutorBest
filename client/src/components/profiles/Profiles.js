@@ -200,7 +200,7 @@ const Profiles = ({
               ))}
             </Fragment>
           ) : ( (profiles.profiles.length === 0 && !profiles.loading)
-            ? (<h4>No profiles found...</h4>) : (<Spinner />)
+            ? (<h4 className="normal-text">No profiles found...</h4>) : (<Spinner />)
           )}
         </div>
           </div>

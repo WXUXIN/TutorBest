@@ -13,6 +13,7 @@ import { makePair, findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { sendLinkingRequest } from "../../actions/linkingActions";
 
 const Profile = ({
   getProfileById,
@@ -33,6 +34,10 @@ const Profile = ({
 
   // control state of whether the tutee has rated the tutor
   const [hasRated, setHasRated] = useState(false);
+
+  // control state of sent linking request pending or not
+  const [isRequestPending, setIsRequestPending] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -233,6 +238,27 @@ const Profile = ({
             //   Chat with tutor
             // </Link>
           )} */}
+
+
+          {/* if user has sent linking request */}
+          <div style={{ marginTop: '20px' }}>
+            {auth.isAuthenticated && auth.loading === false && !isLinked &&
+              !isRequestPending ? (
+                <div>
+                  <button className="btn btn-primary" 
+                    onClick={() => {
+                      sendLinkingRequest(profile.user._id);
+                      setIsRequestPending(true);
+                    }}>
+                    Send Link Request!
+                  </button>
+                </div> ) : (
+                <div style={{marginTop: '20px'}}>
+                  <h1 className="normal-text">Request pending..</h1>
+                </div>
+                )
+            }
+          </div>
 
           {/* if user is logged in */}
           <div style={{ marginTop: "20px" }}>
