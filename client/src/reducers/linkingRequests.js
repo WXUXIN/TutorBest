@@ -9,7 +9,7 @@ import {
     linkingRequests: [],
   };
   
-  export default function (state = initialState, action) {
+  export default function linkingReducer(state = initialState, action) {
     const { type, payload } = action;
   
     switch (type) {

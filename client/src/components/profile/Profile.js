@@ -247,7 +247,7 @@ const Profile = ({
                 <div>
                   <button className="btn btn-primary" 
                     onClick={() => {
-                      sendLinkingRequest(profile.user._id);
+                      sendLinkingRequest(profile.user._id, auth.user._id);
                       setIsRequestPending(true);
                     }}>
                     Send Link Request!

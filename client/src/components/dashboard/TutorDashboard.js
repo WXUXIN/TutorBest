@@ -8,6 +8,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getTutorProfileByUserId } from "../../actions/profile";
+import { acceptLinkingRequest, rejectLinkingRequest } from "../../actions/linkingActions";
 
 const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTutorProfileByUserId }) => {
   const [role, setRole] = useState("tutor");
@@ -180,6 +181,23 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
             />
           </Link>
         </form>
+
+        {/* display linkingrequests of tutor */}
+        <div>
+          {profile.linkingRequests.length > 0 && (
+            <div>
+              <h3 className="normal-text">Linking Requests</h3>
+              {profile.linkingRequests.map((request) => (
+                <div className="btn btn-primary" key={request.tutee.user._id}>
+                  {request.tutee.name} 
+                  <button onClick={() => acceptLinkingRequest(profile.user._id, request.tutee.user._id)}>Accept</button>
+                  <button onClick={() => rejectLinkingRequest(profile.user._id, request.tutee.user._id)}>Decline</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
       </div>
     </section>
   );
@@ -192,7 +210,7 @@ TutorDashboard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: state.auth, 
   profiles: state.profiles,
 });
 
