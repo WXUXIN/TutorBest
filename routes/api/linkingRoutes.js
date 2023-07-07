@@ -32,7 +32,7 @@ router.post("/:tutorId/request/:tuteeId", async (req, res) => {
     const tuteeId = req.params.tuteeId;
     // Check if the linking request already exists
     const existingRequest = tutor.linkingRequests.find(
-      (request) => request.tutee.user._id === tuteeId
+      (request) => request._id === tuteeId
     );
     if (existingRequest) {
       return res.status(400).json({ msg: "Linking request already sent" });

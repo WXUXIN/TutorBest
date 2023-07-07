@@ -39,8 +39,6 @@ const Profile = ({
   // control state of sent linking request pending or not
   const [isRequestPending, setIsRequestPending] = useState(false);
 
-  console.log(isRequestPending);
-
   const navigate = useNavigate();
 
   const toggleRatingVisibility = () => {
@@ -50,7 +48,6 @@ const Profile = ({
 
   // function to check if tutor and tutee have linked and change the state of isLinked
   const isTutorLinked = () => {
-    console.log("isTutorLinked");
     try {
       const tutorIDs = profiles.map((tutor) => tutor.user._id);
 
@@ -111,9 +108,9 @@ const Profile = ({
   useEffect(() => {
     console.log('hi');
     try {
-      const requests = profile.linkingRequests.map((request) => request.tutee.user._id);
-      setIsRequestPending(requests.include(auth.user._id));
-      console.log(setIsRequestPending(requests.include(auth.user._id)))
+      const requests = profile.linkingRequests.map((request) => request._id);
+      setIsRequestPending(requests.includes(auth.user._id));
+      console.log(setIsRequestPending(requests.includes(auth.user._id)))
     } catch (error) {
       console.error("Error retrieving requests:", error);
     }
