@@ -23,7 +23,9 @@ router.get("/:tutorId/requests", async (req, res) => {
 // Send a linking request from a tutee to a tutor
 router.post("/:tutorId/request/:tuteeId", async (req, res) => {
   try {
-    const tutor = await Tutor.findById(req.params.tutorId);
+    console.log(req.params)
+    const tutor = await Tutor.findOne({ user: req.params.tutorId });
+    console.log(tutor)
     if (!tutor) {
       return res.status(404).json({ msg: "Tutor not found" });
     }

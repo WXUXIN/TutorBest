@@ -30,6 +30,7 @@ export const getLinkingRequests = (tutorId) => async (dispatch) => {
 // Send a linking request from a tutee to a tutor
 export const sendLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
   try {
+    console.log(`/api/linkingRoutes/${tutorId}/request/${tuteeId}`)
     const res = await axios.post(`/api/linkingRoutes/${tutorId}/request/${tuteeId}`);
     console.log('done');
     dispatch({

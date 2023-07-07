@@ -23,6 +23,7 @@ const Profile = ({
   clearProfile,
   isAuthenticated,
   getRegisteredProfiles,
+  sendLinkingRequest,
 }) => {
   // This gets the id from the url
   // profile id
@@ -38,6 +39,7 @@ const Profile = ({
   // control state of sent linking request pending or not
   const [isRequestPending, setIsRequestPending] = useState(false);
 
+  console.log(isRequestPending);
 
   const navigate = useNavigate();
 
@@ -105,6 +107,19 @@ const Profile = ({
     }
   }, [profile, auth.user]);
 
+  // check if sent linking request
+  useEffect(() => {
+    console.log('hi');
+    try {
+      const requests = profile.linkingRequests.map((request) => request.tutee.user._id);
+      setIsRequestPending(requests.include(auth.user._id));
+      console.log(setIsRequestPending(requests.include(auth.user._id)))
+    } catch (error) {
+      console.error("Error retrieving requests:", error);
+    }
+  }, [loading])
+
+  // check if linked
   useEffect(() => {
     try {
       const linked = isTutorLinked();
@@ -247,6 +262,8 @@ const Profile = ({
                 <div>
                   <button className="btn btn-primary" 
                     onClick={() => {
+                      console.log(profile.user._id) 
+                      console.log(auth.user._id)
                       sendLinkingRequest(profile.user._id, auth.user._id);
                       setIsRequestPending(true);
                     }}>
@@ -318,6 +335,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
+  sendLinkingRequest: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -330,4 +348,5 @@ export default connect(mapStateToProps, {
   makePair,
   clearProfile,
   getRegisteredProfiles,
+  sendLinkingRequest,
 })(Profile);
