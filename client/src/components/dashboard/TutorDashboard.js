@@ -54,7 +54,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
 
   // If the user is a tutor, render the tutor dashboard when the we have retrieved the data
   // if the user is not a tutor, we will redirect them to the tutor registration page
-  if (Object.entries(data).length === 0 && user.isTutor || !profile || loading || !user) {
+  if ((Object.entries(data).length === 0 && user.isTutor) || !profile || loading || !user) {
     return <Spinner />;
   } else if (!user.isTutor) {
     return <Navigate to="/TutorReg" />;
@@ -74,7 +74,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
       <div className="dark-overlay-bg"></div>
       <div className="background-image-container"></div>
       <div className="box-container">
-        <h1 className="normal-text">
+        <h1 className="form-font-white normal-text">
           I am a
           <select
             value={role}
@@ -85,12 +85,10 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
             <option value="tutor">tutor</option>
           </select>
         </h1>
-
-        <img src={`../../../../uploads/${user.photo}`} alt="User Avatar" /> 
-
-        <h1 className="normal-text" style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px"}}>
+        
+        <h1 className="form-font-white normal-text" style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px"}}>
           {" "}
-          Welcome{" "}
+          Welcome,{" "}
           {user && (
             <span style={{ fontWeight: "bold", fontSize: "50px" }}>
               {user.name}
@@ -98,8 +96,10 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
           )}
         </h1>
 
+        <img style={{ marginTop: "20px", borderRadius: '50%', width: '200px', height: '200px' }} src={`../../../../uploads/${user.photo}`} alt="User Avatar" />
+
         <h1
-          className="normal-text"
+          className="form-font-white normal-text"
           style={{
             marginTop: "20px",
             fontWeight: "bold",
@@ -109,16 +109,16 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
           Your Rating:
         </h1>
 
-        <h1 className="normal-text" style={{ marginTop: "15px" }}>
+        <h1 className="form-font-white normal-text" style={{ marginTop: "15px" }}>
           {typeof getAverageRatings(profile.ratings) === "string" ? (
-            <h1>{getAverageRatings(profile.ratings)}</h1>
+            <h1 className="form-font-white">{getAverageRatings(profile.ratings)}</h1>
           ) : (
-            <h1>{getAverageRatings(profile.ratings)} / 5 </h1>
+            <h1 className="form-font-white">{getAverageRatings(profile.ratings)} / 5 </h1>
           )}
         </h1>
 
         <h1
-          className="normal-text"
+          className="form-font-white normal-text"
           style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
         >
          Your Subjects:
@@ -126,7 +126,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
         <>
           {subjectList.map((subject, index) => (
             <div
-              className="normal-text"
+              className="normal-text form-font-white"
               style={{ marginTop: "20px" }}
               key={index}
             >
@@ -146,7 +146,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
           ))}
         </>
         <h1
-          className="normal-text"
+          className="normal-text form-font-white"
           style={{
             marginTop: "20px",
             fontWeight: "bold",
@@ -161,7 +161,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
         </div>
 
         <h1
-          className="normal-text"
+          className="form-font-white normal-text"
           style={{
             fontWeight: "bold",
             fontSize: "25px",
@@ -171,7 +171,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
         >
           Your Highest Qualification:
         </h1>
-        <div className="normal-text" style={{ marginBottom: "20px" }}>
+        <div className="form-font-white normal-text" style={{ marginBottom: "20px" }}>
           {highestQualification}
         </div>
 

@@ -193,9 +193,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
       <div className="container">
         <div className="box-container">
           <h1 className="large form-font-white">Sign Up</h1>
-          <p className="lead form-font form-font-white">
-            <i className="fas fa-user text-primary" /> Create Your Account
-          </p>
+          
           <form
             className="form"
             onSubmit={onSubmit}
