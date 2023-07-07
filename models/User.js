@@ -23,6 +23,9 @@ const UserSchema = new mongoose.Schema({
     isTutor: {
         type: Boolean,
         default: false
+    },
+    photo: {
+        type: String
     }
 
     // Relevant to tutors only:

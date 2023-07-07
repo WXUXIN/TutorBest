@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getTutorProfileByUserId } from "../../actions/profile";
 
+
 const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTutorProfileByUserId }) => {
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
@@ -63,6 +64,7 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
   if (role === "tutee") {
     return <Navigate to="/profiles" />;
   }
+  console.log(user.photo);
 
   const { subjectList, highestQualification, description, tutees } = data;
 
@@ -83,6 +85,8 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
             <option value="tutor">tutor</option>
           </select>
         </h1>
+
+        <img src={`../../../../uploads/${user.photo}`} alt="User Avatar" /> 
 
         <h1 className="normal-text" style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px"}}>
           {" "}

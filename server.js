@@ -2,13 +2,18 @@ const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
 const path = require('path');
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+app.set("view engine", "ejs");
 
 // Connect Database
 connectDB();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
@@ -24,8 +29,6 @@ app.use('/api/findTutor', require('./routes/api/findTutor'));
 app.use('/api/fetchOneTutor', require('./routes/api/fetchOneTutor'));
 app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
 app.use('/api/updatePair', require('./routes/api/updatePair'));
-
-
 
 // Serve static assets in production
 if(process.env.NODE_ENV === 'production') {

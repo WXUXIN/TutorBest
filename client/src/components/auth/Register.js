@@ -22,6 +22,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     email: "",
     password: "",
     password2: "",
+    photo: "",
   });
 
   const [subjects, setSubjects] = useState([]);
@@ -36,11 +37,16 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const [subjectOptions, setSubjectOptions] = useState([]);
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, photo } = formData;
 
   // Event handler
   const onChange = (e) =>
     setMainData({ ...formData, [e.target.name]: e.target.value });
+
+  const onChangeProfilePic = (e) => {
+    setMainData({ ...formData, photo: e.target.files[0] });
+    console.log(formData.photo);
+  };
 
   const emptySubjectOrPrice = () =>
     isTutor &&
@@ -63,6 +69,10 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     return isTutor && subjects.length === 0;
   };
 
+  const emptyProfilePic = () => {
+    return photo === "";
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
@@ -75,6 +85,8 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
       setAlert("Please fill in your highest qualification", "danger");
     } else if (emptyDescription()) {
       setAlert("Please fill in your description", "danger");
+    } else if (emptyProfilePic()) {
+      setAlert("Please upload a profile picture", "danger");
     } else {
       let subjectList = purgeEmptySubjects(subjects);
 
@@ -85,23 +97,45 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
         price: subject.price,
       }));
 
-      if (subjectList.length === 0) {
-        setAlert("Please add at least one subject", "danger");
-        return
-      }
-
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
 
-      await register({
-        name,
-        email,
-        password,
-        isTutor,
-        subjectList,
-        description,
-        highestQualification,
-      });
+      const formData = new FormData();
+
+      if (subjectList.length === 0 && isTutor) {
+        setAlert("Please add at least one subject", "danger");
+        return;
+      } else if (subjectList.length === 0 && !isTutor) {
+        formData.append("subjectList", "[]");
+      } else {
+        // Append the subjectList array normally
+        formData.append("subjectList", JSON.stringify(subjectList));
+      }
+
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("isTutor", isTutor);
+      formData.append("description", description);
+      formData.append("highestQualification", highestQualification);
+      formData.append("photo", photo);
+
+      if (subjectList)
+        // Using this,boundary not found error arises
+        // {
+        //     name,
+        //     email,
+        //     password,
+        //     isTutor,
+        //     subjectList,
+        //     description,
+        //     highestQualification,
+        //     photo
+        //   }\
+        console.log(subjectList);
+      console.log("gg to submiet");
+      console.log(`this is the subjectList : ${formData.get("subjectList")}`);
+      await register(formData);
     }
   };
 
@@ -162,7 +196,11 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           <p className="lead form-font form-font-white">
             <i className="fas fa-user text-primary" /> Create Your Account
           </p>
-          <form className="form" onSubmit={onSubmit}>
+          <form
+            className="form"
+            onSubmit={onSubmit}
+            encType="multipart/form-data"
+          >
             <div className="form-group">
               <small className="text-primary form-font-white">
                 Display name
@@ -210,6 +248,19 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 name="password2"
                 value={password2}
                 onChange={onChange}
+              />
+            </div>
+
+            <small className="text-primary form-font-white">
+              Upload Your Profile Picture
+            </small>
+            <div className="form-group">
+              <input
+                type="file"
+                name="photo"
+                accept=".png, .jpg, .jpeg"
+                required
+                onChange={onChangeProfilePic}
               />
             </div>
 

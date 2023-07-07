@@ -45,71 +45,115 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-// Register User
-export const register =
-  ({
-    name,
-    email,
-    password,
-    isTutor,
-    subjectList,
-    description,
-    highestQualification,
-  }) =>
-  async (dispatch) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+// // Register User
+// export const register =
+//   ({
+//     name,
+//     email,
+//     password,
+//     isTutor,
+//     subjectList,
+//     description,
+//     highestQualification,
+//   }) =>
+//   async (dispatch) => {
+//     const config = {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
 
-    const body = JSON.stringify({
-      name,
-      email,
-      password,
-      isTutor,
-      subjectList,
-      description,
-      highestQualification,
+//     const body = JSON.stringify({
+//       name,
+//       email,
+//       password,
+//       isTutor,
+//       subjectList,
+//       description,
+//       highestQualification,
+//     });
+
+//     try {
+//       // @desc    Register user
+//       const res = await axios.post("/api/users", body, config);
+
+//       // payload here is the token
+//       dispatch({
+//         type: REGISTER_SUCCESS,
+//         payload: res.data,
+//       });
+
+//       const id = Math.random().toString(36).substring(2, 9);
+//       dispatch({
+//         type: SET_ALERT,
+//         payload: {
+//           msg: "Account Successfully Registered!",
+//           alertType: "success",
+//           id,
+//         },
+//       });
+
+//       setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
+
+//       //This is to load the user right away after registration
+//       dispatch(loadUser());
+//     } catch (err) {
+//       const errors = err.response.data.errors;
+
+//       if (errors) {
+//         errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+//         console.log(errors);
+//       }
+
+//       dispatch({
+//         type: REGISTER_FAIL,
+//       });
+//     }
+//   };
+
+//New register
+export const register = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  console.log("gg to connect to back end");
+  try {
+    const res = await axios.post("/api/users", formData, config);
+
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data,
     });
 
-    try {
-      // @desc    Register user
-      const res = await axios.post("/api/users", body, config);
+    const id = Math.random().toString(36).substring(2, 9);
+    dispatch({
+      type: SET_ALERT,
+      payload: {
+        msg: "Account Successfully Registered!",
+        alertType: "success",
+        id,
+      },
+    });
 
-      // payload here is the token
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
 
-      const id = Math.random().toString(36).substring(2, 9);
-      dispatch({
-        type: SET_ALERT,
-        payload: {
-          msg: "Account Successfully Registered!",
-          alertType: "success",
-          id,
-        },
-      });
+    dispatch(loadUser());
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-      setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
-
-      //This is to load the user right away after registration
-      dispatch(loadUser());
-    } catch (err) {
-      const errors = err.response.data.errors;
-
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-        console.log(errors);
-      }
-
-      dispatch({
-        type: REGISTER_FAIL,
-      });
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      console.log(errors);
     }
-  };
+
+    dispatch({
+      type: REGISTER_FAIL,
+    });
+  }
+};
 
 // register as tutee as tutor
 export const tutorReg =
