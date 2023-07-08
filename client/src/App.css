@@ -236,6 +236,20 @@ img {
     color: #000000;
 }
 
+.green-box {
+  background-color:rgb(5, 157, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
+.red-box {
+  background-color:rgb(157, 10, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
 .btn-light,
 .bg-light,
 .badge-light,

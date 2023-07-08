@@ -22,6 +22,7 @@ app.use('/api/tutorData', require('./routes/api/tutorData'));
 app.use('/api/tutorSettings', require('./routes/api/tutorSettings')); 
 app.use('/api/findTutor', require('./routes/api/findTutor'));
 app.use('/api/fetchOneTutor', require('./routes/api/fetchOneTutor'));
+app.use('/api/fetchTutee', require('./routes/api/fetchTutee'));
 app.use('/api/rate-tutor', require('./routes/api/rate-tutor'));
 app.use('/api/updatePair', require('./routes/api/updatePair'));
 app.use('/api/linkingRoutes', require('./routes/api/linkingRoutes'));

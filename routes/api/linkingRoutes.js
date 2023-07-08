@@ -30,13 +30,14 @@ router.post("/:tutorId/request/:tuteeId", async (req, res) => {
     const tuteeId = req.params.tuteeId;
     // Check if the linking request already exists
     const existingRequest = tutor.linkingRequests.find(
-      (request) => request._id === tuteeId
+      (request) => request.tutee === tuteeId
     );
     if (existingRequest) {
       return res.status(400).json({ msg: "Linking request already sent" });
     }
     // add to tutee object array of linking requests
-    tutor.linkingRequests.push(tuteeId);
+    const tutee = await Tutee.findOne({ user: req.params.tuteeId }).populate("user");
+    tutor.linkingRequests.push({ tutee: tutee.user._id, tuteeName: tutee.user.name} );
     await tutor.save();
     res.json(tutor.linkingRequests);
   } catch (err) {
@@ -50,13 +51,12 @@ router.post("/:tutorId/request/:tuteeId", async (req, res) => {
 router.post("/:tutorId/request/:tuteeId/accept", async (req, res) => {
   try {
     const tutor = await Tutor.findOne({ user: req.params.tutorId });
-    console.log(tutor);
     if (!tutor) {
       return res.status(404).json({ msg: "Tutor not found" });
     }
     // find Linking Request
     const linkingRequestIndex = tutor.linkingRequests.findIndex(
-        (request) => request._id.equals(new mongoose.Types.ObjectId(req.params.tuteeId))
+        (request) => request.tutee.equals(new mongoose.Types.ObjectId(req.params.tuteeId))
       );
       if (linkingRequestIndex === -1) {
         return res.status(404).json({ msg: "Linking request not found" });
@@ -89,7 +89,7 @@ router.post("/:tutorId/request/:tuteeId/reject", async (req, res) => {
     }
     // find Linking Request
     const linkingRequestIndex = tutor.linkingRequests.findIndex(
-        (request) => request._id.equals(new mongoose.Types.ObjectId(req.params.tuteeId))
+        (request) => request.tutee.equals(new mongoose.Types.ObjectId(req.params.tuteeId))
     );
     if (linkingRequestIndex === -1) {
         return res.status(404).json({ msg: "Linking request not found" });

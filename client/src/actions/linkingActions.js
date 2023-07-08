@@ -66,6 +66,7 @@ export const acceptLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
 // Reject a linking request by a tutor
 export const rejectLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
   try {
+    console.log(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/reject`);
     const res = await axios.post(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/reject`);
     dispatch({
       type: REJECT_LINKING_REQUEST,

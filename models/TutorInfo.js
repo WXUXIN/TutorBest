@@ -52,13 +52,15 @@ const TutorSchema = new mongoose.Schema({
     type: String
   },
 
-  // record linking requests
   linkingRequests: [
     {
       tutee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      tuteeName: {
         type: String,
       },
-      
     },
   ],
 });

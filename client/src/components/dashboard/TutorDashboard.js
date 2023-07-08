@@ -7,6 +7,7 @@ import Spinner from "../../components/layout/Spinner";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { findTuteeById } from "../../actions/auth";
 import { getTutorProfileByUserId } from "../../actions/profile";
 import { acceptLinkingRequest, rejectLinkingRequest } from "../../actions/linkingActions";
 
@@ -70,8 +71,9 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
 
   console.log(subjectList);
   return (
-    <section className="container">
-      <div className="bright-overlay-bg"></div>
+    <section className="bright-overlay-bg">
+
+      <div className="container">
       <div className="box-container">
         <h1 className="normal-text">
           I am a
@@ -187,18 +189,25 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
         <div style={{ marginTop:'20px'}}>
           {profile.linkingRequests.length > 0 && (
             <div>
-              <h3 className="normal-text">Linking Requests</h3>
+              <h3 className="normal-text" style={{
+                    fontWeight: "bold",
+                    fontSize: "25px",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}>Linking Requests
+              </h3>
               {profile.linkingRequests.map((request) => (
-                <div style={{ marginBottom:'20px'}} className="yellow-box" key={request._id}>
-                  {request._id} 
-                  <button style={{ marginLeft:'10px'}} onClick={() => acceptLinkingRequest(profile.user._id, request._id)}>Accept</button>
-                  <button style={{ marginLeft:'10px'}} onClick={() => rejectLinkingRequest(profile.user._id, request._id)}>Decline</button>
+                <div style={{ marginBottom:'20px'}} className="yellow-box" key={request.tutee}>
+                  {request.tuteeName} 
+                  <button className="green-box normal-text" style={{ marginLeft:'10px'}} onClick={() => acceptLinkingRequest(profile.user._id, request.tutee)}>Accept</button>
+                  <button className="red-box normal-text" style={{ marginLeft:'10px'}} onClick={() => rejectLinkingRequest(profile.user._id, request.tutee)}>Decline</button>
                 </div>
               ))}
             </div>
           )}
         </div>
 
+      </div>
       </div>
     </section>
   );

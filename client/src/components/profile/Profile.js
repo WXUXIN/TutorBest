@@ -9,7 +9,7 @@ import {
   clearProfile,
   getRegisteredProfiles,
 } from "../../actions/profile";
-import { makePair, findTutorById, handleRateTutor } from "../../actions/auth";
+import { findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,6 @@ const Profile = ({
   getProfileById,
   auth,
   profiles: { profiles, profile, loading },
-  makePair,
   clearProfile,
   isAuthenticated,
   getRegisteredProfiles,
@@ -108,7 +107,7 @@ const Profile = ({
   useEffect(() => {
     console.log('hi');
     try {
-      const requests = profile.linkingRequests.map((request) => request._id);
+      const requests = profile.linkingRequests.map((request) => request.tutee);
       setIsRequestPending(requests.includes(auth.user._id));
       console.log(setIsRequestPending(requests.includes(auth.user._id)))
     } catch (error) {
@@ -266,29 +265,12 @@ const Profile = ({
                     }}>
                     Send Link Request!
                   </button>
-                </div> ) : (
-                <div style={{marginTop: '20px'}}>
-                  <h1 className="normal-text">Request pending..</h1>
-                </div>
-                )
-            }
-          </div>
-
-          {/* if user is logged in */}
-          <div style={{ marginTop: "20px" }}>
-            {auth.isAuthenticated && auth.loading === false && !isLinked && (
-              // Link with tutor button
-              <button
-                onClick={() => {
-                  makePair(profile.user._id, auth.user._id);
-                  setIsLinked(true);
-                }}
-                className="btn btn-primary"
-              >
-                Link with tutor
-              </button>
-            )}
-          </div>
+                </div> ) : !isLinked && isRequestPending ? (
+                    <div style={{ marginTop: '20px' }}>
+                      <h1 className="normal-text">Request pending..</h1>
+                    </div>
+                  ) : null}
+            </div>
 
           {/* rating tutor link */}
           {auth.isAuthenticated &&
@@ -342,7 +324,6 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getProfileById,
-  makePair,
   clearProfile,
   getRegisteredProfiles,
   sendLinkingRequest,

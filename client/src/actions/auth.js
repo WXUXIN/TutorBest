@@ -11,6 +11,8 @@ import {
   RATE_TUTOR_SUCCESS,
   FIND_TUTOR_SUCCESS,
   FIND_TUTOR_FAILURE,
+  FIND_TUTEE_SUCCESS,
+  FIND_TUTEE_FAILURE,
   TUTOR_PAIR_FAILURE,
   TUTOR_PAIR_SUCCESS
 } from "./types";
@@ -297,6 +299,30 @@ export const findTutorById = (tutorId) => async(dispatch) => {
       });
       throw error;
     }
+}
+
+// passes in the tutee's USER id in the tutor's user model
+export const findTuteeById = (tuteeId) => async(dispatch) => {
+  try {
+    console.log(tuteeId)
+    const response = await axios.get('/api/fetchTutee', {
+      params: {
+        tuteeId: tuteeId
+      }
+  });
+  dispatch({
+    type: FIND_TUTEE_SUCCESS,
+    payload: response.data,
+  });
+  // response contains tutee's user model and tutee's ratings
+  return response.data;
+  } catch (error) {
+    dispatch({
+      type: FIND_TUTEE_FAILURE,
+      payload: error.response.data,
+    });
+    throw error;
+  }
 }
 
 // Logout
