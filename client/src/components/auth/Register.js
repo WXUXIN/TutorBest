@@ -118,7 +118,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
       formData.append("isTutor", isTutor);
       formData.append("description", description);
       formData.append("highestQualification", highestQualification);
-      formData.append("photo", photo);
+
+      if (photo === "") {
+        formData.append(photo, "default.jpg");
+      } else {
+        formData.append("photo", photo);
+      }
 
       if (subjectList)
         // Using this,boundary not found error arises

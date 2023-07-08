@@ -139,6 +139,18 @@ const Profile = ({
           >
             {profile.user.name}
           </h1>
+
+          <img
+            style={{
+              marginTop: "20px",
+              borderRadius: "50%",
+              width: "200px",
+              height: "200px",
+            }}
+            src={`../../../../uploads/${profile.user.photo || "default.jpg"}`}
+            alt="User Avatar"
+          />
+
           <Fragment>
             <h1
               className="normal-text"

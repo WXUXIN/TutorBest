@@ -36,9 +36,6 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
     <div className="container">
       <div className="box-container">
       <h1 className="large text-primary x-large-landing" style={{color:"black"}}>Log In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign into your account
-      </p>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
           <input
