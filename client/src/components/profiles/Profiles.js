@@ -15,7 +15,7 @@ const Profiles = ({
   auth: { user, isAuthenticated },
   profiles,
   getAllProfiles,
-  clearProfiles
+  clearProfiles,
 }) =>
   // I want to display all of the tutors in the database
   {
@@ -56,7 +56,6 @@ const Profiles = ({
     // Calls the getAllProfiles action once to get the
     // latest list of profiles from the database
     useEffect(() => {
-      
       // clearProfiles();
       console.log("useEffect called for profiles");
       // This will call the getAllProfiles action
@@ -100,111 +99,121 @@ const Profiles = ({
 
     return (
       <section className="dark-overlay-bg">
-      <div className="background-image-container"></div>
+        <div className="background-image-container"></div>
 
-      <div className="container">
-        <div className="box-container">
-        {isAuthenticated && (
-          <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
-            I am a
-            <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
-              <option value="tutee">tutee</option>
-              <option value="tutor">tutor</option>
-            </select>
-          </h1>
-        )}
-        <div style={{ marginTop: "20px", marginBottom:"20px" }}>
-
-          <div style={{ marginRight: '10px' }}>
-            <select
-              value={levelOfStudy}
-              onChange={handleLevelOfStudyChange}
-              className="dropdown"
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                float: "left",
-                marginRight: "10px"
-              }}
-            >
-              <option value="">Level of Study</option>
-              {levelOfStudyTemplate.map((option) => (
-                <option key={option} value={option}>
-                    {option}
-                </option>
-                ))}
-
-              {/* <option value="Primary School">Primary School</option>
-              <option value="Secondary School">Secondary School</option>
-              <option value="Junior College">Junior College</option> */}
-            </select>
-          </div>
-          
-          <div style={{ marginRight: '10px' }}>
-            <select
-              value={subject}
-              onChange={handleSubjectChange}
-              className="dropdown"
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                float: "left",
-                marginRight: "10px"
-              }}
-              disabled={subjectOptions.length === 0}
-            >
-              {subjectOptions.length === 0 ? (
-                <option value="">Select level of study</option>
-              ) : (
-                <>
-                  <option value="">Select subject</option>
-                  {subjectOptions.map((option) => (
+        <div className="container">
+          <div className="box-container">
+            {isAuthenticated && (
+              <h1
+                className="normal-text"
+                style={{ position: "absolute", top: "10px" }}
+              >
+                I am a
+                <select
+                  className="role-dropdown"
+                  value={role}
+                  onChange={handleChangeRoles}
+                >
+                  <option value="tutee">tutee</option>
+                  <option value="tutor">tutor</option>
+                </select>
+              </h1>
+            )}
+            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+              <div style={{ marginTop: "20px" }}>
+                <select
+                  value={levelOfStudy}
+                  onChange={handleLevelOfStudyChange}
+                  className="dropdown"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                >
+                  <option value="">Level of Study</option>
+                  {levelOfStudyTemplate.map((option) => (
                     <option key={option} value={option}>
                       {option}
                     </option>
                   ))}
-                </>
+
+                  {/* <option value="Primary School">Primary School</option>
+              <option value="Secondary School">Secondary School</option>
+              <option value="Junior College">Junior College</option> */}
+                </select>
+              </div>
+
+              <div style={{ marginRight: "10px" }}>
+                <select
+                  value={subject}
+                  onChange={handleSubjectChange}
+                  className="dropdown"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                  disabled={subjectOptions.length === 0}
+                >
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+
+              <button
+                className="btn btn-primary"
+                disabled={!levelOfStudy || !subject}
+                onClick={handleSearch}
+              >
+                Search for tutors
+              </button>
+
+              {isAuthenticated && (
+                <Link
+                  to={`/registered-tutors/${user._id} `}
+                  className="btn btn-primary"
+                >
+                  View all YOUR tutors
+                </Link>
               )}
-            </select>
-          </div>
-        
-        <button
-          className="btn btn-primary"
-          disabled={!levelOfStudy || !subject}
-          onClick={handleSearch}
-        >
-          Search for tutors
-        </button>
 
-        {isAuthenticated && (
-          <Link
-            to={`/registered-tutors/${user._id} `}
-            className="btn btn-primary"
-          >
-            View all YOUR tutors
-          </Link>
-        )}
-
-        {profiles.profiles.length > 0 && !profiles.loading ? (
-          <Fragment>
-            {profiles.profiles.map((profile) => (
-              <ProfileItem key={profile._id} profile={profile}/>
-            ))}
-          </Fragment>
-        ) : ( (profiles.profiles.length === 0 && !profiles.loading)
-           ? (<h4>No profiles found...</h4>) : (<Spinner />)
-        )}
+              <div style={{ marginTop: "10px" }}>
+                {profiles.profiles.length > 0 && !profiles.loading ? (
+                  <Fragment>
+                    {profiles.profiles.map((profile) => (
+                      <ProfileItem key={profile._id} profile={profile} />
+                    ))}
+                  </Fragment>
+                ) : profiles.profiles.length === 0 && !profiles.loading ? (
+                  <h4>No profiles found...</h4>
+                ) : (
+                  <Spinner />
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
       </section>
     );
   };
@@ -221,4 +230,6 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getAllProfiles, clearProfiles })(Profiles);
+export default connect(mapStateToProps, { getAllProfiles, clearProfiles })(
+  Profiles
+);

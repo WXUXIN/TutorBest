@@ -251,119 +251,125 @@ const FilteredProfiles = ({
             </h1>
           )}
 
-          <div style={{ marginTop: "20px" }}>
-            <select
-              value={levelOfStudy}
-              onChange={handleLevelOfStudyChange}
-              className="dropdown normal-text"
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                width: "200px",
-                float: "left",
-                marginRight: "10px",
-              }}
-            >
-              <option value="">Level of Study</option>
-              {levelOfStudyTemplate.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={subject}
-              onChange={handleSubjectChange}
-              className="dropdown normal-text"
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                width: "200px",
-                float: "left",
-              }}
-              disabled={subjectOptions.length === 0}
-            >
-              {subjectOptions.length === 0 ? (
-                <option value="">Select level of study</option>
-              ) : (
-                <>
-                  <option value="">Select subject</option>
-                  {subjectOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </>
-              )}
-            </select>
-
-            <button
-              className="btn btn-primary"
-              disabled={!levelOfStudy || !subject}
-              onClick={handleSearch}
-              style={{
-                textAlign: "center",
-                borderRadius: "30px",
-                marginLeft: "30px",
-              }}
-            >
-              Search for tutors
-            </button>
-
-            <select
-              value={sortBy}
-              onChange={(e) => {
-                sortProfiles(profilesList, e.target.value);
-                setSortBy(e.target.value);
-              }}
-              className="dropdown normal-text"
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                marginLeft: "60px",
-              }}
-            >
-              <option disabled value="">
-                Sort By
-              </option>
-              <option value="Pricing - Low to High">
-                Pricing - Low to High
-              </option>
-              <option value="Pricing - High to Low">
-                Pricing - High to Low
-              </option>
-              <option value="Rating - High to Low">Rating - High to Low</option>
-              <option value="Rating - Low to High">Rating - Low to High</option>
-            </select>
-          </div>
-
-          <div style={{ marginTop: "10px" }}>
-            {profilesList.length > 0 ? (
-              <Fragment>
-                {profilesList.map((profile) => (
-                  <ProfileItem
-                    key={profile._id}
-                    profile={profile}
-                    subjectAndLevel={subjectAndLevel}
-                  />
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+            <div style={{ marginTop: "20px" }}>
+              <select
+                value={levelOfStudy}
+                onChange={handleLevelOfStudyChange}
+                className="dropdown normal-text"
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                  width: "200px",
+                  float: "left",
+                  marginRight: "10px",
+                }}
+              >
+                <option value="">Level of Study</option>
+                {levelOfStudyTemplate.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
-              </Fragment>
-            ) : (
-              <h4>No profiles found...</h4>
-            )}
+              </select>
+
+              <div style={{ marginRight: "10px" }}>
+                <select
+                  value={subject}
+                  onChange={handleSubjectChange}
+                  className="dropdown normal-text"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                  disabled={subjectOptions.length === 0}
+                >
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+
+              <button
+                className="btn btn-primary"
+                disabled={!levelOfStudy || !subject}
+                onClick={handleSearch}
+                style={{
+                  textAlign: "center",
+                  borderRadius: "30px",
+                }}
+              >
+                Search for tutors
+              </button>
+
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  sortProfiles(profilesList, e.target.value);
+                  setSortBy(e.target.value);
+                }}
+                className="dropdown normal-text"
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                }}
+              >
+                <option disabled value="">
+                  Sort By
+                </option>
+                <option value="Pricing - Low to High">
+                  Pricing - Low to High
+                </option>
+                <option value="Pricing - High to Low">
+                  Pricing - High to Low
+                </option>
+                <option value="Rating - High to Low">
+                  Rating - High to Low
+                </option>
+                <option value="Rating - Low to High">
+                  Rating - Low to High
+                </option>
+              </select>
+            </div>
+
+            <div style={{ marginTop: "10px" }}>
+              {profilesList.length > 0 ? (
+                <Fragment>
+                  {profilesList.map((profile) => (
+                    <ProfileItem
+                      key={profile._id}
+                      profile={profile}
+                      subjectAndLevel={subjectAndLevel}
+                    />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4>No profiles found...</h4>
+              )}
+            </div>
           </div>
         </div>
       </div>
