@@ -228,6 +228,14 @@ img {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.yellow-box{
+    background-color:#e9c78c;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    color: #000000;
+}
+
 .btn-light,
 .bg-light,
 .badge-light,
