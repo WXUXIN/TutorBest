@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getAllProfiles, getFilteredProfiles, clearProfiles } from "../../actions/profile";
+import {
+  getAllProfiles,
+  getFilteredProfiles,
+  clearProfiles,
+} from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
 import {
@@ -66,18 +70,14 @@ const FilteredProfiles = ({
   // Calls the getFilteredProfiles action once to get the
   // latest filtered list of profiles from the database
   useEffect(() => {
-    
-
     const queryParams = new URLSearchParams(location.search);
     const varLevelOfStudy = queryParams.get("levelOfStudy");
     const varSubject = queryParams.get("subject");
 
-    setLevelOfStudy(varLevelOfStudy)
-    setSubject(varSubject)
+    setLevelOfStudy(varLevelOfStudy);
+    setSubject(varSubject);
 
     setSubjectOptions(subjectOptionsData[varLevelOfStudy]);
-
-    console.log("useEffect called for filtered profiles");
 
     // This will call the getFilteredProfiles action
     // to store all the profiles in the redux store
@@ -114,17 +114,32 @@ const FilteredProfiles = ({
     return subject ? subject.price : null;
   };
 
+  const getAverageRatings = (profile) => {
+    // Return 0 if the ratings array is empty
+    const ratings = profile.ratings;
+
+    if (ratings.length === 0) {
+      return "No ratings yet";
+    }
+
+    // Calculate the sum of all ratings
+    const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
+
+    // Calculate the average by dividing the sum by the number of ratings
+    const average = sum / ratings.length;
+
+    // Round the average to two decimal places
+    return Math.round(average * 100) / 100;
+  };
+
   const sortProfiles = (profiles, sortBy) => {
-    const sortedProfiles = [...profiles];
-    console.log(sortBy, sortedProfiles);
+    let sortedProfiles = [...profiles];
 
     switch (sortBy) {
       case "Pricing - Low to High":
         sortedProfiles.sort((a, b) => {
           const priceA = getSubjectPrice(a);
           const priceB = getSubjectPrice(b);
-
-          console.log(priceA, priceB);
 
           if (priceA !== null && priceB !== null) {
             return priceA - priceB;
@@ -153,14 +168,45 @@ const FilteredProfiles = ({
           }
         });
         break;
-      // Add more cases for other sorting options if needed
+
+      case "Rating - High to Low":
+        const profilesWithRatingsHL = sortedProfiles.filter(
+          (profile) => typeof getAverageRatings(profile) !== "string"
+        );
+        const profilesWithoutRatingsHL = sortedProfiles.filter(
+          (profile) => typeof getAverageRatings(profile) === "string"
+        );
+        profilesWithRatingsHL.sort((a, b) => {
+          const ratingA = getAverageRatings(a);
+          const ratingB = getAverageRatings(b);
+          return ratingB - ratingA;
+        });
+        sortedProfiles = profilesWithRatingsHL.concat(profilesWithoutRatingsHL);
+        break;
+
+      case "Rating - Low to High":
+        const profilesWithRatingsLH = sortedProfiles.filter(
+          (profile) => typeof getAverageRatings(profile) !== "string"
+        );
+        const profilesWithoutRatingsLH = sortedProfiles.filter(
+          (profile) => typeof getAverageRatings(profile) === "string"
+        );
+        profilesWithRatingsLH.sort((a, b) => {
+          const ratingA = getAverageRatings(a);
+          const ratingB = getAverageRatings(b);
+          return ratingA - ratingB;
+        });
+        sortedProfiles = profilesWithRatingsLH.concat(profilesWithoutRatingsLH);
+        break;
+
       default:
         break;
     }
-
-    console.log("sorted", sortedProfiles);
-
+    // if (finalSortedProfiles.length === 0) {
+    //   setProfiles(sortedProfiles);
+    // } else {
     setProfiles(sortedProfiles);
+    // }
   };
 
   //   If still setting data in profilesList, show spinner
@@ -184,130 +230,155 @@ const FilteredProfiles = ({
   // the student has selected
   return (
     <section className="bright-overlay-bg">
-    
-    <div className="container">
-      <div className="box-container">
-      {isAuthenticated && (
-        <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
-          I am a
-          <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
-            <option value="tutee">tutee</option>
-            <option value="tutor">tutor</option>
-          </select>
-        </h1>
-      )}
-            
-      <div style={{ marginTop: "20px" }}>
-        <select
-          value={levelOfStudy}
-          onChange={handleLevelOfStudyChange}
-          className="dropdown normal-text"
-          style={{
-            fontSize: "inherit",
-            backgroundColor: "grey",
-            color: "#e9c78c",
-            borderRadius: "30px",
-            textAlign: "center",
-            padding: "8px",
-            width: "200px",
-            float: "left",
-            marginRight: "10px"
-          }}
-        >
-          <option value="">Level of Study</option>
-          {levelOfStudyTemplate.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+      <div className="background-image-container"></div>
 
-        <select
-          value={subject}
-          onChange={handleSubjectChange}
-          className="dropdown normal-text"
-          style={{
-            fontSize: "inherit",
-            backgroundColor: "grey",
-            color: "#e9c78c",
-            borderRadius: "30px",
-            textAlign: "center",
-            padding: "8px",
-            width: "200px",
-            float: "left",
-          }}
-          disabled={subjectOptions.length === 0}
-        >
-          {subjectOptions.length === 0 ? (
-            <option value="">Select level of study</option>
-          ) : (
-            <>
-              <option value="">Select subject</option>
-              {subjectOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </>
+      <div className="container">
+        <div className="box-container">
+          <h1 className="form-font-white large normal-text">
+            Search for your next tutor:
+          </h1>
+          {isAuthenticated && (
+            <h1
+              className="normal-text"
+              style={{ position: "absolute", top: "10px" }}
+            >
+              I am a
+              <select
+                className="role-dropdown"
+                value={role}
+                onChange={handleChangeRoles}
+              >
+                <option value="tutee">tutee</option>
+                <option value="tutor">tutor</option>
+              </select>
+            </h1>
           )}
-        </select>
-      
 
-      <button
-        className="btn btn-primary"
-        disabled={!levelOfStudy || !subject}
-        onClick={handleSearch}
-        style={{
-          textAlign: "center",
-          borderRadius: "30px",
-          marginLeft: "30px"
-        }}
-      >
-        Search for tutors
-      </button>
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+            <div style={{ marginTop: "20px" }}>
+              <select
+                value={levelOfStudy}
+                onChange={handleLevelOfStudyChange}
+                className="dropdown normal-text"
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                  width: "200px",
+                  float: "left",
+                  marginRight: "10px",
+                }}
+              >
+                <option value="">Level of Study</option>
+                {levelOfStudyTemplate.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
 
-      <select
-        value={sortBy}
-        onChange={(e) => {
-          sortProfiles(profilesList, e.target.value);
-          setSortBy(e.target.value);
-        }}
-        className="dropdown normal-text"
-        style={{
-          fontSize: "inherit",
-          backgroundColor: "grey",
-          color: "#e9c78c",
-          borderRadius: "30px",
-          textAlign: "center",
-          padding: "8px",
-          marginLeft: "60px"
+              <div style={{ marginRight: "10px" }}>
+                <select
+                  value={subject}
+                  onChange={handleSubjectChange}
+                  className="dropdown normal-text"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                  disabled={subjectOptions.length === 0}
+                >
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
 
-        }}
-      >
-        <option disabled value="">
-          Sort By
-        </option>
-        <option value="Pricing - Low to High">Pricing - Low to High</option>
-        <option value="Pricing - High to Low">Pricing - High to Low</option>
-      </select>
-      </div>
-      
-      <div style={{ marginTop: '10px' }}>
-      {profilesList.length > 0 ? (
-        <Fragment>
-          {profilesList.map((profile) => (
-            <ProfileItem key={profile._id} profile={profile} subjectAndLevel = {subjectAndLevel} />
-          ))}
-        </Fragment>
-      ) : (
-        <h4>No profiles found...</h4>
-      )}
-      </div>
-    
+              <button
+                className="btn btn-primary"
+                disabled={!levelOfStudy || !subject}
+                onClick={handleSearch}
+                style={{
+                  textAlign: "center",
+                  borderRadius: "30px",
+                }}
+              >
+                Search for tutors
+              </button>
+
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  sortProfiles(profilesList, e.target.value);
+                  setSortBy(e.target.value);
+                }}
+                className="dropdown normal-text"
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                }}
+              >
+                <option disabled value="">
+                  Sort By
+                </option>
+                <option value="Pricing - Low to High">
+                  Pricing - Low to High
+                </option>
+                <option value="Pricing - High to Low">
+                  Pricing - High to Low
+                </option>
+                <option value="Rating - High to Low">
+                  Rating - High to Low
+                </option>
+                <option value="Rating - Low to High">
+                  Rating - Low to High
+                </option>
+              </select>
+            </div>
+
+            <div style={{ marginTop: "10px" }}>
+              {profilesList.length > 0 ? (
+                <Fragment>
+                  {profilesList.map((profile) => (
+                    <ProfileItem
+                      key={profile._id}
+                      profile={profile}
+                      subjectAndLevel={subjectAndLevel}
+                    />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4 className="form-font-white medium normal-text">
+                  No tutors found...
+                </h4>
+              )}
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     </section>
-    
   );
 };
 

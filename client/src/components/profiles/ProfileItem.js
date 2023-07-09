@@ -5,15 +5,14 @@ import { useEffect } from "react";
 import Spinner from "../layout/Spinner";
 const ProfileItem = ({
   profile: {
-    user: { name },
+    user: { name, photo },
     subjectList,
     // This is the id of the TutorInfo model
     _id,
+    ratings,
   },
   subjectAndLevel,
 }) => {
-  console.log(subjectAndLevel);
-
   useEffect(() => {
     if (subjectAndLevel) {
       subjectList = subjectList.filter(
@@ -24,20 +23,54 @@ const ProfileItem = ({
     }
   }, []);
 
-  console.log(subjectList);
+  const getAverageRatings = (ratings) => {
+    // Return 0 if the ratings array is empty
+
+    if (ratings.length === 0) {
+      return "No ratings yet";
+    }
+
+    // Calculate the sum of all ratings
+    const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
+
+    // Calculate the average by dividing the sum by the number of ratings
+    const average = sum / ratings.length;
+
+    // Round the average to two decimal places
+    return Math.round(average * 100) / 100;
+  };
 
   if (!subjectList[0]) {
-    return <Spinner />
+    return <Spinner />;
   }
 
   return (
-    <div className='profile bg-light normal-text'>
+    <div className="profile bg-light normal-text">
       <div>
-        <h2 style = {{ fontWeight: "bold", fontSize: "30px" }}>{name}</h2>
+        <img
+          style={{
+            marginTop: "20px",
+            borderRadius: "50%",
+            width: "200px",
+            height: "200px",
+          }}
+          src={`../../../../uploads/${photo || "default.jpg"}`}
+        />
+
+        <h2 style={{ fontWeight: "bold", fontSize: "30px" }}>{name}</h2>
 
         {/* Subject and level is to check if ProfileItem is being used in
         Profiles, RegisteredTutors or FilteredProfiles */}
-        {subjectAndLevel && subjectList && subjectList[0] && <p>${subjectList[0].price}/hr</p>}
+        {subjectAndLevel && subjectList && subjectList[0] && (
+          <>
+            <p>Rate: {"  "} ${subjectList[0].price}/hr</p>
+            <p> Rating: {"  "}
+              {typeof getAverageRatings(ratings) === "string"
+                ? getAverageRatings(ratings)
+                : (`${getAverageRatings(ratings)} / 5`)} 
+            </p>
+          </>
+        )}
 
         <Link to={`/profile/${_id}`} className="btn btn-primary">
           View Profile

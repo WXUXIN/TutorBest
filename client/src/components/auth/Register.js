@@ -22,6 +22,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
     email: "",
     password: "",
     password2: "",
+    photo: "",
   });
 
   const [subjects, setSubjects] = useState([]);
@@ -36,11 +37,16 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const [subjectOptions, setSubjectOptions] = useState([]);
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, photo } = formData;
 
   // Event handler
   const onChange = (e) =>
     setMainData({ ...formData, [e.target.name]: e.target.value });
+
+  const onChangeProfilePic = (e) => {
+    setMainData({ ...formData, photo: e.target.files[0] });
+    console.log(formData.photo);
+  };
 
   const emptySubjectOrPrice = () =>
     isTutor &&
@@ -59,16 +65,28 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
   const purgeEmptySubjects = (subjs) =>
     subjs.filter((subject) => subject.subject !== "" && subject.price !== "");
 
+  const emptySubjectList = () => {
+    return isTutor && subjects.length === 0;
+  };
+
+  const emptyProfilePic = () => {
+    return photo === "";
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlert("Passwords do not match", "danger");
+    } else if (emptySubjectList()) {
+      setAlert("Please add at least one subject", "danger");
     } else if (emptySubjectOrPrice()) {
       setAlert("Please fill in all subject and price fields", "danger");
     } else if (emptyQualification()) {
       setAlert("Please fill in your highest qualification", "danger");
     } else if (emptyDescription()) {
       setAlert("Please fill in your description", "danger");
+    } else if (emptyProfilePic()) {
+      setAlert("Please upload a profile picture", "danger");
     } else {
       let subjectList = purgeEmptySubjects(subjects);
 
@@ -81,15 +99,48 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
       const highestQualification =
         qualification === "Others" ? otherQualification : qualification;
-      register({
-        name,
-        email,
-        password,
-        isTutor,
-        subjectList,
-        description,
-        highestQualification,
-      });
+
+      const formData = new FormData();
+
+      if (subjectList.length === 0 && isTutor) {
+        setAlert("Please add at least one subject", "danger");
+        return;
+      } else if (subjectList.length === 0 && !isTutor) {
+        formData.append("subjectList", "[]");
+      } else {
+        // Append the subjectList array normally
+        formData.append("subjectList", JSON.stringify(subjectList));
+      }
+
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("isTutor", isTutor);
+      formData.append("description", description);
+      formData.append("highestQualification", highestQualification);
+
+      if (photo === "") {
+        formData.append(photo, "default.jpg");
+      } else {
+        formData.append("photo", photo);
+      }
+
+      if (subjectList)
+        // Using this,boundary not found error arises
+        // {
+        //     name,
+        //     email,
+        //     password,
+        //     isTutor,
+        //     subjectList,
+        //     description,
+        //     highestQualification,
+        //     photo
+        //   }\
+        console.log(subjectList);
+      console.log("gg to submiet");
+      console.log(`this is the subjectList : ${formData.get("subjectList")}`);
+      await register(formData);
     }
   };
 
@@ -146,14 +197,17 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
       <div className="container">
         <div className="box-container">
-          <h1 className="large form-font-white">
-            Sign Up
-          </h1>
-          <p className="lead form-font form-font-white">
-            <i className="fas fa-user text-primary" /> Create Your Account
-          </p>
-          <form className="form" onSubmit={onSubmit}>
+          <h1 className="large form-font-gold">Sign Up</h1>
+          
+          <form
+            className="form"
+            onSubmit={onSubmit}
+            encType="multipart/form-data"
+          >
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Display name
+              </small>
               <input
                 type="text"
                 placeholder="Name"
@@ -161,12 +215,12 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 value={name}
                 onChange={(e) => onChange(e)}
               />
-              <small className="text-primary form-font-white">
-                This will be your display name
-              </small>
             </div>
 
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Email Address
+              </small>
               <input
                 type="email"
                 placeholder="Email Address"
@@ -175,7 +229,9 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 onChange={(e) => onChange(e)}
               />
             </div>
+
             <div className="form-group">
+              <small className="text-primary form-font-white">Password</small>
               <input
                 type="password"
                 placeholder="Password"
@@ -184,13 +240,30 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                 onChange={(e) => onChange(e)}
               />
             </div>
+
             <div className="form-group">
+              <small className="text-primary form-font-white">
+                Confirm Password
+              </small>
               <input
                 type="password"
                 placeholder="Confirm Password"
                 name="password2"
                 value={password2}
                 onChange={onChange}
+              />
+            </div>
+
+            <small className="text-primary form-font-white">
+              Upload Your Profile Picture
+            </small>
+            <div className="form-group">
+              <input
+                type="file"
+                name="photo"
+                accept=".png, .jpg, .jpeg"
+                required
+                onChange={onChangeProfilePic}
               />
             </div>
 
@@ -201,20 +274,14 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                   checked={isTutor}
                   onChange={(e) => setTutor(!isTutor)}
                 />
-                <span
-                  className="form-font-gold ml-1"
-                >
+                <span className="form-font-gold ml-1">
                   I want to be a tutor!
                 </span>
               </label>
 
               {isTutor ? (
                 <>
-                  <h3
-                    className="form-font-white"
-                  >
-                    Select your subject(s):
-                  </h3>
+                  <h3 className="form-font-white">Select your subject(s):</h3>
                   {subjects.map((subject, index) => (
                     <div key={index} className="form-group">
                       <div className="subject-wrapper">
@@ -256,23 +323,22 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                           </select>
                         )}
 
-
                         {subject.level !== "" && subject.subject !== "" && (
-                          <>
-                          <small className="form-font-white">Whare are your rates?</small>
-                          <input
-                            type="text"
-                            placeholder="Price"
-                            name="price"
-                            value={
-                              subject.price ? `SGD ${subject.price}/hr` : `SGD`
-                            }
-                            onChange={(e) =>
-                              handlePriceChange(index, e.target.value)
-                            }
-                            className="my"
-                          />
-                          </>
+                          <div>
+                            <small className="text-primary form-font-white">
+                              Whare is your rate? ( /hr)
+                            </small>
+                            <input
+                              type="text"
+                              placeholder="Price"
+                              name="price"
+                              value={subject.price ? `$${subject.price}` : "$"}
+                              onChange={(e) =>
+                                handlePriceChange(index, e.target.value)
+                              }
+                              className="my"
+                            />
+                          </div>
                         )}
 
                         <button
@@ -286,14 +352,18 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                     </div>
                   ))}
 
-                  <button type="button" className="btn" onClick={addSubject}>
+                  <button
+                    type="button"
+                    className="btn  btn-success cross-button  "
+                    onClick={addSubject}
+                  >
                     <span>&#43;</span>
                   </button>
 
                   {/* Qualification dropdown and input box */}
-                  
+
                   <div className="form-group">
-                  <h2 className="form-font-white" >Highest Qualification:</h2>
+                    <h2 className="form-font-white">Highest Qualification:</h2>
                     <div className="subject-wrapper">
                       <select
                         value={qualification}
@@ -328,7 +398,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
                   </div>
 
                   <div className="form-group">
-                    <h2 className="form-font-white" >Description:</h2>
+                    <h2 className="form-font-white">Description:</h2>
                     <textarea
                       id="description"
                       name="description"
@@ -351,7 +421,10 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
           </form>
 
           <p className="my-1 form-font-white">
-            Already have an account? <Link className="form-font-gold" to="/login ">Sign In</Link>
+            Already have an account?{" "}
+            <Link className="form-font-gold" to="/login ">
+              Sign In
+            </Link>
           </p>
         </div>
       </div>

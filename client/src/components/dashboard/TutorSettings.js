@@ -16,7 +16,7 @@ import {
   levelOfStudyTemplate,
 } from "../../subjectOptionsData";
 
-const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
+const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
   // Every time the state changes, the component re-renders,
   // meaning the webpage will update with the new state.
   const [userData, setUserData] = useState({});
@@ -38,6 +38,8 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
   // This is to track if the user has submitted the form
   const [detailsUpdated, setDetailsUpdated] = useState(false);
+
+  const [readyForEdit, setReadyForEdit] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,6 +78,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
         setSubjects(copiedSubjectList);
         setHqTracker(tutorData.highestQualification);
         setDescTracker(tutorData.description);
+        setReadyForEdit(true);
 
         // If current qualification is not in the standard set, we will update the hqTracker state to be "Others"
         // and the otherQualification to being the current qualification
@@ -106,7 +109,6 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   //   Event handler
   const onUserDataChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
-    console.log(userData, name);
   };
 
   // This function checks if any subject or price field is empty
@@ -118,28 +120,43 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
   // This function checks if the highest qualification is empty
   const emptyQualification = () =>
+    hqTracker === "" ||
     highestQualification === "" ||
     (highestQualification === "Others" && otherQualification === "");
 
   const purgeEmptySubjects = (subjs) =>
     subjs.filter((subject) => subject.subject !== "" && subject.price !== "");
 
+  const emptySubjectList = () => {
+    return subjects.length === 0;
+  };
+
+  const emptyDescription = () => descTracker === "";
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (emptySubjectOrPrice()) {
       setAlert("Please fill in all subject and price fields", "danger");
+    } else if (emptySubjectList()) {
+      setAlert("Please add at least one subject", "danger");
     } else if (emptyQualification()) {
       setAlert("Please fill in your highest qualification", "danger");
+    } else if (emptyDescription()) {
+      setAlert("Please fill in your description", "danger");
     } else {
-      console.log(subjects, "subjects");
       let tempCompareList = purgeEmptySubjects(subjects);
-      console.log(tempCompareList, "subjects after filtering");
+
       tempCompareList = tempCompareList.map((subject) => ({
         // Remove subjectOptions from the subject object
         subject: subject.subject,
         level: subject.level,
         price: subject.price,
       }));
+
+      if (tempCompareList.length === 0) {
+        setAlert("Please add at least one subject", "danger");
+        return;
+      }
 
       const newSubjectList =
         JSON.stringify(tempCompareList) !== JSON.stringify(subjectList)
@@ -161,6 +178,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
       }
 
       let newDescription = "";
+
       if (descTracker !== description) {
         newDescription = descTracker;
       } else {
@@ -193,10 +211,10 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   const handleLevelChange = (index, value) => {
     const updatedSubjects = [...subjects];
     updatedSubjects[index].level = value;
-    
+
     if (value in subjectOptionsData) {
       updatedSubjects[index].subjectOptions = subjectOptionsData[value];
-    } 
+    }
 
     setSubjects(updatedSubjects);
   };
@@ -227,7 +245,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
   }
 
   // Make sure that the website is ready to track the user data
-  if (!subjects || !hqTracker || !descTracker) {
+  if (readyForEdit === false) {
     return <Spinner />;
   }
 
@@ -236,17 +254,15 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
     return <Navigate to="/TutorDashboard" />;
   }
 
-  console.log(subjects, "123");
   return (
     <section className="bright-overlay-bg">
+      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
-          <h1 className="large text-primary" style={{ color: "white" }}>
-            Edit your information here
-          </h1>
+          <h1 className="large text-primary">Edit your information here</h1>
           <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
-              <small className="normal-text">Name</small>
+              <small className="form-font-white normal-text">Name</small>
               <input
                 type="text"
                 placeholder="Name"
@@ -258,7 +274,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
             </div>
 
             <div className="form-group">
-              <small className="normal-text">Email</small>
+              <small className="form-font-white normal-text">Email</small>
               <input
                 type="email"
                 placeholder="Email Address"
@@ -271,9 +287,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
             <div className="form-group">
               <>
-                <div
-                  style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" , color: '#e9c78c'}}
-                >
+                <div className="form-font-white normal-text">
                   Edit your subject(s):
                 </div>
                 {subjects.map((subject, index) => (
@@ -318,23 +332,26 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                       )}
 
                       {subject.level !== "" && subject.subject !== "" && (
-                        <input
-                          type="text"
-                          placeholder="Price"
-                          name="price"
-                          value={
-                            subject.price ? `SGD ${subject.price}/hr` : `SGD`
-                          }
-                          onChange={(e) =>
-                            handlePriceChange(index, e.target.value)
-                          }
-                          className="my"
-                        />
+                        <div>
+                          <small className="text-primary form-font-white">
+                            Whare is your rate? ( /hr)
+                          </small>
+                          <input
+                            type="text"
+                            placeholder="Price"
+                            name="price"
+                            value={subject.price ? `$${subject.price}` : "$"}
+                            onChange={(e) =>
+                              handlePriceChange(index, e.target.value)
+                            }
+                            className="my"
+                          />
+                        </div>
                       )}
 
                       <button
                         type="button"
-                        className="btn cross-button"
+                        className="btn cross-button btn-danger"
                         onClick={() => removeSubject(index)}
                       >
                         &#10005;
@@ -343,13 +360,17 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
                   </div>
                 ))}
 
-                <button type="button" className="btn" onClick={addSubject}>
+                <button
+                  type="button"
+                  className="btn  btn-success cross-button  "
+                  onClick={addSubject}
+                >
                   <span>&#43;</span>
                 </button>
 
                 {/* Qualification dropdown and input box */}
                 <div className="form-group">
-                  <small className="normal-text">Highest Qualification:</small>
+                  <small className="form-font-white normal-text normal-text">Highest Qualification:</small>
                   <div className="subject-wrapper">
                     <select
                       value={hqTracker}
@@ -384,7 +405,7 @@ const TutorSettings = ({ stAlert, user, isAuthenticated, tutorSettings }) => {
 
               {/* Description input box */}
               <div className="form-group">
-                <small className="normal-text">Description:</small>
+                <small className="form-font-white normal-text normal-text">Description:</small>
                 <textarea
                   id="description"
                   name="description"

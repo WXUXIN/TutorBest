@@ -130,17 +130,30 @@ const Profile = ({
 
   return (
     <section className="bright-overlay-bg">
+      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
           <h1
-            className="normal-text"
+            className="form-font-gold normal-text"
             style={{ fontWeight: "bold", fontSize: "50px" }}
           >
             {profile.user.name}
           </h1>
+
+          <img
+            style={{
+              marginTop: "20px",
+              borderRadius: "50%",
+              width: "200px",
+              height: "200px",
+            }}
+            src={`../../../../uploads/${profile.user.photo || "default.jpg"}`}
+            alt="User Avatar"
+          />
+
           <Fragment>
             <h1
-              className="normal-text"
+              className="form-font-white normal-text"
               style={{
                 marginTop: "20px",
                 fontWeight: "bold",
@@ -150,7 +163,7 @@ const Profile = ({
               Rating:
             </h1>
 
-            <h1 className="normal-text" style={{ marginTop: "15px" }}>
+            <h1 className="form-font-white normal-text" style={{ marginTop: "15px" }}>
               {typeof getAverageRatings(profile.ratings) === "string" ? (
                 <h1>{getAverageRatings(profile.ratings)}</h1>
               ) : (
@@ -160,7 +173,7 @@ const Profile = ({
 
             {auth.isAuthenticated && (
               <h1
-                className="normal-text"
+                className="form-font-white normal-text"
                 style={{
                   marginTop: "20px",
                   fontWeight: "bold",
@@ -171,17 +184,17 @@ const Profile = ({
               </h1>
             )}
             {auth.isAuthenticated ? (
-              <h1 className="normal-text" style={{ marginTop: "20px" }}>
+              <h1 className="form-font-white normal-text" style={{ marginTop: "20px" }}>
                 {profile.user.email}
               </h1>
             ) : (
-              <h1 className="normal-text" style={{ marginTop: "20px" }}>
+              <h1 className="form-font-white normal-text" style={{ marginTop: "20px" }}>
                 Sign Up to view email!{" "}
               </h1>
             )}
 
             <h1
-              className="normal-text"
+              className="form-font-white normal-text"
               style={{
                 marginTop: "20px",
                 fontWeight: "bold",
@@ -194,7 +207,7 @@ const Profile = ({
             {profile.subjectList.length > 0 ? (
               profile.subjectList.map((subject, index) => (
                 <div
-                  className="normal-text"
+                  className="form-font-white normal-text"
                   style={{ marginTop: "15px", marginBottom: "15px" }}
                   key={index}
                 >
@@ -218,7 +231,7 @@ const Profile = ({
           </Fragment>
 
           <h1
-            className="normal-text"
+            className="form-font-white normal-text"
             style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
           >
             Tutor's description:

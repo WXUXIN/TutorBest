@@ -5,7 +5,10 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
-
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 // To bring in the User model and use this to interact with the database
 const User = require("../../models/User");
 const Tutor = require("../../models/TutorInfo");
@@ -16,19 +19,40 @@ const Tutee = require("../../models/TuteeInfo");
 // @desc    Register user
 // @access  Public / Private (need token)
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "client/public/uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, uuidv4() + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (allowedFileTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
+
 // @route   GET api/users
 // @desc    Register user
 // @access  Public
-
 // For registering a user
 router.post(
   "/",
+  upload.single("photo"),
   check("name", "Name is required").not().isEmpty(),
   check("email", "Please include a valid email").not().isEmpty(),
   check(
     "password",
     "Please enter a password that has 6 or more characters"
   ).isLength({ min: 6 }),
+
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -36,15 +60,12 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      name,
-      email,
-      password,
-      isTutor,
-      subjectList,
-      description,
-      highestQualification,
-    } = req.body;
+    const subjectList = JSON.parse(req.body.subjectList);
+    const isTutor = JSON.parse(req.body.isTutor);
+    const { name, email, password, description, highestQualification } =
+      req.body;
+
+    const photo = req.file.filename;
 
     try {
       // See if user exists
@@ -72,6 +93,7 @@ router.post(
         avatar,
         password,
         isTutor,
+        photo,
       });
 
       // Encrypt password
@@ -82,6 +104,7 @@ router.post(
       await user.save();
 
       // If user indicated that he/she wants to be a tutor
+
       if (isTutor) {
         const tutor = new Tutor({
           user: user._id, // Set the user reference for the tutor
