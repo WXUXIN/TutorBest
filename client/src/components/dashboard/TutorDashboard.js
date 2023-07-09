@@ -15,6 +15,13 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
   acceptLinkingRequest, rejectLinkingRequest }) => {
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
+  const [settledRequests, setSettledRequests] = useState([]);
+
+  useEffect(() => {
+    if (profile && profile.linkingRequests) {
+      setSettledRequests(profile.linkingRequests);
+    }
+  }, [profile && profile.linkingRequests]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -43,15 +50,25 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
     if (ratings.length === 0) {
       return "No ratings yet";
     }
-
     // Calculate the sum of all ratings
     const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
-
     // Calculate the average by dividing the sum by the number of ratings
     const average = sum / ratings.length;
-
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
+  };
+
+  const handleAcceptRequest = async (request) => {
+    await acceptLinkingRequest(profile.user._id, request.tutee);
+    const updatedArray = settledRequests.filter((newRequest) => newRequest.tutee !== request.tutee);
+    console.log(updatedArray);
+    setSettledRequests(updatedArray);
+  };
+  
+  const handleDeclineRequest = async (request) => {
+    await rejectLinkingRequest(profile.user._id, request.tutee);
+    const updatedArray = settledRequests.filter((newRequest) => newRequest.tutee !== request.tutee);
+    setSettledRequests(updatedArray);
   };
 
   // If the user is a tutor, render the tutor dashboard when the we have retrieved the data
@@ -187,7 +204,6 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
 
         {/* display linkingrequests of tutor */}
         <div style={{ marginTop:'20px'}}>
-          {profile.linkingRequests.length > 0 && (
             <div>
               <h3 className="normal-text" style={{
                     fontWeight: "bold",
@@ -196,15 +212,22 @@ const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTu
                     marginBottom: "10px",
                   }}>Linking Requests
               </h3>
-              {profile.linkingRequests.map((request) => (
-                <div style={{ marginBottom:'20px'}} className="yellow-box" key={request.tutee}>
-                  {request.tuteeName} 
-                  <button className="green-box normal-text" style={{ marginLeft:'10px'}} onClick={() => acceptLinkingRequest(profile.user._id, request.tutee)}>Accept</button>
-                  <button className="red-box normal-text" style={{ marginLeft:'10px'}} onClick={() => rejectLinkingRequest(profile.user._id, request.tutee)}>Decline</button>
-                </div>
-              ))}
+              {settledRequests.length > 0 ? (
+                settledRequests.map((request) => (
+                  <div style={{ marginBottom: '20px' }} className="yellow-box" key={request.tutee}>
+                    {request.tuteeName} 
+                    <button className="green-box normal-text" style={{ marginLeft: '10px' }} onClick={() => handleAcceptRequest(request)}>
+                      Accept
+                    </button>
+                    <button className="red-box normal-text" style={{ marginLeft: '10px' }} onClick={() => handleDeclineRequest(request)}>
+                      Decline
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="normal-text" style={{ marginBottom: '20px' }}> No requests ...</div>
+              )}
             </div>
-          )}
         </div>
 
       </div>
