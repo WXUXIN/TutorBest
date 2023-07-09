@@ -4,7 +4,7 @@ const app = express();
 const path = require('path');
 var bodyParser = require('body-parser');
 var multer = require('multer');
-
+const cors = require('cors');
 app.set("view engine", "ejs");
 
 // Connect Database
@@ -14,6 +14,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors({ origin : '*'}))
 // app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
@@ -39,6 +40,6 @@ if(process.env.NODE_ENV === 'production') {
     });
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));  

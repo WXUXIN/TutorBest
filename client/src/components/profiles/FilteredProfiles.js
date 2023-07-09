@@ -229,11 +229,14 @@ const FilteredProfiles = ({
   // I want to now filter the list of tutors based on the level of study and subject that
   // the student has selected
   return (
-    <section className="dark-overlay-bg">
+    <section className="bright-overlay-bg">
       <div className="background-image-container"></div>
 
       <div className="container">
         <div className="box-container">
+          <h1 className="form-font-white large normal-text">
+            Search for your next tutor:
+          </h1>
           {isAuthenticated && (
             <h1
               className="normal-text"
@@ -367,7 +370,9 @@ const FilteredProfiles = ({
                   ))}
                 </Fragment>
               ) : (
-                <h4>No profiles found...</h4>
+                <h4 className="form-font-white medium normal-text">
+                  No tutors found...
+                </h4>
               )}
             </div>
           </div>

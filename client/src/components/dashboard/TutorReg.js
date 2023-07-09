@@ -136,7 +136,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
 
   return (
     <section className="container">
-      <div className="dark-overlay-bg"></div>
+      <div className="bright-overlay-bg"></div>
       <div className="background-image-container"></div>
       <div className="box-container">
         <h1 className="normal-text">

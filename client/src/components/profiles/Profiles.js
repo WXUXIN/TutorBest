@@ -98,7 +98,7 @@ const Profiles = ({
     // Display all the profiles of tutors in the database
 
     return (
-      <section className="dark-overlay-bg">
+      <section className="bright-overlay-bg">
         <div className="background-image-container"></div>
 
         <div className="container">
@@ -119,6 +119,10 @@ const Profiles = ({
                 </select>
               </h1>
             )}
+
+            <h1 className="form-font-white large normal-text">
+              Search for your next tutor:
+            </h1>
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <div style={{ marginTop: "20px" }}>
                 <select
@@ -206,7 +210,7 @@ const Profiles = ({
                     ))}
                   </Fragment>
                 ) : profiles.profiles.length === 0 && !profiles.loading ? (
-                  <h4>No profiles found...</h4>
+                  <h4>No tutors found...</h4>
                 ) : (
                   <Spinner />
                 )}

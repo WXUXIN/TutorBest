@@ -255,16 +255,14 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
   }
 
   return (
-    <section className="dark-overlay-bg">
+    <section className="bright-overlay-bg">
       <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
-          <h1 className="large text-primary" style={{ color: "black" }}>
-            Edit your information here
-          </h1>
+          <h1 className="large text-primary">Edit your information here</h1>
           <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
-              <small className="normal-text">Name</small>
+              <small className="form-font-white normal-text">Name</small>
               <input
                 type="text"
                 placeholder="Name"
@@ -276,7 +274,7 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
             </div>
 
             <div className="form-group">
-              <small className="normal-text">Email</small>
+              <small className="form-font-white normal-text">Email</small>
               <input
                 type="email"
                 placeholder="Email Address"
@@ -289,9 +287,7 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
 
             <div className="form-group">
               <>
-                <div
-                  style={{ fontFamily: "Josefin Sans", marginLeft: "0.5rem" }}
-                >
+                <div className="form-font-white normal-text">
                   Edit your subject(s):
                 </div>
                 {subjects.map((subject, index) => (
@@ -336,23 +332,26 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
                       )}
 
                       {subject.level !== "" && subject.subject !== "" && (
-                        <input
-                          type="text"
-                          placeholder="Price"
-                          name="price"
-                          value={
-                            subject.price ? `SGD ${subject.price}/hr` : `SGD`
-                          }
-                          onChange={(e) =>
-                            handlePriceChange(index, e.target.value)
-                          }
-                          className="my"
-                        />
+                        <div>
+                          <small className="text-primary form-font-white">
+                            Whare is your rate? ( /hr)
+                          </small>
+                          <input
+                            type="text"
+                            placeholder="Price"
+                            name="price"
+                            value={subject.price ? `$${subject.price}` : "$"}
+                            onChange={(e) =>
+                              handlePriceChange(index, e.target.value)
+                            }
+                            className="my"
+                          />
+                        </div>
                       )}
 
                       <button
                         type="button"
-                        className="btn cross-button"
+                        className="btn cross-button btn-danger"
                         onClick={() => removeSubject(index)}
                       >
                         &#10005;
@@ -361,13 +360,17 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
                   </div>
                 ))}
 
-                <button type="button" className="btn" onClick={addSubject}>
+                <button
+                  type="button"
+                  className="btn  btn-success cross-button  "
+                  onClick={addSubject}
+                >
                   <span>&#43;</span>
                 </button>
 
                 {/* Qualification dropdown and input box */}
                 <div className="form-group">
-                  <small className="normal-text">Highest Qualification:</small>
+                  <small className="form-font-white normal-text normal-text">Highest Qualification:</small>
                   <div className="subject-wrapper">
                     <select
                       value={hqTracker}
@@ -402,7 +405,7 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
 
               {/* Description input box */}
               <div className="form-group">
-                <small className="normal-text">Description:</small>
+                <small className="form-font-white normal-text normal-text">Description:</small>
                 <textarea
                   id="description"
                   name="description"

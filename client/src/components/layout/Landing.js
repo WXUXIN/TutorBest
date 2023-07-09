@@ -58,7 +58,7 @@ export default function Landing() {
 
   return (
     <section className="landing">
-      <div className="dark-overlay-bg"></div>
+      <div className="bright-overlay-bg"></div>
       <div className="background-image-container"></div>
 
       <div className="landing-inner">
@@ -71,7 +71,7 @@ export default function Landing() {
  
           }}
         >
-          <h1 className="x-large-landing">
+          <h1 className="form-font-white x-large-landing">
             I am in &nbsp;&nbsp;
             <select
               value={levelOfStudy}
@@ -93,10 +93,11 @@ export default function Landing() {
                 </option>
               ))}
             </select>
+            {" ,"}
           </h1>
 
-          <h1 className="x-large-landing" style={{ marginTop: "30px" }}>
-            I am looking for a &nbsp;&nbsp;
+          <h1 className="form-font-white x-large-landing" style={{ marginTop: "30px" }}>
+            looking for a &nbsp;&nbsp;
             <select
               value={subject}
               onChange={handleSubjectChange}

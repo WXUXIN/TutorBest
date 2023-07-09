@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
-import Spinner from '../layout/Spinner';
-
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import { login } from "../../actions/auth";
+import Spinner from "../layout/Spinner";
 
 const Login = ({ setAlert, login, isAuthenticated, user }) => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
-
-  const {email, password} = formData;
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);  
+    await login(email, password);
   };
 
   if (isAuthenticated && user && user.isTutor) {
@@ -30,39 +28,46 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
   }
 
   return (
-    <section className="dark-overlay-bg"> 
-    <div className="background-image-container"></div>
+    <section className="bright-overlay-bg">
+      <div className="background-image-container"></div>
 
-    <div className="container">
-      <div className="box-container">
-      <h1 className="large text-primary x-large-landing" style={{color:"black"}}>Log In</h1>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-          />
-          
+      <div className="container">
+        <div className="box-container">
+          <h1 className="large form-font-gold">Log In</h1>
+          <form className="form" onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                value={email}
+                onChange={onChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={onChange}
+              />
+            </div>
+            <input
+              type="submit"
+              style={{ fontFamily: "Josefin Sans" }}
+              className="btn btn-primary themefont"
+              value="Login"
+            />
+          </form>
+          <p className="my-1 form-font-white">
+            Don't have an account?{" "}
+            <Link className="form-font-gold" to="/register">
+              Register
+            </Link>
+          </p>
         </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary themefont" value="Login" />
-      </form>
-      <p className="my-1" style={{ fontWeight: 'bold' }}>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
       </div>
-    </div>
     </section>
   );
 };
@@ -70,13 +75,12 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  user : PropTypes.func.isRequired
+  user: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  user : state.auth.user
+  user: state.auth.user,
 });
-
 
 export default connect(mapStateToProps, { login })(Login);
