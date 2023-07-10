@@ -85,7 +85,9 @@ const Profiles = ({
     }
 
     const handleSearchInputChange = (e) => {
-      setSearchInput(e.target.value);
+      const input = e.target.value;
+      setSearchInput(input);
+      setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
     };
 
     const handleSearchResult = () => {
