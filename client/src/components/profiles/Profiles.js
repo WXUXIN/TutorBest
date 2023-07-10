@@ -10,6 +10,8 @@ import {
   subjectOptionsData,
   levelOfStudyTemplate,
 } from "../../subjectOptionsData";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Profiles = ({
   auth: { user, isAuthenticated },
@@ -221,11 +223,24 @@ const Profiles = ({
 
         <div style={{ marginTop: '10px' }}>
           {/* Search Bar */}
+          <div className="search-bar">
           <input
+            className="normal-text"
             type="text"
             placeholder="Search for tutors..."
             value={searchInput}
             onChange={handleSearchInputChange}
+            style={{
+              width: "300px",
+              borderRadius: "20px",
+              padding: "8px",
+              fontSize: "inherit",
+              backgroundColor: "grey",
+              color: "#e9c78c",
+              border: "none",
+              outline: "none",
+              marginRight: "10px"
+            }}
           />
           <button style={{ marginLeft:'10px'}}
             className="btn btn-primary"
@@ -233,6 +248,7 @@ const Profiles = ({
           >
             Search
           </button>
+          </div>
         </div>
 
         {/* search bar input rendering */}

@@ -771,6 +771,22 @@ select option {
     list-style-type: none;
  
   }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid #e9c78c;
+    overflow: hidden;
+  }
+  
+  .search-icon {
+    color: #e9c78c;
+    margin-right: 10px;
+  }
+  
   
 
   .themefont{
