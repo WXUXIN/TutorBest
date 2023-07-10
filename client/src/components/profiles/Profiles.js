@@ -223,7 +223,6 @@ const Profiles = ({
 
         <div style={{ marginTop: '10px' }}>
           {/* Search Bar */}
-          <div className="search-bar">
           <input
             className="normal-text"
             type="text"
@@ -248,7 +247,6 @@ const Profiles = ({
           >
             Search
           </button>
-          </div>
         </div>
 
         {/* search bar input rendering */}
