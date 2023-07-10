@@ -10,6 +10,8 @@ import {
   subjectOptionsData,
   levelOfStudyTemplate,
 } from "../../subjectOptionsData";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Profiles = ({
   auth: { user, isAuthenticated },
@@ -21,10 +23,8 @@ const Profiles = ({
   {
     // const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
-
     // This stores the selection of the level of study
     const [levelOfStudy, setLevelOfStudy] = useState("");
-
     // This stores the subject selected by tutee
     const [subject, setSubject] = useState("");
 
@@ -32,6 +32,10 @@ const Profiles = ({
 
     // This stores the subjects that can be selected from the dropdown
     const [subjectOptions, setSubjectOptions] = useState([]);
+
+    //searchbar states
+    const [searchInput, setSearchInput] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
     // For students to select their level of study
     const handleLevelOfStudyChange = (e) => {
@@ -63,6 +67,13 @@ const Profiles = ({
       getAllProfiles();
     }, []);
 
+    // updating of search results spontaneously
+    useEffect(() => {
+      if (profiles && profiles.profiles) {
+        setSearchResults(profiles.profiles);
+      }
+    }, [profiles]);
+
     // Updates the profilesList state variable
     // Rerun when the profiles state variable is updated
     // useEffect(() => {
@@ -73,6 +84,29 @@ const Profiles = ({
     function handleChangeRoles(e) {
       setRole(e.target.value);
     }
+
+    const handleSearchInputChange = (e) => {
+      const input = e.target.value;
+      setSearchInput(input);
+      setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
+    };
+
+    const handleSearchResult = () => {
+      if (searchInput) {
+        const filteredResults =
+          profiles.profiles &&
+          profiles.profiles.filter(
+            (profile) =>
+              profile.user.name &&
+              profile.user.name
+                .toLowerCase()
+                .includes(searchInput.toLowerCase())
+          );
+        setSearchResults(filteredResults);
+      } else {
+        setSearchResults(profiles.profiles);
+      }
+    };
 
     if (isAuthenticated) {
       // when the user selects tutee, we will render the tutee dashboard
@@ -96,7 +130,6 @@ const Profiles = ({
     };
 
     // Display all the profiles of tutors in the database
-
     return (
       <section className="bright-overlay-bg">
         <div className="container">
@@ -191,28 +224,70 @@ const Profiles = ({
                   Search for tutors
                 </button>
 
-                <div style={{ marginTop: "10px" }}>
-                  {isAuthenticated && (
-                    <Link
-                      to={`/registered-tutors/${user._id} `}
-                      className="btn btn-primary"
-                    >
-                      View all YOUR tutors
-                    </Link>
-                  )}
+                {isAuthenticated && (
+                  <Link
+                    to={`/registered-tutors/${user._id} `}
+                    className="btn btn-primary"
+                  >
+                    View all YOUR tutors
+                  </Link>
+                )}
 
-                  {profiles.profiles.length > 0 && !profiles.loading ? (
-                    <Fragment>
-                      {profiles.profiles.map((profile) => (
-                        <ProfileItem key={profile._id} profile={profile} />
-                      ))}
-                    </Fragment>
-                  ) : profiles.profiles.length === 0 && !profiles.loading ? (
-                    <h4 className="normal-text">No profiles found...</h4>
-                  ) : (
-                    <Spinner />
-                  )}
+                <div style={{ marginTop: "10px" }}>
+                  {/* Search Bar */}
+                  <input
+                    className="normal-text"
+                    type="text"
+                    placeholder="Search for tutors..."
+                    value={searchInput}
+                    onChange={handleSearchInputChange}
+                    style={{
+                      width: "300px",
+                      borderRadius: "20px",
+                      padding: "8px",
+                      fontSize: "inherit",
+                      backgroundColor: "grey",
+                      color: "#e9c78c",
+                      border: "none",
+                      outline: "none",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <button
+                    style={{ marginLeft: "10px" }}
+                    className="btn btn-primary"
+                    onClick={handleSearchResult}
+                  >
+                    Search
+                  </button>
                 </div>
+
+                {/* search bar input rendering */}
+                {searchInput ? (
+                  <div>
+                    {searchResults.length > 0 ? (
+                      searchResults.map((profile) => (
+                        <ProfileItem key={profile._id} profile={profile} />
+                      ))
+                    ) : (
+                      <h4 className="normal-text">No profiles found...</h4>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ marginTop: "10px" }}>
+                    {profiles.profiles.length > 0 && !profiles.loading ? (
+                      <Fragment>
+                        {profiles.profiles.map((profile) => (
+                          <ProfileItem key={profile._id} profile={profile} />
+                        ))}
+                      </Fragment>
+                    ) : profiles.profiles.length === 0 && !profiles.loading ? (
+                      <h4 className="normal-text">No profiles found...</h4>
+                    ) : (
+                      <Spinner />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
