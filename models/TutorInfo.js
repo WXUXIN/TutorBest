@@ -51,6 +51,18 @@ const TutorSchema = new mongoose.Schema({
   description: {
     type: String
   },
+
+  linkingRequests: [
+    {
+      tutee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      tuteeName: {
+        type: String,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("tutors", TutorSchema);

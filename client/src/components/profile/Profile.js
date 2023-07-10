@@ -9,19 +9,20 @@ import {
   clearProfile,
   getRegisteredProfiles,
 } from "../../actions/profile";
-import { makePair, findTutorById, handleRateTutor } from "../../actions/auth";
+import { findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { sendLinkingRequest } from "../../actions/linkingActions";
 
 const Profile = ({
   getProfileById,
   auth,
   profiles: { profiles, profile, loading },
-  makePair,
   clearProfile,
   isAuthenticated,
   getRegisteredProfiles,
+  sendLinkingRequest,
 }) => {
   // This gets the id from the url
   // profile id
@@ -34,6 +35,9 @@ const Profile = ({
   // control state of whether the tutee has rated the tutor
   const [hasRated, setHasRated] = useState(false);
 
+  // control state of sent linking request pending or not
+  const [isRequestPending, setIsRequestPending] = useState(false);
+
   const navigate = useNavigate();
 
   const toggleRatingVisibility = () => {
@@ -43,7 +47,6 @@ const Profile = ({
 
   // function to check if tutor and tutee have linked and change the state of isLinked
   const isTutorLinked = () => {
-    console.log("isTutorLinked");
     try {
       const tutorIDs = profiles.map((tutor) => tutor.user._id);
 
@@ -100,6 +103,19 @@ const Profile = ({
     }
   }, [profile, auth.user]);
 
+  // check if sent linking request
+  useEffect(() => {
+    console.log('hi');
+    try {
+      const requests = profile.linkingRequests.map((request) => request.tutee);
+      setIsRequestPending(requests.includes(auth.user._id));
+      console.log(setIsRequestPending(requests.includes(auth.user._id)))
+    } catch (error) {
+      console.error("Error retrieving requests:", error);
+    }
+  }, [loading])
+
+  // check if linked
   useEffect(() => {
     try {
       const linked = isTutorLinked();
@@ -130,7 +146,6 @@ const Profile = ({
 
   return (
     <section className="bright-overlay-bg">
-      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
           <h1
@@ -247,21 +262,27 @@ const Profile = ({
             // </Link>
           )} */}
 
-          {/* if user is logged in */}
-          <div style={{ marginTop: "20px" }}>
-            {auth.isAuthenticated && auth.loading === false && !isLinked && (
-              // Link with tutor button
-              <button
-                onClick={() => {
-                  makePair(profile.user._id, auth.user._id);
-                  setIsLinked(true);
-                }}
-                className="btn btn-primary"
-              >
-                Link with tutor
-              </button>
-            )}
-          </div>
+
+          {/* if user has sent linking request */}
+          <div style={{ marginTop: '20px' }}>
+            {auth.isAuthenticated && auth.loading === false && !isLinked &&
+              !isRequestPending ? (
+                <div>
+                  <button className="btn btn-primary" 
+                    onClick={() => {
+                      console.log(profile.user._id) 
+                      console.log(auth.user._id)
+                      sendLinkingRequest(profile.user._id, auth.user._id);
+                      setIsRequestPending(true);
+                    }}>
+                    Send Link Request!
+                  </button>
+                </div> ) : !isLinked && isRequestPending ? (
+                    <div style={{ marginTop: '20px' }}>
+                      <h1 className="normal-text">Request pending..</h1>
+                    </div>
+                  ) : null}
+            </div>
 
           {/* rating tutor link */}
           {auth.isAuthenticated &&
@@ -305,6 +326,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
+  sendLinkingRequest: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -314,7 +336,7 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getProfileById,
-  makePair,
   clearProfile,
   getRegisteredProfiles,
+  sendLinkingRequest,
 })(Profile);

@@ -54,7 +54,6 @@ const Profile = ({
 
   return (
     <section className="bright-overlay-bg">
-      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
           <h1

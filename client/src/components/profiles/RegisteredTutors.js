@@ -98,8 +98,7 @@ const RegisterdTutors = ({
     // Display all the profiles of tutors in the database
 
     return (
-      <section className="dark-overlay-bg">
-      <div className="background-image-container"></div>
+      <section className="bright-overlay-bg">
       
       <div className="container">
         <div className="box-container">
@@ -200,7 +199,7 @@ const RegisterdTutors = ({
             ))}
           </Fragment>
         ) : (
-          <h4>No profiles found...</h4>
+          <h4 className="normal-text">No profiles found...</h4>
         )}
         </div>
         </div>

@@ -79,7 +79,7 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
           <div style={{marginTop: '20px'}}>
               <h1 className="normal-text">Click Stars to Rate!</h1>
               <Stars initialRating= "0"/>  
-              <button style={{ border: "1px solid #000000",  padding: "10px" }} className="normal-text" onClick={rateTutor}>Rate</button>        
+              <button style={{ border: "1px solid #000000",  padding: "10px", backgroundColor: '#e9c78c' }} className="normal-text" onClick={rateTutor}>Rate</button>        
           </div>
         ) : (
           <div style={{marginTop: '20px'}}>

@@ -54,6 +54,7 @@ img {
 .role-dropdown {
   margin-left: 10px;
   border-radius: 10px;
+  color: #000000;
 }
 
 
@@ -87,6 +88,7 @@ img {
   font-family: 'Josefin Sans', sans-serif;
   font-size: 1rem;
   line-height: 1.2;
+  color: #ffffff;
 }
 
 .navbar-register-login {
@@ -231,6 +233,28 @@ img {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.yellow-box{
+    background-color:#e9c78c;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    color: #000000;
+}
+
+.green-box {
+  background-color:rgb(5, 157, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
+.red-box {
+  background-color:rgb(157, 10, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
 .btn-light,
 .bg-light,
 .badge-light,
@@ -319,7 +343,7 @@ img {
   width: 100%;
   min-height: 100%;
   background-image: url("../public/transp_white_gradcap.png");
-  background-size: 15%;
+  background-size: 2%;
   background-repeat: repeat;
   background-position: center;
   z-index: -1;
@@ -351,6 +375,7 @@ s
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 15px;
+  color: #000000;
 }
 
 

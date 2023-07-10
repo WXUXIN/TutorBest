@@ -7,13 +7,12 @@ import Spinner from "../../components/layout/Spinner";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { findTuteeById } from "../../actions/auth";
 import { getTutorProfileByUserId } from "../../actions/profile";
+import { acceptLinkingRequest, rejectLinkingRequest } from "../../actions/linkingActions";
 
-const TutorDashboard = ({
-  auth: { user },
-  profiles: { profile, loading },
-  getTutorProfileByUserId,
-}) => {
+const TutorDashboard = ({ auth: { user }, profiles : { profile, loading }, getTutorProfileByUserId, 
+  acceptLinkingRequest, rejectLinkingRequest }) => {
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
 
@@ -79,7 +78,7 @@ const TutorDashboard = ({
   console.log(subjectList);
   return (
     <section className="container">
-      <div className="bright-overlay-bg"></div>
+      <div className="dark-overlay-bg"></div>
       <div className="background-image-container"></div>
       <div className="box-container">
         <h1 className="form-font-white normal-text">
@@ -218,6 +217,29 @@ const TutorDashboard = ({
             />
           </Link>
         </form>
+
+        {/* display linkingrequests of tutor */}
+        <div style={{ marginTop:'20px'}}>
+          {profile.linkingRequests.length > 0 && (
+            <div>
+              <h3 className="normal-text" style={{
+                    fontWeight: "bold",
+                    fontSize: "25px",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}>Linking Requests
+              </h3>
+              {profile.linkingRequests.map((request) => (
+                <div style={{ marginBottom:'20px'}} className="yellow-box" key={request.tutee}>
+                  {request.tuteeName} 
+                  <button className="green-box normal-text" style={{ marginLeft:'10px'}} onClick={() => acceptLinkingRequest(profile.user._id, request.tutee)}>Accept</button>
+                  <button className="red-box normal-text" style={{ marginLeft:'10px'}} onClick={() => rejectLinkingRequest(profile.user._id, request.tutee)}>Decline</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
       </div>
     </section>
   );
@@ -230,10 +252,10 @@ TutorDashboard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
+  auth: state.auth, 
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getTutorProfileByUserId })(
+export default connect(mapStateToProps, { getTutorProfileByUserId, acceptLinkingRequest, rejectLinkingRequest })(
   TutorDashboard
 );

@@ -256,10 +256,11 @@ const TutorSettings = ({ setAlert, user, isAuthenticated, tutorSettings }) => {
 
   return (
     <section className="bright-overlay-bg">
-      <div className="background-image-container"></div>
       <div className="container">
         <div className="box-container">
-          <h1 className="large text-primary">Edit your information here</h1>
+          <h1 className="large text-primary" style={{ color: "white" }}>
+            Edit your information here
+          </h1>
           <form className="form" onSubmit={onSubmit}>
             <div className="form-group">
               <small className="form-font-white normal-text">Name</small>

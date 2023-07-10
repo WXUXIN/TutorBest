@@ -59,7 +59,6 @@ export default function Landing() {
   return (
     <section className="landing">
       <div className="bright-overlay-bg"></div>
-      <div className="background-image-container"></div>
 
       <div className="landing-inner">
         {/* {all below in landing-inner} */}
