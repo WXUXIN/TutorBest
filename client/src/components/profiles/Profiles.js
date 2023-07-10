@@ -126,7 +126,7 @@ const Profiles = ({
       }
     };
 
-    // Display all the profiles of tutors in the database
+    // Display all the profile of tutors in the database
     return (
       <section className="bright-overlay-bg">
 
