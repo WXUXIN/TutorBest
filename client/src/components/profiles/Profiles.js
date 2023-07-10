@@ -90,9 +90,10 @@ const Profiles = ({
 
     const handleSearchResult = () => {
     if (searchInput) {
-      const filteredResults = profiles.profiles.filter(
+
+      const filteredResults = profiles.profiles && profiles.profiles.filter(
         (profile) =>
-          profile.name.toLowerCase().includes(searchInput.toLowerCase())
+          profile.user.name && profile.user.name.toLowerCase().includes(searchInput.toLowerCase())
       );
       setSearchResults(filteredResults);
     } else {
