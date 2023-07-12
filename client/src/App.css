@@ -343,7 +343,7 @@ img {
   width: 100%;
   min-height: 100%;
   background-image: url("../public/transp_white_gradcap.png");
-  background-size: 2%;
+  background-size: 25%;
   background-repeat: repeat;
   background-position: center;
   z-index: -1;

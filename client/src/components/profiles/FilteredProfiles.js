@@ -230,12 +230,8 @@ const FilteredProfiles = ({
   // the student has selected
   return (
     <section className="bright-overlay-bg">
-
       <div className="container">
         <div className="box-container">
-          <h1 className="form-font-white large normal-text">
-            Search for your next tutor:
-          </h1>
           {isAuthenticated && (
             <h1
               className="normal-text"
@@ -254,35 +250,14 @@ const FilteredProfiles = ({
           )}
 
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-            <div style={{ marginTop: "20px" }}>
-              <select
-                value={levelOfStudy}
-                onChange={handleLevelOfStudyChange}
-                className="dropdown normal-text"
-                style={{
-                  fontSize: "inherit",
-                  backgroundColor: "grey",
-                  color: "#e9c78c",
-                  borderRadius: "30px",
-                  textAlign: "center",
-                  padding: "8px",
-                  width: "200px",
-                  float: "left",
-                  marginRight: "10px",
-                }}
-              >
-                <option value="">Level of Study</option>
-                {levelOfStudyTemplate.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-
-              <div style={{ marginRight: "10px" }}>
+            <h1 className="form-font-white large normal-text">
+              Search for your next tutor:
+            </h1>
+            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+              <div style={{ marginTop: "20px" }}>
                 <select
-                  value={subject}
-                  onChange={handleSubjectChange}
+                  value={levelOfStudy}
+                  onChange={handleLevelOfStudyChange}
                   className="dropdown normal-text"
                   style={{
                     fontSize: "inherit",
@@ -291,88 +266,114 @@ const FilteredProfiles = ({
                     borderRadius: "30px",
                     textAlign: "center",
                     padding: "8px",
+                    width: "200px",
                     float: "left",
                     marginRight: "10px",
                   }}
-                  disabled={subjectOptions.length === 0}
                 >
-                  {subjectOptions.length === 0 ? (
-                    <option value="">Select level of study</option>
-                  ) : (
-                    <>
-                      <option value="">Select subject</option>
-                      {subjectOptions.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </>
-                  )}
+                  <option value="">Level of Study</option>
+                  {levelOfStudyTemplate.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+
+                <div style={{ marginRight: "10px" }}>
+                  <select
+                    value={subject}
+                    onChange={handleSubjectChange}
+                    className="dropdown normal-text"
+                    style={{
+                      fontSize: "inherit",
+                      backgroundColor: "grey",
+                      color: "#e9c78c",
+                      borderRadius: "30px",
+                      textAlign: "center",
+                      padding: "8px",
+                      float: "left",
+                      marginRight: "10px",
+                    }}
+                    disabled={subjectOptions.length === 0}
+                  >
+                    {subjectOptions.length === 0 ? (
+                      <option value="">Select level of study</option>
+                    ) : (
+                      <>
+                        <option value="">Select subject</option>
+                        {subjectOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </>
+                    )}
+                  </select>
+                </div>
+
+                <button
+                  className="btn btn-primary"
+                  disabled={!levelOfStudy || !subject}
+                  onClick={handleSearch}
+                  style={{
+                    textAlign: "center",
+                    borderRadius: "30px",
+                  }}
+                >
+                  Search for tutors
+                </button>
+
+                <select
+                  value={sortBy}
+                  onChange={(e) => {
+                    sortProfiles(profilesList, e.target.value);
+                    setSortBy(e.target.value);
+                  }}
+                  className="dropdown normal-text"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                  }}
+                >
+                  <option disabled value="">
+                    Sort By
+                  </option>
+                  <option value="Pricing - Low to High">
+                    Pricing - Low to High
+                  </option>
+                  <option value="Pricing - High to Low">
+                    Pricing - High to Low
+                  </option>
+                  <option value="Rating - High to Low">
+                    Rating - High to Low
+                  </option>
+                  <option value="Rating - Low to High">
+                    Rating - Low to High
+                  </option>
                 </select>
               </div>
 
-              <button
-                className="btn btn-primary"
-                disabled={!levelOfStudy || !subject}
-                onClick={handleSearch}
-                style={{
-                  textAlign: "center",
-                  borderRadius: "30px",
-                }}
-              >
-                Search for tutors
-              </button>
-
-              <select
-                value={sortBy}
-                onChange={(e) => {
-                  sortProfiles(profilesList, e.target.value);
-                  setSortBy(e.target.value);
-                }}
-                className="dropdown normal-text"
-                style={{
-                  fontSize: "inherit",
-                  backgroundColor: "grey",
-                  color: "#e9c78c",
-                  borderRadius: "30px",
-                  textAlign: "center",
-                  padding: "8px",
-                }}
-              >
-                <option disabled value="">
-                  Sort By
-                </option>
-                <option value="Pricing - Low to High">
-                  Pricing - Low to High
-                </option>
-                <option value="Pricing - High to Low">
-                  Pricing - High to Low
-                </option>
-                <option value="Rating - High to Low">
-                  Rating - High to Low
-                </option>
-                <option value="Rating - Low to High">
-                  Rating - Low to High
-                </option>
-              </select>
-            </div>
-
-            <div style={{ marginTop: "10px" }}>
-              {profilesList.length > 0 ? (
-                <Fragment>
-                  {profilesList.map((profile) => (
-                    <ProfileItem
-                      key={profile._id}
-                      profile={profile}
-                      subjectAndLevel={subjectAndLevel}
-                    />
-                  ))}
-                </Fragment>
-              ) : (
-                <h4 className="form-font-white medium normal-text">
-                  No tutors found...
-                </h4>
-              )}
+              <div style={{ marginTop: "10px" }}>
+                {profilesList.length > 0 ? (
+                  <Fragment>
+                    {profilesList.map((profile) => (
+                      <ProfileItem
+                        key={profile._id}
+                        profile={profile}
+                        subjectAndLevel={subjectAndLevel}
+                      />
+                    ))}
+                  </Fragment>
+                ) : (
+                  <h4 className="form-font-white medium normal-text">
+                    No tutors found...
+                  </h4>
+                )}
+              </div>
             </div>
           </div>
         </div>
