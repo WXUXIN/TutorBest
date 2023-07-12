@@ -233,6 +233,28 @@ img {
   font-family: 'Josefin Sans', sans-serif;
 }
 
+.yellow-box{
+    background-color:#e9c78c;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    color: #000000;
+}
+
+.green-box {
+  background-color:rgb(5, 157, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
+.red-box {
+  background-color:rgb(157, 10, 0);
+  padding: 7px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+
 .btn-light,
 .bg-light,
 .badge-light,
@@ -321,7 +343,7 @@ img {
   width: 100%;
   min-height: 100%;
   background-image: url("../public/transp_white_gradcap.png");
-  background-size: 2%;
+  background-size: 25%;
   background-repeat: repeat;
   background-position: center;
   z-index: -1;
@@ -754,6 +776,22 @@ select option {
     list-style-type: none;
  
   }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    border: 2px solid #e9c78c;
+    overflow: hidden;
+  }
+  
+  .search-icon {
+    color: #e9c78c;
+    margin-right: 10px;
+  }
+  
   
 
   .themefont{

@@ -29,41 +29,45 @@ const Login = ({ setAlert, login, isAuthenticated, user }) => {
 
   return (
     <section className="bright-overlay-bg">
-      <div className="background-image-container"></div>
+      <div className="container">
+        <div className="box-container">
+          <h1 className="large form-font-white">Log In</h1>
 
-    <div className="container">
-      <div className="box-container">
-      <h1 className="large text-primary x-large-landing" style={{color:"black"}}>Log In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign into your account
-      </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
-          <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
-            value={email}
-            onChange={onChange}
-          />
-          
+          <form className="form" onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                value={email}
+                onChange={onChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={onChange}
+              />
+            </div>
+            <input
+              type="submit"
+              style={{ fontFamily: "Josefin Sans" }}
+              className="btn btn-primary themefont"
+              value="Login"
+            />
+          </form>
+
+          <p className="my-1 form-font-white">
+            Don't have an account?{" "}
+            <Link className="form-font-gold" to="/register">
+              Register
+            </Link>
+          </p>
         </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <input type="submit" style={{ fontFamily: 'Josefin Sans' }} className="btn btn-primary themefont" value="Login" />
-      </form>
-      <p className="my-1" style={{ fontWeight: 'bold' }}>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
       </div>
-    </div>
     </section>
   );
 };

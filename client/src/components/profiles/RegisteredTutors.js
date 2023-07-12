@@ -199,7 +199,7 @@ const RegisterdTutors = ({
             ))}
           </Fragment>
         ) : (
-          <h4>No profiles found...</h4>
+          <h4 className="normal-text">No profiles found...</h4>
         )}
         </div>
         </div>

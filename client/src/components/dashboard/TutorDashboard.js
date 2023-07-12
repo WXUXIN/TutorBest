@@ -7,15 +7,29 @@ import Spinner from "../../components/layout/Spinner";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { findTuteeById } from "../../actions/auth";
 import { getTutorProfileByUserId } from "../../actions/profile";
+import {
+  acceptLinkingRequest,
+  rejectLinkingRequest,
+} from "../../actions/linkingActions";
 
 const TutorDashboard = ({
   auth: { user },
   profiles: { profile, loading },
   getTutorProfileByUserId,
+  acceptLinkingRequest,
+  rejectLinkingRequest,
 }) => {
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
+  const [settledRequests, setSettledRequests] = useState([]);
+
+  useEffect(() => {
+    if (profile && profile.linkingRequests) {
+      setSettledRequests(profile.linkingRequests);
+    }
+  }, [profile && profile.linkingRequests]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -44,15 +58,29 @@ const TutorDashboard = ({
     if (ratings.length === 0) {
       return "No ratings yet";
     }
-
     // Calculate the sum of all ratings
     const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
-
     // Calculate the average by dividing the sum by the number of ratings
     const average = sum / ratings.length;
-
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
+  };
+
+  const handleAcceptRequest = async (request) => {
+    await acceptLinkingRequest(profile.user._id, request.tutee);
+    const updatedArray = settledRequests.filter(
+      (newRequest) => newRequest.tutee !== request.tutee
+    );
+    console.log(updatedArray);
+    setSettledRequests(updatedArray);
+  };
+
+  const handleDeclineRequest = async (request) => {
+    await rejectLinkingRequest(profile.user._id, request.tutee);
+    const updatedArray = settledRequests.filter(
+      (newRequest) => newRequest.tutee !== request.tutee
+    );
+    setSettledRequests(updatedArray);
   };
 
   // If the user is a tutor, render the tutor dashboard when the we have retrieved the data
@@ -218,6 +246,53 @@ const TutorDashboard = ({
             />
           </Link>
         </form>
+
+        {/* display linkingrequests of tutor */}
+        <div style={{ marginTop: "20px" }}>
+          <div>
+            <h3
+              className="normal-text"
+              style={{
+                fontWeight: "bold",
+                fontSize: "25px",
+                marginTop: "20px",
+                marginBottom: "10px",
+              }}
+            >
+              Linking Requests
+            </h3>
+            {settledRequests.length > 0 ? (
+              settledRequests.map((request) => (
+                <div
+                  style={{ marginBottom: "20px" }}
+                  className="yellow-box"
+                  key={request.tutee}
+                >
+                  {request.tuteeName}
+                  <button
+                    className="green-box normal-text"
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => handleAcceptRequest(request)}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="red-box normal-text"
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => handleDeclineRequest(request)}
+                  >
+                    Decline
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="normal-text" style={{ marginBottom: "20px" }}>
+                {" "}
+                No requests ...
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -234,6 +309,8 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getTutorProfileByUserId })(
-  TutorDashboard
-);
+export default connect(mapStateToProps, {
+  getTutorProfileByUserId,
+  acceptLinkingRequest,
+  rejectLinkingRequest,
+})(TutorDashboard);

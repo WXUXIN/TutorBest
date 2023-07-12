@@ -197,7 +197,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
       <div className="container">
         <div className="box-container">
-          <h1 className="large form-font-gold">Sign Up</h1>
+          <h1 className="large form-font-white">Sign Up</h1>
           
           <form
             className="form"

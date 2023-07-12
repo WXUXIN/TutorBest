@@ -9,7 +9,7 @@ const ProfileItem = ({
     subjectList,
     // This is the id of the TutorInfo model
     _id,
-    ratings,
+    ratings
   },
   subjectAndLevel,
 }) => {
