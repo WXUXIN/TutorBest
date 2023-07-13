@@ -106,9 +106,8 @@ const TutorDashboard = ({
 
   console.log(subjectList);
   return (
-    <section className="container">
-      <div className="bright-overlay-bg"></div>
-      <div className="background-image-container"></div>
+    <section className="bright-overlay-bg">
+      <div className="container">
       <div className="box-container">
         <h1 className="form-font-white normal-text">
           I am a
@@ -261,22 +260,23 @@ const TutorDashboard = ({
           </h3>
           {profile.ratings.length > 0 ? (
             profile.ratings.map((review, index) => (
-              <div key={index}>
-                <div className="normal-text form-font-white">
-                  Tutee: {review.tutee.name}
+              <div className="yellow-box" key={index}>
+                <div className="review-info">
+                  <div className="normal-text" style={{ color: "black", fontWeight: "bold", fontSize: "20px" }}>
+                    {review.tutee.name}
+                  </div>
+                  <div className="normal-text" style={{ color: "black" }}>
+                    {review.rating}/5
+                  </div>
                 </div>
-                <div className="normal-text form-font-white">
-                  Rating: {review.rating}
-                </div>
-                <div className="normal-text form-font-white">
-                  Comments: {review.comments}
-                </div>
-                <hr style={{ borderColor: "grey", margin: "10px 0" }} />
+              <div className="normal-text" style={{color:"black"}}>
+                {review.comments}
               </div>
+            </div>
             ))
           ) : (
             <div className="normal-text form-font-white">
-              No reviews yet
+              No reviews yet ...
             </div>
             )}
         </div>  
@@ -298,11 +298,16 @@ const TutorDashboard = ({
             {settledRequests.length > 0 ? (
               settledRequests.map((request) => (
                 <div
-                  style={{ marginBottom: "20px" }}
+                  style={{ marginBottom: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                 }}
                   className="yellow-box"
                   key={request.tutee}
                 >
                   {request.tuteeName}
+                  <div>
                   <button
                     className="green-box normal-text"
                     style={{ marginLeft: "10px" }}
@@ -317,6 +322,7 @@ const TutorDashboard = ({
                   >
                     Decline
                   </button>
+                  </div>
                 </div>
               ))
             ) : (
@@ -327,6 +333,7 @@ const TutorDashboard = ({
             )}
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

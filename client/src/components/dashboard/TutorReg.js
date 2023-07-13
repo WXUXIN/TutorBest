@@ -135,8 +135,8 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   }
 
   return (
-    <section className="container">
-      <div className="bright-overlay-bg"></div>
+    <section className="bright-overlay-bg">
+      <div className="container">
       <div className="box-container">
         <h1 className="normal-text">
           I am a
@@ -270,6 +270,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
             />
           </form>
         </div>
+      </div>
       </div>
     </section>
   );

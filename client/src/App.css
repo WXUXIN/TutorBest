@@ -335,6 +335,13 @@ img {
   z-index: -1;
 }
 
+.review-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .bright-overlay-bg {
   background-color: #e9c78c;
   position: absolute;
@@ -348,7 +355,7 @@ img {
   background-position: center;
   z-index: -1;
 }
-s
+
 .background-image-container {
   position: absolute;
   top: 0;
