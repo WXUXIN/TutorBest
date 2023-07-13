@@ -94,7 +94,7 @@ const Profile = ({
 
       getRegisteredProfiles(auth.user._id);
 
-      const tuteeIds = profile.ratings.map((rating) => rating.tutee);
+      const tuteeIds = profile.ratings.map((rating) => rating.tutee.tuteeId);
 
       if (auth.user._id) {
         const tuteeId = auth.user._id;

@@ -34,7 +34,13 @@ const TutorSchema = new mongoose.Schema({
         type: String,
       },
       tutee: {
-        type: String,
+          tuteeId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users",
+          },
+          name: {
+            type: String,
+          },
       },
     },
   ],

@@ -246,6 +246,40 @@ const TutorDashboard = ({
             />
           </Link>
         </form>
+        
+        {/* reviews display */}
+        <div>
+          <h3 className="form-font-white normal-text"
+            style={{
+              fontWeight: "bold",
+              fontSize: "25px",
+              marginTop: "20px",
+              marginBottom: "10px",
+            }}
+          >
+            Your Reviews:
+          </h3>
+          {profile.ratings.length > 0 ? (
+            profile.ratings.map((review, index) => (
+              <div key={index}>
+                <div className="normal-text form-font-white">
+                  Tutee: {review.tutee.name}
+                </div>
+                <div className="normal-text form-font-white">
+                  Rating: {review.rating}
+                </div>
+                <div className="normal-text form-font-white">
+                  Comments: {review.comments}
+                </div>
+                <hr style={{ borderColor: "grey", margin: "10px 0" }} />
+              </div>
+            ))
+          ) : (
+            <div className="normal-text form-font-white">
+              No reviews yet
+            </div>
+            )}
+        </div>  
 
         {/* display linkingrequests of tutor */}
         <div style={{ marginTop: "20px" }}>
