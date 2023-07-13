@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
 
-    const { tutorId, rating, tuteeId } = req.body;
+    const { tutorId, rating, comments, tuteeId } = req.body;
 
     try {
         // Find the tutor by ID
@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
         // create newrating object to add to array
         const newRating = {
             rating: rating,
+            comments: comments,
             tutee: tuteeId,
         };
 

@@ -30,6 +30,9 @@ const TutorSchema = new mongoose.Schema({
       rating: {
         type: Number,
       },
+      comments: {
+        type: String,
+      },
       tutee: {
         type: String,
       },
