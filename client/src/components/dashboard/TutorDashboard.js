@@ -24,6 +24,7 @@ const TutorDashboard = ({
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
   const [settledRequests, setSettledRequests] = useState([]);
+  const [showLinkingRequests, setShowLinkingRequests] = useState(false);
 
   useEffect(() => {
     if (profile && profile.linkingRequests) {
@@ -52,6 +53,11 @@ const TutorDashboard = ({
   function handleChangeRoles(e) {
     setRole(e.target.value);
   }
+
+  const handleLinkingRequestsClick = () => {
+    setShowLinkingRequests(!showLinkingRequests);
+    console.log(showLinkingRequests);
+  };
 
   const getAverageRatings = (ratings) => {
     // Return 0 if the ratings array is empty
@@ -121,6 +127,7 @@ const TutorDashboard = ({
           </select>
         </h1>
 
+      <div className="welcome-container">
         <h1
           className="form-font-white normal-text"
           style={{ marginTop: "20px", fontSize: "25px" }}
@@ -136,6 +143,15 @@ const TutorDashboard = ({
             </span>
           )}
         </h1>
+
+        <button className="btn btn-primary normal-text" 
+          style={{ fontSize:'20px'}}
+          onClick={handleLinkingRequestsClick}
+        >
+          Linking Requests
+        </button>
+
+      </div>
 
         <img
           style={{
@@ -282,57 +298,43 @@ const TutorDashboard = ({
         </div>  
 
         {/* display linkingrequests of tutor */}
-        <div style={{ marginTop: "20px" }}>
-          <div>
-            <h3
-              className="normal-text"
-              style={{
-                fontWeight: "bold",
-                fontSize: "25px",
-                marginTop: "20px",
-                marginBottom: "10px",
-              }}
-            >
-              Linking Requests
-            </h3>
-            {settledRequests.length > 0 ? (
-              settledRequests.map((request) => (
-                <div
-                  style={{ marginBottom: "20px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                 }}
-                  className="yellow-box"
-                  key={request.tutee}
+        {showLinkingRequests && (
+              <div
+                className="grey-box-requests"
+                style={{marginTop:"20px"}}
+              >
+                <h3 className="form-font-white normal-text" 
+                  style={{ fontSize:"20px", fontWeight:"bold", marginBottom:"10px"}}
                 >
-                  {request.tuteeName}
-                  <div>
-                  <button
-                    className="green-box normal-text"
-                    style={{ marginLeft: "10px" }}
-                    onClick={() => handleAcceptRequest(request)}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    className="red-box normal-text"
-                    style={{ marginLeft: "10px" }}
-                    onClick={() => handleDeclineRequest(request)}
-                  >
-                    Decline
-                  </button>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="normal-text" style={{ marginBottom: "20px" }}>
-                {" "}
-                No requests ...
+                  Linking Requests
+                </h3>
+                {settledRequests.length > 0 ? (
+                  settledRequests.map((request) => (
+                    <div className="yellow-box" key={request.tutee}>
+                      {request.tuteeName}
+                      <div>
+                        <button
+                          className="green-box normal-text"
+                          style={{ marginLeft: "10px" }}
+                          onClick={() => handleAcceptRequest(request)}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="red-box normal-text"
+                          style={{ marginLeft: "10px" }}
+                          onClick={() => handleDeclineRequest(request)}
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="normal-text">No requests ...</div>
+                )}
               </div>
             )}
-          </div>
-        </div>
       </div>
       </div>
     </section>
