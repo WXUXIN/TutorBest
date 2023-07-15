@@ -20,11 +20,11 @@ const TutorSchema = new mongoose.Schema({
       level: {
         type: String,
         required: true,
-      }
+      },
     },
   ],
 
-    // Each tutor can have multiple ratings, so we store them in an array
+  // Each tutor can have multiple ratings, so we store them in an array
   ratings: [
     {
       rating: {
@@ -35,6 +35,7 @@ const TutorSchema = new mongoose.Schema({
       },
     },
   ],
+
   highestQualification: {
     type: "String",
     required: true,
@@ -49,7 +50,7 @@ const TutorSchema = new mongoose.Schema({
     },
   ],
   description: {
-    type: String
+    type: String,
   },
 
   linkingRequests: [

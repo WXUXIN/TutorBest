@@ -2,9 +2,14 @@ const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
 const path = require('path');
+const http = require('http');
 var bodyParser = require('body-parser');
-var multer = require('multer');
 const cors = require('cors');
+const http = require('http');
+// const socketIO = require('socket.io');
+// const server = http.createServer(app);
+// const io = socketIO(server);
+
 app.set("view engine", "ejs");
 
 // Connect Database
@@ -42,6 +47,24 @@ if(process.env.NODE_ENV === 'production') {
     });
 }
 
+// Socket.io
+// io.on('connection', (socket) => {
+//     console.log('New user connected');
+  
+//     // Handle chat messages
+//     socket.on('sendMessage', (message) => {
+//       // Broadcast the message to all connected clients
+//       io.emit('receiveMessage', message);
+//     });
+  
+//     // Handle socket disconnection
+//     socket.on('disconnect', () => {
+//       console.log('User disconnected');
+//     });
+//   });
+  
 const PORT = process.env.PORT || 5001;
+
+// server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));  
