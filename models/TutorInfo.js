@@ -41,6 +41,9 @@ const TutorSchema = new mongoose.Schema({
           name: {
             type: String,
           },
+          photo: {
+            type: String
+          }
       },
     },
   ],

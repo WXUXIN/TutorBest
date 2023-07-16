@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Spinner from "../../components/layout/Spinner";
+import ReviewBox from "../ratingsystem/ReviewBox";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -276,19 +277,7 @@ const TutorDashboard = ({
           </h3>
           {profile.ratings.length > 0 ? (
             profile.ratings.map((review, index) => (
-              <div className="yellow-box" key={index}>
-                <div className="review-info">
-                  <div className="normal-text" style={{ color: "black", fontWeight: "bold", fontSize: "20px" }}>
-                    {review.tutee.name}
-                  </div>
-                  <div className="normal-text" style={{ color: "black" }}>
-                    {review.rating}/5
-                  </div>
-                </div>
-              <div className="normal-text" style={{color:"black"}}>
-                {review.comments}
-              </div>
-            </div>
+              <ReviewBox review={review} key={index} />
             ))
           ) : (
             <div className="normal-text form-font-white">
@@ -306,7 +295,7 @@ const TutorDashboard = ({
                 <h3 className="form-font-white normal-text" 
                   style={{ fontSize:"20px", fontWeight:"bold", marginBottom:"10px"}}
                 >
-                  Linking Requests
+                  Requests:
                 </h3>
                 {settledRequests.length > 0 ? (
                   settledRequests.map((request) => (

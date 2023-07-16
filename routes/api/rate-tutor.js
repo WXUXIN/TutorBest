@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
         const newRating = {
             rating: rating,
             comments: comments,
-            tutee: {tuteeId: tutee.user._id, name: tutee.user.name}
+            tutee: {tuteeId: tutee.user._id, name: tutee.user.name, photo: tutee.user.photo}
         };
 
         // Update the tutor's ratings array by appending the new rating
