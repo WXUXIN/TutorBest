@@ -113,7 +113,7 @@ export const loadUser = () => async (dispatch) => {
 //     }
 //   };
 
-//New register
+// New register
 export const register = (formData) => async (dispatch) => {
   const config = {
     headers: {
@@ -121,7 +121,6 @@ export const register = (formData) => async (dispatch) => {
     },
   };
 
-  console.log("gg to connect to back end");
   try {
     const res = await axios.post("/api/users", formData, config);
 
@@ -209,7 +208,6 @@ export const tutorSettings = ({
   description,
 }) => {
   return async (dispatch) => {
-    console.log("tutorSettings action");
     const config = {
       headers: {
         "Content-Type": "application/json",

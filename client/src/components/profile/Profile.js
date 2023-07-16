@@ -14,6 +14,7 @@ import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { sendLinkingRequest } from "../../actions/linkingActions";
+import { getChatID } from "../../actions/chatRoom";
 
 const Profile = ({
   getProfileById,
@@ -22,6 +23,7 @@ const Profile = ({
   clearProfile,
   isAuthenticated,
   getRegisteredProfiles,
+  getChatID,
   sendLinkingRequest,
 }) => {
   // This gets the id from the url
@@ -77,6 +79,19 @@ const Profile = ({
 
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
+  };
+
+  const onChatClick = (userID, profileID) => {
+    // Write a function to:
+    // 1. Check if there exist chat between tutor and tutee
+    // 2. If there is, redirect to the chat page
+    // 3. If there isn't, create a new chat between tutor and tutee
+    // 4. Redirect to the chat page
+    // This function is to be an action in chatRoom.js
+
+    // The function should return the chat room id
+    // And in this function, we should redirect to the chat room page
+    navigate(`chatRoom/${getChatID(userID, profileID)}`);
   };
 
   // Update redux profile by tutor ID
@@ -256,7 +271,11 @@ const Profile = ({
 
           <h1
             className="form-font-white normal-text"
-            style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
+            style={{
+              marginTop: "20px",
+              fontWeight: "bold",
+              fontSize: "25px",
+            }}
           >
             Tutor's description:
           </h1>
@@ -302,7 +321,7 @@ const Profile = ({
               <div>
                 <button
                   onClick={() => {
-                    navigate(`/chatRoom/`);
+                    onChatClick(auth.user._id, profile.user._id);
                   }}
                   className="btn btn-primary"
                 >
@@ -355,6 +374,7 @@ Profile.propTypes = {
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
   sendLinkingRequest: PropTypes.func.isRequired,
+  getChatID: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -367,4 +387,5 @@ export default connect(mapStateToProps, {
   clearProfile,
   getRegisteredProfiles,
   sendLinkingRequest,
+  getChatID
 })(Profile);

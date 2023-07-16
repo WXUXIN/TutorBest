@@ -94,7 +94,7 @@ const App = () => {
           />
 
           <Route
-            path="/chatRoom"
+            path="/chatRoom/:id"
             element={<PrivateRoute component={ChatRoom} />}
           />
           <Route path="/*" element={<NotFound />} />

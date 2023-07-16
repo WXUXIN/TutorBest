@@ -33,6 +33,8 @@ app.use("/api/fetchTutee", require("./routes/api/fetchTutee"));
 app.use("/api/rate-tutor", require("./routes/api/rate-tutor"));
 app.use("/api/updatePair", require("./routes/api/updatePair"));
 app.use("/api/linkingRoutes", require("./routes/api/linkingRoutes"));
+app.use("/api/chatRoom", require("./routes/api/chatRoom"));
+
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
@@ -71,25 +73,6 @@ io.on('connection', (socket) => {
           // Broadcast the message to all connected clients
           io.emit('receiveMessage', message);
         }
-      } catch (err) {
-        console.error(err);
-      }
-    });
-
-    socket.on('fetchChatHistory', async (pair) => {
-      const { user1, user2 } = pair;
-
-      try {
-        // Retrieve the chat history from the database using the Chat model
-        const chatHistory = await Chat.find({
-          $or: [
-            { tutor: user1, tutee: user2 },
-            { tutor: user2, tutee: user1 },
-          ],
-        }).sort({ 'messages.timestamp': 1 });
-
-        // Send the chat history to the client
-        socket.emit('receiveChatHistory', chatHistory);
       } catch (err) {
         console.error(err);
       }
