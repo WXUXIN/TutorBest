@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import ReviewBox from "../ratingsystem/ReviewBox";
 import {
   getProfileById,
   clearProfile,
@@ -255,6 +256,26 @@ const Profile = ({
             {profile.description}
           </div>
 
+          <h1
+            className="form-font-white normal-text"
+            style={{ marginTop: "20px", marginBottom:'20px', fontWeight: "bold", fontSize: "25px" }}
+          >
+            Tutor's reviews:
+          </h1>
+          <div>
+            {profile.ratings.length > 0 ? (
+              profile.ratings.map((review, index) => (
+                <ReviewBox review={review} key={index} />
+              ))
+            ) : (
+            <div className="normal-text form-font-white">
+              No reviews yet ...
+            </div>
+            )}
+          </div>
+
+
+
           {/* {auth.isAuthenticated && auth.loading === false && (
             // Chat with tutor button
             // <Link to={`/chat/${profile.user._id}`} className="btn btn-primary">
@@ -262,12 +283,12 @@ const Profile = ({
             // </Link>
           )} */}
 
-
           {/* if user has sent linking request */}
           <div style={{ marginTop: '20px' }}>
             {auth.isAuthenticated && auth.loading === false && !isLinked &&
               !isRequestPending ? (
                 <div>
+                  <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
                   <button className="btn btn-primary" 
                     onClick={() => {
                       console.log(profile.user._id) 
@@ -279,6 +300,7 @@ const Profile = ({
                   </button>
                 </div> ) : !isLinked && isRequestPending ? (
                     <div style={{ marginTop: '20px' }}>
+                      <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
                       <h1 className="normal-text">Request pending..</h1>
                     </div>
                   ) : null}
@@ -290,6 +312,7 @@ const Profile = ({
             isLinked &&
             !hasRated && (
               <>
+                <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
                 <button
                   className="btn btn-primary"
                   onClick={toggleRatingVisibility}
@@ -300,12 +323,15 @@ const Profile = ({
             )}
 
           {isRatingVisible && (
-            <RateTutor
-              tutorId={profile.user._id}
-              findTutorById={findTutorById}
-              handleRateTutor={handleRateTutor}
-              auth={auth}
-            />
+            <div>
+              <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+              <RateTutor
+                tutorId={profile.user._id}
+                findTutorById={findTutorById}
+                handleRateTutor={handleRateTutor}
+                auth={auth}
+              />
+            </div>
           )}
 
           {!auth.isAuthenticated && auth.loading === false && (

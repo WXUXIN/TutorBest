@@ -299,7 +299,7 @@ const TutorDashboard = ({
                 </h3>
                 {settledRequests.length > 0 ? (
                   settledRequests.map((request) => (
-                    <div className="yellow-box" key={request.tutee}>
+                    <div className="yellow-box normal-text" style={{ fontWeight:'bold'}} key={request.tutee}>
                       {request.tuteeName}
                       <div>
                         <button

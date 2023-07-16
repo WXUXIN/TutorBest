@@ -89,7 +89,9 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
               onChange={handleCommentsChange}
               style={{ marginTop: "10px",
               backgroundColor: "grey",
-              color: "#e9c78c", }}
+              color: "#e9c78c",
+              width: "80%", 
+              height: '60px' }}
             />
             <div>
               <button style={{ border: "1px solid #000000",  
