@@ -105,15 +105,15 @@ const Profile = ({
 
   // check if sent linking request
   useEffect(() => {
-    console.log('hi');
+    console.log("hi");
     try {
       const requests = profile.linkingRequests.map((request) => request.tutee);
       setIsRequestPending(requests.includes(auth.user._id));
-      console.log(setIsRequestPending(requests.includes(auth.user._id)))
+      console.log(setIsRequestPending(requests.includes(auth.user._id)));
     } catch (error) {
       console.error("Error retrieving requests:", error);
     }
-  }, [loading])
+  }, [loading]);
 
   // check if linked
   useEffect(() => {
@@ -178,7 +178,10 @@ const Profile = ({
               Rating:
             </h1>
 
-            <h1 className="form-font-white normal-text" style={{ marginTop: "15px" }}>
+            <h1
+              className="form-font-white normal-text"
+              style={{ marginTop: "15px" }}
+            >
               {typeof getAverageRatings(profile.ratings) === "string" ? (
                 <h1>{getAverageRatings(profile.ratings)}</h1>
               ) : (
@@ -199,11 +202,17 @@ const Profile = ({
               </h1>
             )}
             {auth.isAuthenticated ? (
-              <h1 className="form-font-white normal-text" style={{ marginTop: "20px" }}>
+              <h1
+                className="form-font-white normal-text"
+                style={{ marginTop: "20px" }}
+              >
                 {profile.user.email}
               </h1>
             ) : (
-              <h1 className="form-font-white normal-text" style={{ marginTop: "20px" }}>
+              <h1
+                className="form-font-white normal-text"
+                style={{ marginTop: "20px" }}
+              >
                 Sign Up to view email!{" "}
               </h1>
             )}
@@ -262,27 +271,46 @@ const Profile = ({
             // </Link>
           )} */}
 
-
           {/* if user has sent linking request */}
-          <div style={{ marginTop: '20px' }}>
-            {auth.isAuthenticated && auth.loading === false && !isLinked &&
-              !isRequestPending ? (
-                <div>
-                  <button className="btn btn-primary" 
-                    onClick={() => {
-                      console.log(profile.user._id) 
-                      console.log(auth.user._id)
-                      sendLinkingRequest(profile.user._id, auth.user._id);
-                      setIsRequestPending(true);
-                    }}>
-                    Send Link Request!
-                  </button>
-                </div> ) : !isLinked && isRequestPending ? (
-                    <div style={{ marginTop: '20px' }}>
-                      <h1 className="normal-text">Request pending..</h1>
-                    </div>
-                  ) : null}
-            </div>
+          <div style={{ marginTop: "20px" }}>
+            {auth.isAuthenticated &&
+            auth.loading === false &&
+            !isLinked &&
+            !isRequestPending ? (
+              <div>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    console.log(profile.user._id);
+                    console.log(auth.user._id);
+                    sendLinkingRequest(profile.user._id, auth.user._id);
+                    setIsRequestPending(true);
+                  }}
+                >
+                  Send Link Request!
+                </button>
+              </div>
+            ) : !isLinked && isRequestPending ? (
+              <div style={{ marginTop: "20px" }}>
+                <h1 className="normal-text">Request pending..</h1>
+              </div>
+            ) : null}
+          </div>
+
+          <div style={{ marginTop: "20px" }}>
+            {auth.isAuthenticated && auth.loading === false && (
+              <div>
+                <button
+                  onClick={() => {
+                    navigate(`/chatRoom/`);
+                  }}
+                  className="btn btn-primary"
+                >
+                  Chat with tutor!
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* rating tutor link */}
           {auth.isAuthenticated &&
@@ -326,7 +354,7 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
-  sendLinkingRequest: PropTypes.func.isRequired
+  sendLinkingRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
