@@ -38,9 +38,11 @@ import setAuthToken from "../utils/set_AuthToken";
 // The function should return the chat room id
 export const getChatID = (userID, profileID) => async (dispatch) => {
   try {
-    const res = await axios.post("/api/chat", { userID, profileID });
+    const res = await axios.post("/api/chatRoom", { userID, profileID });
 
     // res.data is the chat room id
+    // This is working well
+    console.log(res.data, "this needs to be chat room id");
     return res.data;
   } catch (err) {
     const errors = err.response.data.errors;
@@ -54,9 +56,12 @@ export const getChatID = (userID, profileID) => async (dispatch) => {
 
 export const getChatWithChatID = (ChatID) => async (dispatch) => {
     try {
-      const res = await axios.get("/api/chat", {ChatID});
+      const res = await axios.get("/api/chatRoom", { params: { ChatID } });
   
       // res.data is the chat
+      // This is working well
+      console.log(res.data, "this needs to be chat object");
+
       return res.data;
     } catch (err) {
       const errors = err.response.data.errors;
@@ -67,3 +72,4 @@ export const getChatWithChatID = (ChatID) => async (dispatch) => {
       }
     }
   };
+  

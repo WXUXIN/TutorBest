@@ -11,6 +11,36 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [chatObj, setChatObj] = useState(null);
+  const [otherUser, setOtherUser] = useState(null);
+
+  // Get pfp of other user
+  useEffect(() => {
+    if (socket) {
+      // Get chat from backend
+      getChatWithChatID(id)
+        .then((res) => {
+          console.log(res, "this is the chatObj status");
+          setChatObj(res);
+          setMessages(res.messages);
+
+          if (res.user1._id === auth.user._id) {
+            console.log(res.user2, "this is thte other user's info");
+            setOtherUser(res.user2);
+          } else {
+            console.log(res.user1, "this is thte other user's info");
+            setOtherUser(res.user1);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+      // Listen for incoming messages
+      socket.on("receiveMessage", (message) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
+    }
+  }, [socket, id]);
 
   useEffect(() => {
     const newSocket = io();
@@ -48,26 +78,6 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
   //       });
   //     }
   //   }, [socket, user1, user2]);
-
-  useEffect(() => {
-    if (socket) {
-      // Get chat from backend
-      getChatWithChatID(id)
-        .then((res) => {
-          setChatObj(res.data);
-          setMessages(res.data.messages);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-
-      // Listen for incoming messages
-      socket.on("receiveMessage", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
-      });
-    }
-  }, [socket, id]);
-
   const sendMessage = (content) => {
     const message = {
       chatId: id,
@@ -79,7 +89,7 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
     socket.emit("sendMessage", message);
   };
 
-  if (!chatObj) {
+  if (!chatObj || !otherUser) {
     return <Spinner />;
   }
 
@@ -93,10 +103,49 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
           >
             Chat Room
           </h1>
-          {/* Render the chat messages */}
-          {messages.map((message, index) => (
-            <p key={index}>{message.content}</p>
-          ))}
+          {/* Render the chat messages 
+            if messages belong to the other user, render on the left with their pfp
+            if messages belong to the current user, render on the right
+          */}
+
+          <div className="chat-container">
+            {messages.map((message, index) => {
+              if (message.sender === auth.user._id) {
+                return (
+                  <div className="chat-message chat-message-right" key={index}>
+                    <div className="chat-message-content">
+                      <p className="form-font-black">{message.content}</p>
+                    </div>
+                  </div>
+                );
+              } else {
+                // This is the other user's message
+                return (
+                  <div className="chat-message" key={index}>
+                    <div className="chat-message-profile">
+                      <img
+                        src={`../../../../uploads/${
+                          otherUser.photo || "default.jpg"
+                        }`}
+                        alt="profile pic"
+                        className="round-img"
+                        style={{
+                          marginTop: "20px",
+                          borderRadius: "50%",
+                          width: "60px",
+                          height: "60px",
+                          display: "inline-block", // Add this style to make the image appear inline
+                        }}
+                      />
+                      <p className="chat-message-content form-font-black">
+                        {message.content}
+                      </p>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+          </div>
 
           {/* Chat input form */}
           <form

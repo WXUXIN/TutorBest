@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 const cors = require("cors");
 const socketIO = require("socket.io");
 app.set("view engine", "ejs");
+const Chat = require("./models/Chat");
 
 // Connect Database
 connectDB();

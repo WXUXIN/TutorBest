@@ -45,7 +45,6 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
 
   const onChangeProfilePic = (e) => {
     setMainData({ ...formData, photo: e.target.files[0] });
-    console.log(formData.photo);
   };
 
   const emptySubjectOrPrice = () =>

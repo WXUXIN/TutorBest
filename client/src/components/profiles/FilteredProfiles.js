@@ -251,7 +251,7 @@ const FilteredProfiles = ({
 
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             <h1 className="form-font-white large normal-text">
-              Search for your next tutor:
+              🔍 Search for your next tutor: 
             </h1>
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <div style={{ marginTop: "20px" }}>

@@ -91,7 +91,9 @@ const Profile = ({
 
     // The function should return the chat room id
     // And in this function, we should redirect to the chat room page
-    navigate(`chatRoom/${getChatID(userID, profileID)}`);
+    getChatID(userID, profileID).then((chatID) => {
+      navigate(`/chatRoom/${chatID}`);
+    });
   };
 
   // Update redux profile by tutor ID
@@ -387,5 +389,5 @@ export default connect(mapStateToProps, {
   clearProfile,
   getRegisteredProfiles,
   sendLinkingRequest,
-  getChatID
+  getChatID,
 })(Profile);

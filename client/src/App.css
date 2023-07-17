@@ -831,7 +831,34 @@ select option {
   color: #ffffff;
 }
 
+.form-font-black{
+  font-family: 'Josefin Sans', sans-serif;
+  color: #000000;
+}
+
 .form-font-gold{
   font-family: 'Josefin Sans', sans-serif;
   color: #e9c78c;
+}
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.chat-message-right {
+  justify-content: flex-end;
+}
+
+.chat-message-content {
+  display: inline-block;
+  background-color: #e0e0e0;
+  border-radius: 20px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.form-font-black {
+  color: #000;
 }
