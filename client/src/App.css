@@ -413,6 +413,15 @@ img {
   color: #000000;
 }
 
+.grey-box-requests {
+  position: absolute;
+  top: 100px;
+  right: 30px;
+  background: white;
+  border-radius: 15px;
+  background-color: grey;
+  padding: 20px;
+}
 
 /* Forms */
 .form .form-group {
