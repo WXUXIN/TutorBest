@@ -26,6 +26,7 @@ const TutorDashboard = ({
   const [data, setData] = useState({});
   const [settledRequests, setSettledRequests] = useState([]);
   const [showLinkingRequests, setShowLinkingRequests] = useState(false);
+  const [showReviewCount, setShowReviewCount] = useState(3);
 
   useEffect(() => {
     if (profile && profile.linkingRequests) {
@@ -276,7 +277,7 @@ const TutorDashboard = ({
             Your Reviews:
           </h3>
           {profile.ratings.length > 0 ? (
-            profile.ratings.map((review, index) => (
+            profile.ratings.slice(0, showReviewCount).map((review, index) => (
               <ReviewBox review={review} key={index} />
             ))
           ) : (
@@ -284,7 +285,33 @@ const TutorDashboard = ({
               No reviews yet ...
             </div>
             )}
-        </div>  
+
+            {/* Show More button */}
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+
+            {profile.ratings.length > showReviewCount && showReviewCount === 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white'}}
+                onClick={() => setShowReviewCount(profile.ratings.length)}
+              >
+                Show More
+              </button>
+            )}
+
+            {/* Show Less button */}
+            {showReviewCount > 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white' }}   
+                onClick={() => setShowReviewCount(3)}
+              >
+                Show Less
+              </button>
+            )}
+          </div>
+        </div>
+
 
         {/* display linkingrequests of tutor */}
         {showLinkingRequests && (

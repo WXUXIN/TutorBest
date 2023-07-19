@@ -39,6 +39,9 @@ const Profile = ({
   // control state of sent linking request pending or not
   const [isRequestPending, setIsRequestPending] = useState(false);
 
+  // control how many reviews are shown
+  const [showReviewCount, setShowReviewCount] = useState(3);
+
   const navigate = useNavigate();
 
   const toggleRatingVisibility = () => {
@@ -263,15 +266,40 @@ const Profile = ({
             Tutor's reviews:
           </h1>
           <div>
-            {profile.ratings.length > 0 ? (
-              profile.ratings.map((review, index) => (
-                <ReviewBox review={review} key={index} />
-              ))
-            ) : (
+          {profile.ratings.length > 0 ? (
+            profile.ratings.slice(0, showReviewCount).map((review, index) => (
+              <ReviewBox review={review} key={index} />
+            ))
+          ) : (
             <div className="normal-text form-font-white">
               No reviews yet ...
             </div>
             )}
+
+            {/* Show More button */}
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+
+            {profile.ratings.length > showReviewCount && showReviewCount === 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white'}}
+                onClick={() => setShowReviewCount(profile.ratings.length)}
+              >
+                Show More
+              </button>
+            )}
+
+            {/* Show Less button */}
+            {showReviewCount > 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white' }}   
+                onClick={() => setShowReviewCount(3)}
+              >
+                Show Less
+              </button>
+            )}
+            </div>
           </div>
 
 
