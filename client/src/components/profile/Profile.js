@@ -14,7 +14,7 @@ import { findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { sendLinkingRequest } from "../../actions/linkingActions";
+import { sendLinkingRequest, unlinkPair } from "../../actions/linkingActions";
 
 const Profile = ({
   getProfileById,
@@ -24,6 +24,7 @@ const Profile = ({
   isAuthenticated,
   getRegisteredProfiles,
   sendLinkingRequest,
+  unlinkPair
 }) => {
   // This gets the id from the url
   // profile id
@@ -42,6 +43,9 @@ const Profile = ({
   // control how many reviews are shown
   const [showReviewCount, setShowReviewCount] = useState(3);
 
+  // control confirmation of unlink
+  const [showUnlink, setShowUnlink] = useState(false);
+
   const navigate = useNavigate();
 
   const toggleRatingVisibility = () => {
@@ -53,14 +57,11 @@ const Profile = ({
   const isTutorLinked = () => {
     try {
       const tutorIDs = profiles.map((tutor) => tutor.user._id);
-
       console.log(
         tutorIDs.includes(profile.user._id),
         "If true, tutor and tutee are linked"
       );
-
       console.log(profiles, profile.user._id);
-
       return tutorIDs.includes(profile.user._id);
     } catch (error) {
       console.error("Error retrieving tutors:", error);
@@ -72,15 +73,17 @@ const Profile = ({
     if (ratings.length === 0) {
       return "No ratings yet";
     }
-
     // Calculate the sum of all ratings
     const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
-
     // Calculate the average by dividing the sum by the number of ratings
     const average = sum / ratings.length;
-
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
+  };
+
+  const handleShowUnlink = () => {
+    setShowUnlink(!showUnlink);
+    console.log(showUnlink);
   };
 
   // Update redux profile by tutor ID
@@ -95,11 +98,8 @@ const Profile = ({
       if (profile.user._id === auth.user._id) {
         navigate("/TutorDashboard");
       }
-
       getRegisteredProfiles(auth.user._id);
-
       const tuteeIds = profile.ratings.map((rating) => rating.tutee.tuteeId);
-
       if (auth.user._id) {
         const tuteeId = auth.user._id;
         setHasRated(tuteeIds.includes(tuteeId));
@@ -127,7 +127,6 @@ const Profile = ({
     } catch (error) {
       console.error("Error retrieving tutors:", error);
     }
-
     // Since loading will be updated once the registedProfiles are loaded, we
     // will check if the tutor and tutee are linked once the loading is updated
   }, [loading]);
@@ -152,12 +151,21 @@ const Profile = ({
     <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <h1
-            className="form-font-gold normal-text"
-            style={{ fontWeight: "bold", fontSize: "50px" }}
-          >
-            {profile.user.name}
-          </h1>
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            <h1
+              className="form-font-gold normal-text"
+              style={{ fontWeight: "bold", fontSize: "50px" }}
+            >
+              {profile.user.name}
+            </h1>
+            {auth.isAuthenticated && auth.loading === false && isLinked && (
+              <button className="btn btn-primary normal-text"
+                style={{ fontSize:'20px'}}
+                onClick={handleShowUnlink}
+              >
+              Unlink</button>
+              )}
+          </div>
 
           <img
             style={{
@@ -302,6 +310,25 @@ const Profile = ({
             </div>
           </div>
 
+          {/* unlink button */}
+          {auth.isAuthenticated && auth.loading === false && isLinked && 
+            showUnlink && (
+            <div className="grey-box-requests" style={{display:'flex', alignItems:'center'}}>
+              <h1 className="normal-text" style={{fontWeight: 'bold'}}> Confirm Unlink? </h1>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <button
+                  className="green-box normal-text"
+                  style={{ marginLeft: "15px" }}
+                  onClick={() => { 
+                    unlinkPair(profile.user._id, auth.user._id);
+                    setIsLinked(false);
+                  }}
+                >
+                  ✓
+                </button>
+              </div>
+            </div>
+          )}
 
 
           {/* {auth.isAuthenticated && auth.loading === false && (
@@ -380,7 +407,8 @@ Profile.propTypes = {
   auth: PropTypes.object.isRequired,
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
-  sendLinkingRequest: PropTypes.func.isRequired
+  sendLinkingRequest: PropTypes.func.isRequired,
+  unlinkPair: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -393,4 +421,5 @@ export default connect(mapStateToProps, {
   clearProfile,
   getRegisteredProfiles,
   sendLinkingRequest,
+  unlinkPair
 })(Profile);

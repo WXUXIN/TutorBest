@@ -10,6 +10,8 @@ import {
   ACCEPT_LINKING_REQUEST_FAIL,
   REJECT_LINKING_REQUEST,
   REJECT_LINKING_REQUEST_FAIL,
+  UNLINK_PAIR_SUCCESS,
+  UNLINK_PAIR_FAILURE
 } from "./types";
 
 // Get linking requests for a tutor
@@ -99,6 +101,35 @@ export const rejectLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
   } catch (err) {
     dispatch({
         type: REJECT_LINKING_REQUEST_FAIL,
+        payload: err.response.data,
+      });  
+      throw err
+  }
+};
+
+// Unlink a tutor and tutee
+export const unlinkPair = (tutorId, tuteeId) => async (dispatch) => {
+  try {
+    console.log(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/unlink`);
+    const res = await axios.post(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/unlink`);
+    dispatch({
+      type: UNLINK_PAIR_SUCCESS,
+      payload: res.data,
+    });
+    // Show an alert when the unlink is successful
+    const id = Math.random().toString(36).substring(2, 9);
+    dispatch({
+      type: SET_ALERT,
+      payload: {
+        msg: "Unlink Successful!",
+        alertType: "success",
+        id,
+      },
+    });
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
+  } catch (err) {
+    dispatch({
+        type: UNLINK_PAIR_FAILURE,
         payload: err.response.data,
       });  
       throw err

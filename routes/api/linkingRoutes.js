@@ -105,4 +105,29 @@ router.post("/:tutorId/request/:tuteeId/reject", async (req, res) => {
   }
 });
 
+// Unlink a tutor and tutee
+router.post("/:tutorId/request/:tuteeId/unlink", async (req, res) => {
+  try {
+    // Find the tutor
+    const tutor = await Tutor.findOne({ user: req.params.tutorId });
+    if (!tutor) {
+      return res.status(404).json({ msg: "Tutor not found" });
+    }
+    // Find the tutee
+    const tutee = await Tutee.findOne({ user: req.params.tuteeId });
+    if (!tutee) {
+      return res.status(404).json({ msg: "Tutee not found" });
+    }
+    // Remove the tutor from the tutee's tutors array
+    tutee.tutors = tutee.tutors.filter(
+      (tutorId) => !tutorId.equals(new mongoose.Types.ObjectId(req.params.tutorId))
+    );
+    await tutee.save();
+    res.json({ msg: "Tutor and tutee unlinked successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
