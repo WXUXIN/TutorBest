@@ -5,9 +5,13 @@ import {
   SEND_LINKING_REQUEST,
   SEND_LINKING_REQUEST_FAIL,
   ACCEPT_LINKING_REQUEST,
+  SET_ALERT,
+  REMOVE_ALERT,
   ACCEPT_LINKING_REQUEST_FAIL,
   REJECT_LINKING_REQUEST,
   REJECT_LINKING_REQUEST_FAIL,
+  UNLINK_PAIR_SUCCESS,
+  UNLINK_PAIR_FAILURE
 } from "./types";
 
 // Get linking requests for a tutor
@@ -54,6 +58,17 @@ export const acceptLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
       type: ACCEPT_LINKING_REQUEST,
       payload: res.data,
     });
+    // Show an alert when the linking request is accepted successfully
+    const id = Math.random().toString(36).substring(2, 9);
+    dispatch({
+      type: SET_ALERT,
+      payload: {
+        msg: "Linking request accepted!",
+        alertType: "success",
+        id,
+      },
+    });
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
   } catch (err) {
     dispatch({
         type: ACCEPT_LINKING_REQUEST_FAIL,
@@ -72,9 +87,49 @@ export const rejectLinkingRequest = (tutorId, tuteeId) => async (dispatch) => {
       type: REJECT_LINKING_REQUEST,
       payload: res.data,
     });
+    // Show an alert when the linking request is accepted successfully
+    const id = Math.random().toString(36).substring(2, 9);
+    dispatch({
+      type: SET_ALERT,
+      payload: {
+        msg: "Linking request declined!",
+        alertType: "success",
+        id,
+      },
+    });
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
   } catch (err) {
     dispatch({
         type: REJECT_LINKING_REQUEST_FAIL,
+        payload: err.response.data,
+      });  
+      throw err
+  }
+};
+
+// Unlink a tutor and tutee
+export const unlinkPair = (tutorId, tuteeId) => async (dispatch) => {
+  try {
+    console.log(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/unlink`);
+    const res = await axios.post(`/api/linkingRoutes/${tutorId}/request/${tuteeId}/unlink`);
+    dispatch({
+      type: UNLINK_PAIR_SUCCESS,
+      payload: res.data,
+    });
+    // Show an alert when the unlink is successful
+    const id = Math.random().toString(36).substring(2, 9);
+    dispatch({
+      type: SET_ALERT,
+      payload: {
+        msg: "Unlink Successful!",
+        alertType: "success",
+        id,
+      },
+    });
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 5000);
+  } catch (err) {
+    dispatch({
+        type: UNLINK_PAIR_FAILURE,
         payload: err.response.data,
       });  
       throw err

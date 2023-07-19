@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import Spinner from "../../components/layout/Spinner";
+import ReviewBox from "../ratingsystem/ReviewBox";
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -24,6 +25,10 @@ const TutorDashboard = ({
   const [role, setRole] = useState("tutor");
   const [data, setData] = useState({});
   const [settledRequests, setSettledRequests] = useState([]);
+  const [showLinkingRequests, setShowLinkingRequests] = useState(false);
+  const [showReviewCount, setShowReviewCount] = useState(3);
+
+  const linkingRequestCount = settledRequests.length;
 
   useEffect(() => {
     if (profile && profile.linkingRequests) {
@@ -52,6 +57,11 @@ const TutorDashboard = ({
   function handleChangeRoles(e) {
     setRole(e.target.value);
   }
+
+  const handleLinkingRequestsClick = () => {
+    setShowLinkingRequests(!showLinkingRequests);
+    console.log(showLinkingRequests);
+  };
 
   const getAverageRatings = (ratings) => {
     // Return 0 if the ratings array is empty
@@ -213,22 +223,6 @@ const TutorDashboard = ({
               </div>
             ))}
           </>
-          <h1
-            className="normal-text form-font-white"
-            style={{
-              marginTop: "20px",
-              fontWeight: "bold",
-              fontSize: "25px",
-              marginBottom: "10px",
-            }}
-          >
-            Your Description:
-          </h1>
-          <div className="white-box normal-text">
-            {description
-              ? description
-              : "You have not written a description yet"}
-          </div>
 
           <h1
             className="form-font-white normal-text"
@@ -248,6 +242,23 @@ const TutorDashboard = ({
             {highestQualification}
           </div>
 
+          <h1
+            className="normal-text form-font-white"
+            style={{
+              marginTop: "20px",
+              fontWeight: "bold",
+              fontSize: "25px",
+              marginBottom: "10px",
+            }}
+          >
+            Your Description:
+          </h1>
+          <div className="white-box normal-text">
+            {description
+              ? description
+              : "You have not written a description yet"}
+          </div>
+
           <form>
             <Link to="/TutorSettings">
               <input
@@ -259,52 +270,131 @@ const TutorDashboard = ({
             </Link>
           </form>
 
-          {/* display linkingrequests of tutor */}
-          <div style={{ marginTop: "20px" }}>
-            <div>
-              <h3
-                className="normal-text"
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "25px",
-                  marginTop: "20px",
-                  marginBottom: "10px",
-                }}
-              >
-                Linking Requests
-              </h3>
-              {settledRequests.length > 0 ? (
-                settledRequests.map((request) => (
-                  <div
-                    style={{ marginBottom: "20px" }}
-                    className="yellow-box"
-                    key={request.tutee}
-                  >
-                    {request.tuteeName}
-                    <button
-                      className="green-box normal-text"
-                      style={{ marginLeft: "10px" }}
-                      onClick={() => handleAcceptRequest(request)}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      className="red-box normal-text"
-                      style={{ marginLeft: "10px" }}
-                      onClick={() => handleDeclineRequest(request)}
-                    >
-                      Decline
-                    </button>
-                  </div>
+          {/* reviews display */}
+          <div>
+            <h3
+              className="form-font-white normal-text"
+              style={{
+                fontWeight: "bold",
+                fontSize: "25px",
+                marginTop: "20px",
+                marginBottom: "10px",
+              }}
+            >
+              Your Reviews:
+            </h3>
+            {profile.ratings.length > 0 ? (
+              profile.ratings
+                .slice(0, showReviewCount)
+                .map((review, index) => (
+                  <ReviewBox review={review} key={index} />
                 ))
-              ) : (
-                <div className="normal-text" style={{ marginBottom: "20px" }}>
-                  {" "}
-                  No requests ...
-                </div>
+            ) : (
+              <div className="normal-text form-font-white">
+                No reviews yet ...
+              </div>
+            )}
+
+            {/* Show More button */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {profile.ratings.length > showReviewCount &&
+                showReviewCount === 3 && (
+                  <button
+                    className="btn btn-primary"
+                    style={{
+                      marginTop: "10px",
+                      backgroundColor: "grey",
+                      color: "white",
+                    }}
+                    onClick={() => setShowReviewCount(profile.ratings.length)}
+                  >
+                    Show More
+                  </button>
+                )}
+
+              {/* Show Less button */}
+              {showReviewCount > 3 && (
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    marginTop: "10px",
+                    backgroundColor: "grey",
+                    color: "white",
+                  }}
+                  onClick={() => setShowReviewCount(3)}
+                >
+                  Show Less
+                </button>
               )}
             </div>
           </div>
+
+          {/* display linkingrequests of tutor */}
+          {showLinkingRequests && (
+            <div className="grey-box-requests" style={{ marginTop: "20px" }}>
+              <h3
+                className="form-font-white normal-text"
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  marginBottom: "10px",
+                }}
+              >
+                Requests:
+              </h3>
+              {settledRequests.length > 0 ? (
+                settledRequests.map((request) => (
+                  <div className="yellow-box" key={request.tutee}>
+                    <div
+                      className="review-info normal-text"
+                      style={{ fontWeight: "bold", color: "black" }}
+                    >
+                      <div className="user-info">
+                        <img
+                          style={{
+                            marginTop: "20px",
+                            borderRadius: "50%",
+                            marginRight: "15px",
+                            width: "60px",
+                            height: "60px",
+                          }}
+                          src={`../../../../uploads/${
+                            request.photo || "default.jpg"
+                          }`}
+                        />
+                      </div>
+                      <div style={{ flexGrow: 1 }}>{request.tuteeName}</div>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <button
+                          className="green-box normal-text"
+                          style={{ marginLeft: "15px" }}
+                          onClick={() => handleAcceptRequest(request)}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="red-box normal-text"
+                          style={{ marginLeft: "5px" }}
+                          onClick={() => handleDeclineRequest(request)}
+                        >
+                          Decline
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="normal-text">No requests ...</div>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </div>

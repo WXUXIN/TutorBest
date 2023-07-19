@@ -30,8 +30,20 @@ const TutorSchema = new mongoose.Schema({
       rating: {
         type: Number,
       },
-      tutee: {
+      comments: {
         type: String,
+      },
+      tutee: {
+          tuteeId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "users",
+          },
+          name: {
+            type: String,
+          },
+          photo: {
+            type: String
+          }
       },
     },
   ],
@@ -62,6 +74,9 @@ const TutorSchema = new mongoose.Schema({
       tuteeName: {
         type: String,
       },
+      photo: {
+        type: String
+      }
     },
   ],
 });

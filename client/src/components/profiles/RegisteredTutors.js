@@ -33,6 +33,10 @@ const RegisterdTutors = ({
     // This stores the subjects that can be selected from the dropdown
     const [subjectOptions, setSubjectOptions] = useState([]);
 
+    //searchbar states
+    const [searchInput, setSearchInput] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
     // For students to select their level of study
     const handleLevelOfStudyChange = (e) => {
       const selectedLevelOfStudy = e.target.value;
@@ -68,6 +72,36 @@ const RegisterdTutors = ({
     useEffect(() => {
       setProfiles(profiles.profiles);
     }, [profiles.profiles]);
+
+    // updating of search results spontaneously
+    useEffect(() => {
+      if (profiles && profiles.profiles) {
+        setSearchResults(profiles.profiles);
+      }
+    }, [profiles]);
+
+    const handleSearchInputChange = (e) => {
+      const input = e.target.value;
+      setSearchInput(input);
+      setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
+    };
+
+    const handleSearchResult = () => {
+      if (searchInput) {
+        const filteredResults =
+          profiles.profiles &&
+          profiles.profiles.filter(
+            (profile) =>
+              profile.user.name &&
+              profile.user.name
+                .toLowerCase()
+                .includes(searchInput.toLowerCase())
+          );
+        setSearchResults(filteredResults);
+      } else {
+        setSearchResults(profiles.profiles);
+      }
+    };
 
     function handleChangeRoles(e) {
       setRole(e.target.value);
@@ -207,25 +241,75 @@ const RegisterdTutors = ({
                 </select>
               </div>
 
-              <button
-                className="btn btn-primary"
-                disabled={!levelOfStudy || !subject}
-                onClick={handleSearch}
-              >
-                Search for tutors
-              </button>
-            </div> */}
+        <button
+          className="btn btn-primary"
+          disabled={!levelOfStudy || !subject}
+          onClick={handleSearch}
+        >
+          Search for tutors
+        </button>
 
-            {profilesList.length > 0 ? (
-              <Fragment>
-                {profilesList.map((profile) => (
-                  <ProfileItem key={profile._id} profile={profile} />
-                ))}
-              </Fragment>
-            ) : (
-              <h4 className="normal-text">No profiles found...</h4>
-            )}
+        <Link
+          to={`/registered-tutors/${user._id} `}
+          className="btn btn-primary"
+        >
+          View all YOUR tutors
+        </Link>
+
+
+        <div style={{ marginTop: "10px" }}>
+                  {/* Search Bar */}
+            <input
+              className="normal-text"
+              type="text"
+              placeholder="Search for tutors..."
+              value={searchInput}
+              onChange={handleSearchInputChange}
+              style={{
+                width: "300px",
+                borderRadius: "20px",
+                padding: "8px",
+                fontSize: "inherit",
+                backgroundColor: "grey",
+                color: "#e9c78c",
+                border: "none",
+                outline: "none",
+                marginRight: "10px",
+              }}
+            />
+            <button
+              style={{ marginLeft: "10px" }}
+              className="btn btn-primary"
+              onClick={handleSearchResult}
+            >
+              Search
+            </button>
           </div>
+
+          {/* search bar input rendering */}
+          {searchInput ? (
+            <div>
+              {searchResults.length > 0 ? (
+                searchResults.map((profile) => (
+                  <ProfileItem key={profile._id} profile={profile} />
+                ))
+              ) : (
+                <h4 className="normal-text">No profiles found...</h4>
+              )}
+            </div>
+          ) : (
+            <div style={{ marginTop: "10px" }}>
+              {profilesList.length > 0 ? (
+                <Fragment>
+                  {profilesList.map((profile) => (
+                    <ProfileItem key={profile._id} profile={profile} />
+                  ))}
+                </Fragment>
+              ) : (
+                <h4 className="normal-text">No profiles found...</h4>
+              )}
+            </div>
+          )}
         </div>
       </section>
     );

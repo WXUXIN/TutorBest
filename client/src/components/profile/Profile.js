@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
+import ReviewBox from "../ratingsystem/ReviewBox";
 import {
   getProfileById,
   clearProfile,
@@ -13,7 +14,7 @@ import { findTutorById, handleRateTutor } from "../../actions/auth";
 import RateTutor from "../ratingsystem/RateTutor";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { sendLinkingRequest } from "../../actions/linkingActions";
+import { sendLinkingRequest, unlinkPair } from "../../actions/linkingActions";
 import { getChatID } from "../../actions/chatRoom";
 
 const Profile = ({
@@ -25,6 +26,7 @@ const Profile = ({
   getRegisteredProfiles,
   getChatID,
   sendLinkingRequest,
+  unlinkPair
 }) => {
   // This gets the id from the url
   // profile id
@@ -40,6 +42,12 @@ const Profile = ({
   // control state of sent linking request pending or not
   const [isRequestPending, setIsRequestPending] = useState(false);
 
+  // control how many reviews are shown
+  const [showReviewCount, setShowReviewCount] = useState(3);
+
+  // control confirmation of unlink
+  const [showUnlink, setShowUnlink] = useState(false);
+
   const navigate = useNavigate();
 
   const toggleRatingVisibility = () => {
@@ -51,14 +59,11 @@ const Profile = ({
   const isTutorLinked = () => {
     try {
       const tutorIDs = profiles.map((tutor) => tutor.user._id);
-
       console.log(
         tutorIDs.includes(profile.user._id),
         "If true, tutor and tutee are linked"
       );
-
       console.log(profiles, profile.user._id);
-
       return tutorIDs.includes(profile.user._id);
     } catch (error) {
       console.error("Error retrieving tutors:", error);
@@ -70,13 +75,10 @@ const Profile = ({
     if (ratings.length === 0) {
       return "No ratings yet";
     }
-
     // Calculate the sum of all ratings
     const sum = ratings.reduce((total, rating) => total + rating.rating, 0);
-
     // Calculate the average by dividing the sum by the number of ratings
     const average = sum / ratings.length;
-
     // Round the average to two decimal places
     return Math.round(average * 100) / 100;
   };
@@ -96,6 +98,11 @@ const Profile = ({
     });
   };
 
+  const handleShowUnlink = () => {
+    setShowUnlink(!showUnlink);
+    console.log(showUnlink);
+  };
+
   // Update redux profile by tutor ID
   useEffect(() => {
     getProfileById(id);
@@ -108,11 +115,8 @@ const Profile = ({
       if (profile.user._id === auth.user._id) {
         navigate("/TutorDashboard");
       }
-
       getRegisteredProfiles(auth.user._id);
-
-      const tuteeIds = profile.ratings.map((rating) => rating.tutee);
-
+      const tuteeIds = profile.ratings.map((rating) => rating.tutee.tuteeId);
       if (auth.user._id) {
         const tuteeId = auth.user._id;
         setHasRated(tuteeIds.includes(tuteeId));
@@ -140,7 +144,6 @@ const Profile = ({
     } catch (error) {
       console.error("Error retrieving tutors:", error);
     }
-
     // Since loading will be updated once the registedProfiles are loaded, we
     // will check if the tutor and tutee are linked once the loading is updated
   }, [loading]);
@@ -165,12 +168,21 @@ const Profile = ({
     <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <h1
-            className="form-font-gold normal-text"
-            style={{ fontWeight: "bold", fontSize: "50px" }}
-          >
-            {profile.user.name}
-          </h1>
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            <h1
+              className="form-font-gold normal-text"
+              style={{ fontWeight: "bold", fontSize: "50px" }}
+            >
+              {profile.user.name}
+            </h1>
+            {auth.isAuthenticated && auth.loading === false && isLinked && (
+              <button className="btn btn-primary normal-text"
+                style={{ fontSize:'20px'}}
+                onClick={handleShowUnlink}
+              >
+              Unlink</button>
+              )}
+          </div>
 
           <img
             style={{
@@ -285,6 +297,70 @@ const Profile = ({
             {profile.description}
           </div>
 
+          <h1
+            className="form-font-white normal-text"
+            style={{ marginTop: "20px", marginBottom:'20px', fontWeight: "bold", fontSize: "25px" }}
+          >
+            Tutor's reviews:
+          </h1>
+          <div>
+          {profile.ratings.length > 0 ? (
+            profile.ratings.slice(0, showReviewCount).map((review, index) => (
+              <ReviewBox review={review} key={index} />
+            ))
+          ) : (
+            <div className="normal-text form-font-white">
+              No reviews yet ...
+            </div>
+            )}
+
+            {/* Show More button */}
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+
+            {profile.ratings.length > showReviewCount && showReviewCount === 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white'}}
+                onClick={() => setShowReviewCount(profile.ratings.length)}
+              >
+                Show More
+              </button>
+            )}
+
+            {/* Show Less button */}
+            {showReviewCount > 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white' }}   
+                onClick={() => setShowReviewCount(3)}
+              >
+                Show Less
+              </button>
+            )}
+            </div>
+          </div>
+
+          {/* unlink button */}
+          {auth.isAuthenticated && auth.loading === false && isLinked && 
+            showUnlink && (
+            <div className="grey-box-requests" style={{display:'flex', alignItems:'center'}}>
+              <h1 className="normal-text" style={{fontWeight: 'bold'}}> Confirm Unlink? </h1>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <button
+                  className="green-box normal-text"
+                  style={{ marginLeft: "15px" }}
+                  onClick={() => { 
+                    unlinkPair(profile.user._id, auth.user._id);
+                    setIsLinked(false);
+                  }}
+                >
+                  ✓
+                </button>
+              </div>
+            </div>
+          )}
+
+
           {/* {auth.isAuthenticated && auth.loading === false && (
             // Chat with tutor button
             // <Link to={`/chat/${profile.user._id}`} className="btn btn-primary">
@@ -293,30 +369,27 @@ const Profile = ({
           )} */}
 
           {/* if user has sent linking request */}
-          <div style={{ marginTop: "20px" }}>
-            {auth.isAuthenticated &&
-            auth.loading === false &&
-            !isLinked &&
-            !isRequestPending ? (
-              <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    console.log(profile.user._id);
-                    console.log(auth.user._id);
-                    sendLinkingRequest(profile.user._id, auth.user._id);
-                    setIsRequestPending(true);
-                  }}
-                >
-                  Send Link Request!
-                </button>
-              </div>
-            ) : !isLinked && isRequestPending ? (
-              <div style={{ marginTop: "20px" }}>
-                <h1 className="normal-text">Request pending..</h1>
-              </div>
-            ) : null}
-          </div>
+          <div style={{ marginTop: '20px' }}>
+            {auth.isAuthenticated && auth.loading === false && !isLinked &&
+              !isRequestPending ? (
+                <div>
+                  <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+                  <button className="btn btn-primary" 
+                    onClick={() => {
+                      console.log(profile.user._id) 
+                      console.log(auth.user._id)
+                      sendLinkingRequest(profile.user._id, auth.user._id);
+                      setIsRequestPending(true);
+                    }}>
+                    Send Link Request!
+                  </button>
+                </div> ) : !isLinked && isRequestPending ? (
+                    <div style={{ marginTop: '20px' }}>
+                      <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+                      <h1 className="normal-text">Request pending..</h1>
+                    </div>
+                  ) : null}
+            </div>
 
           <div style={{ marginTop: "20px" }}>
             {auth.isAuthenticated && auth.loading === false && (
@@ -339,6 +412,7 @@ const Profile = ({
             isLinked &&
             !hasRated && (
               <>
+                <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
                 <button
                   className="btn btn-primary"
                   onClick={toggleRatingVisibility}
@@ -349,12 +423,15 @@ const Profile = ({
             )}
 
           {isRatingVisible && (
-            <RateTutor
-              tutorId={profile.user._id}
-              findTutorById={findTutorById}
-              handleRateTutor={handleRateTutor}
-              auth={auth}
-            />
+            <div>
+              <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+              <RateTutor
+                tutorId={profile.user._id}
+                findTutorById={findTutorById}
+                handleRateTutor={handleRateTutor}
+                auth={auth}
+              />
+            </div>
           )}
 
           {!auth.isAuthenticated && auth.loading === false && (
@@ -376,6 +453,7 @@ Profile.propTypes = {
   profiles: PropTypes.object.isRequired,
   getRegisteredProfiles: PropTypes.func.isRequired,
   sendLinkingRequest: PropTypes.func.isRequired,
+  unlinkPair: PropTypes.func.isRequired,
   getChatID: PropTypes.func.isRequired,
 };
 
@@ -389,5 +467,6 @@ export default connect(mapStateToProps, {
   clearProfile,
   getRegisteredProfiles,
   sendLinkingRequest,
+  unlinkPair,
   getChatID,
 })(Profile);

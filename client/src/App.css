@@ -332,6 +332,45 @@ img {
   z-index: -1;
 }
 
+.review-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-container {
+  display: block;
+  flex-grow: 1;
+}
+
+.rating {
+  margin-left: auto;
+}
+
+.badge-red {
+  position: absolute;
+  top: 0px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(134, 1, 1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.welcome-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .bright-overlay-bg {
   background-color: #e9c78c;
   position: absolute;
@@ -345,7 +384,7 @@ img {
   background-position: center;
   z-index: -1;
 }
-s .background-image-container {
+.background-image-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -373,6 +412,7 @@ s .background-image-container {
   border-radius: 15px;
   color: #000000;
 }
+
 
 /* Forms */
 .form .form-group {

@@ -15,16 +15,14 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
     console.log(tutorId);
 
     const [tutor, setTutor] = useState(null);
-
     const [rating, setRating] = useState(0);
-
+    const [comments, setComments] = useState("");
     const [isRated, setIsRated] = useState(false);
 
 
     useEffect(() => {
         const fetchTutor = async () => {
           try {
-
             // contains tutor's user model
             const fetchedTutor = await findTutorById(tutorId);
             setTutor(fetchedTutor);
@@ -33,7 +31,6 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
             console.error('Error fetching tutor:', error);
           }
         };
-    
         fetchTutor();
       }, [findTutorById, tutorId]);
 
@@ -42,6 +39,10 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
     // star clicking function for rating tutors 
     const handleRatingChange = (newRating) => {
         setRating(newRating);
+    };
+
+    const handleCommentsChange = (e) => {
+      setComments(e.target.value);
     };
 
     //how a tutee rates tutor page (click stars)
@@ -62,7 +63,7 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
 
     // pass in the fields needed to update tutor rating, tutor's user id, rating and the tutee's user id
     const rateTutor = () => {
-        handleRateTutor(tutorId, rating, user._id);
+        handleRateTutor(tutorId, rating, comments, user._id);
         setIsRated(true);
     };
 
@@ -77,9 +78,28 @@ const RatingTutor = ({ tutorId, findTutorById, handleRateTutor, auth:{user} }) =
       <div>
         {!isRated ? (
           <div style={{marginTop: '20px'}}>
+            <div>
               <h1 className="normal-text">Click Stars to Rate!</h1>
               <Stars initialRating= "0"/>  
-              <button style={{ border: "1px solid #000000",  padding: "10px", backgroundColor: '#e9c78c' }} className="normal-text" onClick={rateTutor}>Rate</button>        
+            </div>
+            <textarea
+              className="normal-text"
+              placeholder="Enter your comments..."
+              value={comments}
+              onChange={handleCommentsChange}
+              style={{ marginTop: "10px",
+              backgroundColor: "grey",
+              color: "#e9c78c",
+              width: "80%", 
+              height: '60px' }}
+            />
+            <div>
+              <button style={{ border: "1px solid #000000",  
+                padding: "10px", backgroundColor: '#e9c78c' }} 
+                className="normal-text" 
+                onClick={rateTutor}>Rate
+              </button>
+            </div>        
           </div>
         ) : (
           <div style={{marginTop: '20px'}}>

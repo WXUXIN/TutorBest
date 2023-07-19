@@ -37,7 +37,7 @@ router.post("/:tutorId/request/:tuteeId", async (req, res) => {
     }
     // add to tutee object array of linking requests
     const tutee = await Tutee.findOne({ user: req.params.tuteeId }).populate("user");
-    tutor.linkingRequests.push({ tutee: tutee.user._id, tuteeName: tutee.user.name} );
+    tutor.linkingRequests.push({ tutee: tutee.user._id, tuteeName: tutee.user.name, photo: tutee.user.photo} );
     await tutor.save();
     res.json(tutor.linkingRequests);
   } catch (err) {
@@ -99,6 +99,31 @@ router.post("/:tutorId/request/:tuteeId/reject", async (req, res) => {
     tutor.linkingRequests.splice(linkingRequestIndex, 1);
     await tutor.save();
     res.json(linkingRequest);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// Unlink a tutor and tutee
+router.post("/:tutorId/request/:tuteeId/unlink", async (req, res) => {
+  try {
+    // Find the tutor
+    const tutor = await Tutor.findOne({ user: req.params.tutorId });
+    if (!tutor) {
+      return res.status(404).json({ msg: "Tutor not found" });
+    }
+    // Find the tutee
+    const tutee = await Tutee.findOne({ user: req.params.tuteeId });
+    if (!tutee) {
+      return res.status(404).json({ msg: "Tutee not found" });
+    }
+    // Remove the tutor from the tutee's tutors array
+    tutee.tutors = tutee.tutors.filter(
+      (tutorId) => !tutorId.equals(new mongoose.Types.ObjectId(req.params.tutorId))
+    );
+    await tutee.save();
+    res.json({ msg: "Tutor and tutee unlinked successfully" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

@@ -1,24 +1,31 @@
 const Tutor = require('../../models/TutorInfo');
+const Tutee = require('../../models/TuteeInfo');
 const express = require('express');
 const router = express.Router();
 
 
 router.post('/', async (req, res) => {
 
-    const { tutorId, rating, tuteeId } = req.body;
+    const { tutorId, rating, comments, tuteeId } = req.body;
 
     try {
         // Find the tutor by ID
         const tutor = await Tutor.findOne({ user: tutorId })
-
         if (!tutor) {
             return res.status(404).json({ message: 'Tutor not found' });
         }
 
-        // create newrating object to add to array
+        // Find tutee by ID
+        const tutee = await Tutee.findOne({ user: tuteeId }).populate("user");
+        if (!tutee) {
+            return res.status(404).json({ message: 'Tutee not found' });
+        }
+
+        // create newrating object that contains tutee id and name to add to array
         const newRating = {
             rating: rating,
-            tutee: tuteeId,
+            comments: comments,
+            tutee: {tuteeId: tutee.user._id, name: tutee.user.name, photo: tutee.user.photo}
         };
 
         // Update the tutor's ratings array by appending the new rating

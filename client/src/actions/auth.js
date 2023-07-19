@@ -308,16 +308,15 @@ export const setLoading = (isLoading) => (dispatch) => {
 
 // passes in the tutor's USER id in the tutor's user model and the new rating that you want to add
 export const handleRateTutor =
-  (tutorId, rating, tuteeId) => async (dispatch) => {
+  (tutorId, rating, comments, tuteeId) => async (dispatch) => {
     try {
       console.log("Sending rate tutor request:", tutorId, rating, tuteeId);
-
       const response = await axios.post("/api/rate-tutor", {
         tutorId: tutorId,
         rating: rating,
+        comments: comments,
         tuteeId: tuteeId,
       });
-
       dispatch({
         type: RATE_TUTOR_SUCCESS,
         payload: response.data,
