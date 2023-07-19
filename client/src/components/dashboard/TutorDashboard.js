@@ -28,6 +28,8 @@ const TutorDashboard = ({
   const [showLinkingRequests, setShowLinkingRequests] = useState(false);
   const [showReviewCount, setShowReviewCount] = useState(3);
 
+  const linkingRequestCount = settledRequests.length;
+
   useEffect(() => {
     if (profile && profile.linkingRequests) {
       setSettledRequests(profile.linkingRequests);
@@ -146,13 +148,17 @@ const TutorDashboard = ({
           )}
         </h1>
 
+        <div style={{ position: "relative", display: "inline-block" }}>
         <button className="btn btn-primary normal-text" 
           style={{ fontSize:'20px'}}
           onClick={handleLinkingRequestsClick}
         >
           Linking Requests
+          {linkingRequestCount > 0 && (
+            <div className="badge-red normal-text">{linkingRequestCount}</div>
+          )}
         </button>
-
+        </div>
       </div>
 
         <img
