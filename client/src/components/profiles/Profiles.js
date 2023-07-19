@@ -133,24 +133,51 @@ const Profiles = ({
         <div className="container">
           <div className="box-container">
             {isAuthenticated && (
-              <h1
-                className="normal-text"
-                style={{ position: "absolute", top: "10px", color: "white" }}
-              >
-                I am a
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h1
+                  className="normal-text"
+                  style={{ color: "white", marginRight: "5px" }}
+                >
+                  I am a
+                </h1>
                 <select
                   className="role-dropdown"
                   value={role}
                   onChange={handleChangeRoles}
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    marginRight: "10px",
+                  }}
                 >
-                  <option value="tutee">tutee</option>
-                  <option value="tutor">tutor</option>
+                  <option value="tutee">Tutee</option>
+                  <option value="tutor">Tutor</option>
                 </select>
-              </h1>
+
+                <Link
+                  to={`/registered-tutors/${user._id}`}
+                  className="btn btn-primary"
+                >
+                  My Tutors
+                </Link>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    navigate(`/registered-tutors/${user._id}`);
+                  }}
+                >
+                  My Chats
+                </button>
+              </div>
             )}
+
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <h1 className="form-font-white large normal-text">
-                Search for your next tutor:
+                🔍 Search for your next tutor:
               </h1>
               <div style={{ marginTop: "20px", marginBottom: "20px" }}>
                 <div style={{ marginTop: "20px" }}>
@@ -222,34 +249,25 @@ const Profiles = ({
                   Search for tutors
                 </button>
 
-                {isAuthenticated && (
-                  <Link
-                    to={`/registered-tutors/${user._id} `}
-                    className="btn btn-primary"
-                  >
-                    View all YOUR tutors
-                  </Link>
-                )}
-
                 <div style={{ marginTop: "10px" }}>
                   {/* Search Bar */}
                   <input
-                    className="normal-text"
+                    className="search-bar normal-text"
                     type="text"
                     placeholder="Search for tutors..."
                     value={searchInput}
                     onChange={handleSearchInputChange}
-                    style={{
-                      width: "300px",
-                      borderRadius: "20px",
-                      padding: "8px",
-                      fontSize: "inherit",
-                      backgroundColor: "grey",
-                      color: "#e9c78c",
-                      border: "none",
-                      outline: "none",
-                      marginRight: "10px",
-                    }}
+                    // style={{
+                    //   width: "300px",
+                    //   borderRadius: "20px",
+                    //   padding: "8px",
+                    //   fontSize: "inherit",
+                    //   backgroundColor: "grey",
+                    //   color: "#e9c78c",
+                    //   border: "none",
+                    //   outline: "none",
+                    //   marginRight: "10px",
+                    // }}
                   />
                   <button
                     style={{ marginLeft: "10px" }}

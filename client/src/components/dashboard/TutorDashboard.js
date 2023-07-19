@@ -106,195 +106,208 @@ const TutorDashboard = ({
 
   console.log(subjectList);
   return (
-    <section className="container">
-      <div className="bright-overlay-bg"></div>
-      <div className="background-image-container"></div>
-      <div className="box-container">
-        <h1 className="form-font-white normal-text">
-          I am a
-          <select
-            value={role}
-            onChange={handleChangeRoles}
-            className="role-dropdown"
-          >
-            <option value="tutee">tutee</option>
-            <option value="tutor">tutor</option>
-          </select>
-        </h1>
-
-        <h1
-          className="form-font-white normal-text"
-          style={{ marginTop: "20px", fontSize: "25px" }}
-        >
-          {" "}
-          Welcome,{" "}
-          {user && (
-            <span
-              className="form-font-gold"
-              style={{ fontWeight: "bold", fontSize: "50px" }}
-            >
-              {user.name}
-            </span>
-          )}
-        </h1>
-
-        <img
-          style={{
-            marginTop: "20px",
-            borderRadius: "50%",
-            width: "200px",
-            height: "200px",
-          }}
-          src={`../../../../uploads/${user.photo}`}
-          alt="User Avatar"
-        />
-
-        <h1
-          className="form-font-white normal-text"
-          style={{
-            marginTop: "20px",
-            fontWeight: "bold",
-            fontSize: "25px",
-          }}
-        >
-          Your Rating:
-        </h1>
-
-        <h1
-          className="form-font-white normal-text"
-          style={{ marginTop: "15px" }}
-        >
-          {typeof getAverageRatings(profile.ratings) === "string" ? (
-            <h1 className="form-font-white">
-              {getAverageRatings(profile.ratings)}
-            </h1>
-          ) : (
-            <h1 className="form-font-white">
-              {getAverageRatings(profile.ratings)} / 5{" "}
-            </h1>
-          )}
-        </h1>
-
-        <h1
-          className="form-font-white normal-text"
-          style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
-        >
-          Your Subjects:
-        </h1>
-        <>
-          {subjectList.map((subject, index) => (
-            <div
-              className="normal-text form-font-white"
-              style={{ marginTop: "20px" }}
-              key={index}
-            >
-              <ul
+    <div className="bright-overlay-bg">
+      <section className="container">
+        {/* <div className="background-image-container"></div> */}
+        <div className="box-container">
+          <div style={{ marginBottom: "20px" }}>
+            <h1 className="form-font-white normal-text">
+              I am a
+              <select
+                value={role}
+                onChange={handleChangeRoles}
+                className="role-dropdown"
                 style={{
-                  listStyleType: "disc",
-                  marginLeft: "20px",
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                  marginRight: "10px",
+                }}
+              >
+                <option value="tutee">Tutee</option>
+                <option value="tutor">Tutor</option>
+              </select>
+            </h1>
+          </div>
+          <h1
+            className="form-font-white normal-text"
+            style={{ marginTop: "20px", fontSize: "25px" }}
+          >
+            {" "}
+            Welcome,{" "}
+            {user && (
+              <span
+                className="form-font-gold"
+                style={{ fontWeight: "bold", fontSize: "50px" }}
+              >
+                {user.name}
+              </span>
+            )}
+          </h1>
+
+          <img
+            style={{
+              marginTop: "20px",
+              borderRadius: "50%",
+              width: "200px",
+              height: "200px",
+            }}
+            src={`../../../../uploads/${user.photo}`}
+            alt="User Avatar"
+          />
+
+          <h1
+            className="form-font-white normal-text"
+            style={{
+              marginTop: "20px",
+              fontWeight: "bold",
+              fontSize: "25px",
+            }}
+          >
+            Your Rating:
+          </h1>
+
+          <h1
+            className="form-font-white normal-text"
+            style={{ marginTop: "15px" }}
+          >
+            {typeof getAverageRatings(profile.ratings) === "string" ? (
+              <h1 className="form-font-white">
+                {getAverageRatings(profile.ratings)}
+              </h1>
+            ) : (
+              <h1 className="form-font-white">
+                {getAverageRatings(profile.ratings)} / 5{" "}
+              </h1>
+            )}
+          </h1>
+
+          <h1
+            className="form-font-white normal-text"
+            style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
+          >
+            Your Subjects:
+          </h1>
+          <>
+            {subjectList.map((subject, index) => (
+              <div
+                className="normal-text form-font-white"
+                style={{ marginTop: "20px" }}
+                key={index}
+              >
+                <ul
+                  style={{
+                    listStyleType: "disc",
+                    marginLeft: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <li>
+                    Subject: {subject.subject} | Level: {subject.level} | Price:{" "}
+                    {subject.price}/hr
+                  </li>
+                </ul>
+              </div>
+            ))}
+          </>
+          <h1
+            className="normal-text form-font-white"
+            style={{
+              marginTop: "20px",
+              fontWeight: "bold",
+              fontSize: "25px",
+              marginBottom: "10px",
+            }}
+          >
+            Your Description:
+          </h1>
+          <div className="white-box normal-text">
+            {description
+              ? description
+              : "You have not written a description yet"}
+          </div>
+
+          <h1
+            className="form-font-white normal-text"
+            style={{
+              fontWeight: "bold",
+              fontSize: "25px",
+              marginTop: "20px",
+              marginBottom: "10px",
+            }}
+          >
+            Your Highest Qualification:
+          </h1>
+          <div
+            className="form-font-white normal-text"
+            style={{ marginBottom: "20px" }}
+          >
+            {highestQualification}
+          </div>
+
+          <form>
+            <Link to="/TutorSettings">
+              <input
+                type="submit"
+                style={{ fontFamily: "Josefin Sans" }}
+                className="btn btn-primary"
+                value="Edit"
+              />
+            </Link>
+          </form>
+
+          {/* display linkingrequests of tutor */}
+          <div style={{ marginTop: "20px" }}>
+            <div>
+              <h3
+                className="normal-text"
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "25px",
+                  marginTop: "20px",
                   marginBottom: "10px",
                 }}
               >
-                <li>
-                  Subject: {subject.subject} | Level: {subject.level} | Price:{" "}
-                  {subject.price}/hr
-                </li>
-              </ul>
-            </div>
-          ))}
-        </>
-        <h1
-          className="normal-text form-font-white"
-          style={{
-            marginTop: "20px",
-            fontWeight: "bold",
-            fontSize: "25px",
-            marginBottom: "10px",
-          }}
-        >
-          Your Description:
-        </h1>
-        <div className="white-box normal-text">
-          {description ? description : "You have not written a description yet"}
-        </div>
-
-        <h1
-          className="form-font-white normal-text"
-          style={{
-            fontWeight: "bold",
-            fontSize: "25px",
-            marginTop: "20px",
-            marginBottom: "10px",
-          }}
-        >
-          Your Highest Qualification:
-        </h1>
-        <div
-          className="form-font-white normal-text"
-          style={{ marginBottom: "20px" }}
-        >
-          {highestQualification}
-        </div>
-
-        <form>
-          <Link to="/TutorSettings">
-            <input
-              type="submit"
-              style={{ fontFamily: "Josefin Sans" }}
-              className="btn btn-primary"
-              value="Edit"
-            />
-          </Link>
-        </form>
-
-        {/* display linkingrequests of tutor */}
-        <div style={{ marginTop: "20px" }}>
-          <div>
-            <h3
-              className="normal-text"
-              style={{
-                fontWeight: "bold",
-                fontSize: "25px",
-                marginTop: "20px",
-                marginBottom: "10px",
-              }}
-            >
-              Linking Requests
-            </h3>
-            {settledRequests.length > 0 ? (
-              settledRequests.map((request) => (
-                <div
-                  style={{ marginBottom: "20px" }}
-                  className="yellow-box"
-                  key={request.tutee}
-                >
-                  {request.tuteeName}
-                  <button
-                    className="green-box normal-text"
-                    style={{ marginLeft: "10px" }}
-                    onClick={() => handleAcceptRequest(request)}
+                Linking Requests
+              </h3>
+              {settledRequests.length > 0 ? (
+                settledRequests.map((request) => (
+                  <div
+                    style={{ marginBottom: "20px" }}
+                    className="yellow-box"
+                    key={request.tutee}
                   >
-                    Accept
-                  </button>
-                  <button
-                    className="red-box normal-text"
-                    style={{ marginLeft: "10px" }}
-                    onClick={() => handleDeclineRequest(request)}
-                  >
-                    Decline
-                  </button>
+                    {request.tuteeName}
+                    <button
+                      className="green-box normal-text"
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => handleAcceptRequest(request)}
+                    >
+                      Accept
+                    </button>
+                    <button
+                      className="red-box normal-text"
+                      style={{ marginLeft: "10px" }}
+                      onClick={() => handleDeclineRequest(request)}
+                    >
+                      Decline
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="normal-text" style={{ marginBottom: "20px" }}>
+                  {" "}
+                  No requests ...
                 </div>
-              ))
-            ) : (
-              <div className="normal-text" style={{ marginBottom: "20px" }}>
-                {" "}
-                No requests ...
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

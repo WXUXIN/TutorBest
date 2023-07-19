@@ -14,11 +14,10 @@ import {
 const RegisterdTutors = ({
   auth: { user, isAuthenticated },
   profiles,
-  getRegisteredProfiles
+  getRegisteredProfiles,
 }) =>
   // I want to display all of the registered tutors in the database
   {
-
     const { id } = useParams();
     const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
@@ -99,109 +98,134 @@ const RegisterdTutors = ({
 
     return (
       <section className="bright-overlay-bg">
-      
-      <div className="container">
-        <div className="box-container">
-        {isAuthenticated && (
-          <h1 className="normal-text" style={{ position: "absolute", top: "10px" }}>
-            I am a
-            <select className="role-dropdown" value={role} onChange={handleChangeRoles}>
-              <option value="tutee">tutee</option>
-              <option value="tutor">tutor</option>
-            </select>
-          </h1>
-        )}
+        <div className="container">
+          <div className="box-container">
+            <div
+              style={{
+                marginBottom: "20px",
+              }}
+            >
+              {isAuthenticated && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <h1
+                    className="normal-text"
+                    style={{ color: "white", marginRight: "5px" }}
+                  >
+                    I am a
+                  </h1>
+                  <select
+                    className="role-dropdown"
+                    value={role}
+                    onChange={handleChangeRoles}
+                    style={{
+                      fontSize: "inherit",
+                      backgroundColor: "grey",
+                      color: "#e9c78c",
+                      borderRadius: "30px",
+                      textAlign: "center",
+                      padding: "8px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    <option value="tutee">Tutee</option>
+                    <option value="tutor">Tutor</option>
+                  </select>
 
-        <div style={{ marginTop: "20px", marginBottom:"20px" }}>
+                  <Link
+                    to={`/registered-tutors/${user._id}`}
+                    className="btn btn-primary"
+                  >
+                    My Tutors
+                  </Link>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      navigate(`/registered-tutors/${user._id}`);
+                    }}
+                  >
+                    My Chats
+                  </button>
+                </div>
+              )}
+            </div>
 
-        <div style={{ marginRight: "10px" }}>
-          <select
-            value={levelOfStudy}
-            onChange={handleLevelOfStudyChange}
-            className="dropdown"
-            style={{
-              fontSize: "inherit",
-              backgroundColor: "grey",
-              color: "#e9c78c",
-              borderRadius: "30px",
-              textAlign: "center",
-              padding: "8px",
-              float: "left",
-              marginRight: "10px"
-            }}
-          >
-            <option value="">Level of Study</option>
-            {levelOfStudyTemplate.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
+            {/* <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+              <div style={{ marginRight: "10px" }}>
+                <select
+                  value={levelOfStudy}
+                  onChange={handleLevelOfStudyChange}
+                  className="dropdown"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                >
+                  <option value="">Level of Study</option>
+                  {levelOfStudyTemplate.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            {/* <option value="Primary School">Primary School</option>
-            <option value="Secondary School">Secondary School</option>
-            <option value="Junior College">Junior College</option> */}
-          </select>
-        </div>
+              <div style={{ marginRight: "10px" }}>
+                <select
+                  value={subject}
+                  onChange={handleSubjectChange}
+                  className="dropdown"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    float: "left",
+                    marginRight: "10px",
+                  }}
+                  disabled={subjectOptions.length === 0}
+                >
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
 
-        <div style={{ marginRight: "10px" }}>
-          <select
-            value={subject}
-            onChange={handleSubjectChange}
-            className="dropdown"
-            style={{
-              fontSize: "inherit",
-              backgroundColor: "grey",
-              color: "#e9c78c",
-              borderRadius: "30px",
-              textAlign: "center",
-              padding: "8px",
-              float: "left",
-              marginRight: "10px"
-            }}
-            disabled={subjectOptions.length === 0}
-          >
-            {subjectOptions.length === 0 ? (
-              <option value="">Select level of study</option>
-            ) : (
-              <>
-                <option value="">Select subject</option>
-                {subjectOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
+              <button
+                className="btn btn-primary"
+                disabled={!levelOfStudy || !subject}
+                onClick={handleSearch}
+              >
+                Search for tutors
+              </button>
+            </div> */}
+
+            {profilesList.length > 0 ? (
+              <Fragment>
+                {profilesList.map((profile) => (
+                  <ProfileItem key={profile._id} profile={profile} />
                 ))}
-              </>
+              </Fragment>
+            ) : (
+              <h4 className="normal-text">No profiles found...</h4>
             )}
-          </select>
-        </div>
-
-        <button
-          className="btn btn-primary"
-          disabled={!levelOfStudy || !subject}
-          onClick={handleSearch}
-        >
-          Search for tutors
-        </button>
-
-        <Link
-          to={`/registered-tutors/${user._id} `}
-          className="btn btn-primary"
-        >
-          View all YOUR tutors
-        </Link>
-
-        </div>
-
-        {profilesList.length > 0 ? (
-          <Fragment>
-            {profilesList.map((profile) => (
-              <ProfileItem key={profile._id} profile={profile} />
-            ))}
-          </Fragment>
-        ) : (
-          <h4 className="normal-text">No profiles found...</h4>
-        )}
-        </div>
+          </div>
         </div>
       </section>
     );

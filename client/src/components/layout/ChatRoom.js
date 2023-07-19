@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import io from "socket.io-client";
 import Spinner from "../layout/Spinner";
@@ -12,6 +12,14 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
   const [messages, setMessages] = useState([]);
   const [chatObj, setChatObj] = useState(null);
   const [otherUser, setOtherUser] = useState(null);
+  const chatContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
 
   // Get pfp of other user
   useEffect(() => {
@@ -79,15 +87,27 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
   //     }
   //   }, [socket, user1, user2]);
   const sendMessage = (content) => {
-    const message = {
-      chatId: id,
-      sender: auth.user._id,
-      content,
-      timestamp: Date.now(),
-    };
+    if (content !== "") {
+      const message = {
+        chatId: id,
+        sender: auth.user._id,
+        content,
+        timestamp: Date.now(),
+      };
 
-    socket.emit("sendMessage", message);
+      socket.emit("sendMessage", message);
+      scrollToBottom();
+    }
   };
+
+  useEffect(() => {
+    // ...
+
+    // Scroll to the bottom when initially loading messages
+    scrollToBottom();
+
+    // ...
+  }, [socket, id]);
 
   if (!chatObj || !otherUser) {
     return <Spinner />;
@@ -96,7 +116,7 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
   return (
     <section className="bright-overlay-bg">
       <div className="container">
-        <div className="box-container">
+        <div className="chat-box-container" ref={chatContainerRef}>
           <h1
             className="form-font-gold normal-text"
             style={{ textAlign: "center" }}
@@ -156,8 +176,12 @@ const ChatRoom = ({ auth, getChatWithChatID }) => {
               e.target.elements.content.value = "";
             }}
           >
-            <input type="text" name="content" />
-            <button type="submit">Send</button>
+            <input className="chat-bar" type="text" name="content" />
+            <div className="button-container">
+              <button className="send-button" type="submit">
+                Send
+              </button>
+            </div>
           </form>
         </div>
       </div>

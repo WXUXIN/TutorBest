@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom";
+
+import { Link, useParams, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import {
@@ -233,25 +234,51 @@ const FilteredProfiles = ({
       <div className="container">
         <div className="box-container">
           {isAuthenticated && (
-            <h1
-              className="normal-text"
-              style={{ position: "absolute", top: "10px" }}
-            >
-              I am a
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <h1
+                className="normal-text"
+                style={{ color: "white", marginRight: "5px" }}
+              >
+                I am a
+              </h1>
               <select
                 className="role-dropdown"
                 value={role}
                 onChange={handleChangeRoles}
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                  marginRight: "10px",
+                }}
               >
-                <option value="tutee">tutee</option>
-                <option value="tutor">tutor</option>
+                <option value="tutee">Tutee</option>
+                <option value="tutor">Tutor</option>
               </select>
-            </h1>
+
+              <Link
+                to={`/registered-tutors/${user._id}`}
+                className="btn btn-primary"
+              >
+                My Tutors
+              </Link>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  navigate(`/registered-tutors/${user._id}`);
+                }}
+              >
+                My Chats
+              </button>
+            </div>
           )}
 
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             <h1 className="form-font-white large normal-text">
-              🔍 Search for your next tutor: 
+              🔍 Search for your next tutor:
             </h1>
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <div style={{ marginTop: "20px" }}>

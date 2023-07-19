@@ -5,7 +5,7 @@
 /* Global Styles */
 :root {
   --primary-color: #e9c78c;
-  --dark-color: #0B1B3D;
+  --dark-color: #0b1b3d;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
   --success-color: #28a745;
@@ -19,7 +19,7 @@
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
@@ -48,7 +48,6 @@ img {
   margin-top: 6rem;
   margin-bottom: 3rem;
   min-height: 100%;
-
 }
 
 .role-dropdown {
@@ -57,42 +56,41 @@ img {
   color: #000000;
 }
 
-
 /* Text Styles*/
 .x-large-login,
-.x-large-landing, 
+.x-large-landing,
 .large,
 .x-large {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
-.x-large-landing, 
+.x-large-landing,
 .x-large {
   font-size: 4rem;
   color: #000000;
 }
 
-.x-large-login{
+.x-large-login {
   font-size: 3rem;
 }
 
 .navbar-logo {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 3rem;
   line-height: 1.2;
 }
 
 .normal-text {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1rem;
   line-height: 1.2;
   color: #ffffff;
 }
 
 .navbar-register-login {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: 1.5rem;
   line-height: 1.2;
 }
@@ -105,11 +103,10 @@ img {
   font-size: 2rem;
 }
 
-
 .lead {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 .text-center {
@@ -168,7 +165,7 @@ img {
 }
 .my-1 {
   margin: 1rem 0;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 .my-2 {
   margin: 2rem 0;
@@ -184,7 +181,7 @@ img {
 .btn {
   display: inline-block;
   background: var(--light-color);
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   color: #333;
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
@@ -229,27 +226,27 @@ img {
   border-radius: 30px;
 }
 
-.btn-primary{
-  font-family: 'Josefin Sans', sans-serif;
+.btn-primary {
+  font-family: "Josefin Sans", sans-serif;
 }
 
-.yellow-box{
-    background-color:#e9c78c;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    color: #000000;
+.yellow-box {
+  background-color: #e9c78c;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  color: #000000;
 }
 
 .green-box {
-  background-color:rgb(5, 157, 0);
+  background-color: rgb(5, 157, 0);
   padding: 7px;
   border-radius: 15px;
   color: #ffffff;
 }
 
 .red-box {
-  background-color:rgb(157, 10, 0);
+  background-color: rgb(157, 10, 0);
   padding: 7px;
   border-radius: 15px;
   color: #ffffff;
@@ -279,7 +276,7 @@ img {
   color: #ffffff;
 }
 
-.btn-success, 
+.btn-success,
 .bg-success,
 .badge-success,
 .alert-success {
@@ -348,8 +345,7 @@ img {
   background-position: center;
   z-index: -1;
 }
-s
-.background-image-container {
+s .background-image-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -378,7 +374,6 @@ s
   color: #000000;
 }
 
-
 /* Forms */
 .form .form-group {
   margin: 1.2rem 0;
@@ -390,10 +385,10 @@ s
   color: #888;
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -401,14 +396,13 @@ s
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
-  font-family: 'Josefin Sans', sans-serif;
-
+  font-family: "Josefin Sans", sans-serif;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
-  color: #0B1B3D;
+  color: #0b1b3d;
 }
 
 .form .social-input {
@@ -483,7 +477,7 @@ button {
   position: relative;
   /* background: url('./img/showcase.jpg') no-repeat center center/cover; */
   height: 100vh;
-  background-size: 100%; /* Adjust the zoom level as needed */  
+  background-size: 100%; /* Adjust the zoom level as needed */
 }
 
 .landing-inner {
@@ -501,12 +495,11 @@ button {
 }
 
 select option {
- font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   line-height: 1.2;
   margin-bottom: 1rem;
   color: #e9c78c;
 }
-
 
 /* Profiles Page */
 .profile {
@@ -524,10 +517,10 @@ select option {
 .profile-grid {
   display: grid;
   grid-template-areas:
-    'top top'
-    'about about'
-    'exp edu'
-    'github github';
+    "top top"
+    "about about"
+    "exp edu"
+    "github github";
   grid-gap: 1rem;
 }
 
@@ -710,11 +703,11 @@ select option {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      "top"
+      "about"
+      "exp"
+      "edu"
+      "github";
   }
 
   .profile-about .skills {
@@ -736,27 +729,26 @@ select option {
   }
 
   .register-bg {
-    background: url('./img/showcase.jpg') 
-  };
+    background: url("./img/showcase.jpg");
+  }
 
   .dropdown {
     position: relative;
     padding: 0;
     margin-right: 1em;
-    border: none; 
+    border: none;
     outline: none;
   }
 
   .dropdown .normal-text {
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: "Josefin Sans", sans-serif;
     font-size: 1rem;
     line-height: 1.2;
   }
 
   .special-select {
     width: 200px;
-    color:#000080;
-    
+    color: #000080;
   }
 
   .box-container {
@@ -774,7 +766,6 @@ select option {
     margin: 0;
     padding: 0 30px;
     list-style-type: none;
- 
   }
 
   .search-bar {
@@ -786,22 +777,20 @@ select option {
     border: 2px solid #e9c78c;
     overflow: hidden;
   }
-  
+
   .search-icon {
     color: #e9c78c;
     margin-right: 10px;
   }
-  
-  
 
-  .themefont{
-    font-family: 'Josefin Sans', sans-serif;
+  .themefont {
+    font-family: "Josefin Sans", sans-serif;
   }
 
   .app-container {
     position: relative;
   }
-  
+
   .content-wrapper {
     /* Your existing styles for the content wrapper */
     margin-top: 50px; /* Adjust the margin-top value to provide space for the navbar */
@@ -812,7 +801,7 @@ select option {
     align-items: center;
     justify-content: space-between;
   }
-  
+
   .cross-button {
     width: 30px; /* Adjust the width as needed */
     height: auto; /* Height will be determined by the content */
@@ -823,21 +812,20 @@ select option {
     padding: 5px;
     margin-left: 10px; /* Adjust the margin as needed */
   }
-  
 }
 
-.form-font-white{
-  font-family: 'Josefin Sans', sans-serif;
+.form-font-white {
+  font-family: "Josefin Sans", sans-serif;
   color: #ffffff;
 }
 
-.form-font-black{
-  font-family: 'Josefin Sans', sans-serif;
+.form-font-black {
+  font-family: "Josefin Sans", sans-serif;
   color: #000000;
 }
 
-.form-font-gold{
-  font-family: 'Josefin Sans', sans-serif;
+.form-font-gold {
+  font-family: "Josefin Sans", sans-serif;
   color: #e9c78c;
 }
 
@@ -849,6 +837,7 @@ select option {
 
 .chat-message-right {
   justify-content: flex-end;
+  margin-right: 15px;
 }
 
 .chat-message-content {
@@ -861,4 +850,112 @@ select option {
 
 .form-font-black {
   color: #000;
+}
+
+ 
+.chat-box-container {
+  height: 800px; /* Adjust the height as needed */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  border-radius: 30px;
+  position: relative;
+}
+
+.chat-container {
+  overflow-y: auto;
+  flex-grow: 1;
+  scrollbar-color: #e9c78c var(--secondary-color);
+}
+
+.chat-container::-webkit-scrollbar {
+  width: 10px; /* Adjust the width as needed */
+  background-color: var(--secondary-color); /* Change the background color of the scrollbar */
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: #e9c78c; /* Change the color of the scrollbar thumb */
+  border-radius: 5px; /* Set the initial border-radius */
+}
+
+.chat-container::-webkit-scrollbar-thumb:hover {
+  background-color: #cda76f; /* Change the color of the scrollbar thumb on hover */
+  /* Add any additional styles for the hover state */
+}
+
+.chat-container::-webkit-scrollbar-thumb::before,
+.chat-container::-webkit-scrollbar-thumb::after {
+  content: "";
+  display: block;
+  width: 10px; /* Same as scrollbar width */
+  background-color: #e9c78c; /* Same as scrollbar thumb color */
+  position: absolute;
+  top: 0;
+  height: 5px; /* Half of the scrollbar thumb height */
+}
+
+.chat-container::-webkit-scrollbar-thumb::before {
+  border-radius: 5px 5px 0 0; /* Rounded top corners */
+}
+
+.chat-container::-webkit-scrollbar-thumb::after {
+  border-radius: 0 0 5px 5px; /* Rounded bottom corners */
+  bottom: 0;
+}
+
+.search-bar {
+  width: 300px;
+  border-radius: 20px;
+  padding: 8px;
+  font-size: inherit;
+  background-color: grey;
+  color: #e9c78c;
+  border: none;
+  outline: none;
+  margin-right: 10px;
+}
+
+/* .chat-bar {
+  flex: 1;
+  border-radius: 20px;
+  padding: 8px;
+  font-size: inherit;
+  background-color: #e0e0e0;
+  color: #e9c78c;
+  border: none;
+  outline: none;
+  margin-right: 10px;
+} */
+
+.chat-bar {
+  width: 100%;
+  border-radius: 20px;
+  padding: 8px;
+  font-size: inherit;
+  background-color: #e0e0e0;
+  color: #e9c78c;
+  border: none;
+  outline: none;
+  margin-right: 10px;
+  font-family: "Josefin Sans", sans-serif;
+  color: #000000;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.send-button {
+  padding: 8px 16px;
+  font-size: inherit;
+  background-color: #e9c78c;
+  font-family: "Josefin Sans", sans-serif;
+  color: #000000;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-left: auto; /* Add this line to push the button to the right */
 }
