@@ -336,68 +336,64 @@ const TutorDashboard = ({
             </div>
           </div>
 
-          {/* display linkingrequests of tutor */}
-          {showLinkingRequests && (
-            <div className="grey-box-requests" style={{ marginTop: "20px" }}>
-              <h3
-                className="form-font-white normal-text"
-                style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  marginBottom: "10px",
-                }}
+
+        {/* display linkingrequests of tutors */}
+        {showLinkingRequests && (
+              <div
+                className="grey-box-requests"
+                style={{marginTop:"20px"}}
               >
-                Requests:
-              </h3>
-              {settledRequests.length > 0 ? (
-                settledRequests.map((request) => (
-                  <div className="yellow-box" key={request.tutee}>
-                    <div
-                      className="review-info normal-text"
-                      style={{ fontWeight: "bold", color: "black" }}
-                    >
-                      <div className="user-info">
-                        <img
-                          style={{
-                            marginTop: "20px",
-                            borderRadius: "50%",
-                            marginRight: "15px",
-                            width: "60px",
-                            height: "60px",
-                          }}
-                          src={`../../../../uploads/${
-                            request.photo || "default.jpg"
-                          }`}
-                        />
-                      </div>
-                      <div style={{ flexGrow: 1 }}>{request.tuteeName}</div>
-                      <div style={{ display: "flex", alignItems: "center" }}>
-                        <button
-                          className="green-box normal-text"
-                          style={{ marginLeft: "15px" }}
-                          onClick={() => handleAcceptRequest(request)}
-                        >
-                          Accept
-                        </button>
-                        <button
-                          className="red-box normal-text"
-                          style={{ marginLeft: "5px" }}
-                          onClick={() => handleDeclineRequest(request)}
-                        >
-                          Decline
-                        </button>
+                <h3 className="form-font-white normal-text" 
+                  style={{ fontSize:"20px", fontWeight:"bold", marginBottom:"10px"}}
+                >
+                  Requests:
+                </h3>
+                {settledRequests.length > 0 ? (
+                  settledRequests.map((request) => (
+                    <div className="yellow-box" key={request.tutee}>
+                      <div className="review-info normal-text" style={{ fontWeight:'bold', color:'black'}}>
+                        <div className="user-info">
+                          <img
+                            style={{
+                              marginTop: "20px",
+                              borderRadius: "50%",
+                              marginRight: '15px',
+                              width: "60px",
+                              height: "60px",
+                            }}
+                              src={`../../../../uploads/${request.photo || "default.jpg"}`}
+                            />
+                        </div>
+                        <div style={{ flexGrow: 1 }}>
+                          {request.tuteeName}
+                        </div>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                          <button
+                            className="green-box normal-text"
+                            style={{ marginLeft: "15px" }}
+                            onClick={() => handleAcceptRequest(request)}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            className="red-box normal-text"
+                            style={{ marginLeft: "5px" }}
+                            onClick={() => handleDeclineRequest(request)}
+                          >
+                            Decline
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <div className="normal-text">No requests ...</div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
-    </div>
+                  ))
+                ) : (
+                  <div className="normal-text">No requests ...</div>
+                )}
+              </div>
+            )}
+      </div>
+      </div>
+    </section>
   );
 };
 
