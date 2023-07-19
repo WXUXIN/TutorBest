@@ -320,7 +320,7 @@ const TutorDashboard = ({
         </div>
 
 
-        {/* display linkingrequests of tutors */}
+        {/* display linkingrequests of tutor */}
         {showLinkingRequests && (
               <div
                 className="grey-box-requests"
