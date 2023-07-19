@@ -220,20 +220,6 @@ const TutorDashboard = ({
             </div>
           ))}
         </>
-        <h1
-          className="normal-text form-font-white"
-          style={{
-            marginTop: "20px",
-            fontWeight: "bold",
-            fontSize: "25px",
-            marginBottom: "10px",
-          }}
-        >
-          Your Description:
-        </h1>
-        <div className="white-box normal-text">
-          {description ? description : "You have not written a description yet"}
-        </div>
 
         <h1
           className="form-font-white normal-text"
@@ -251,6 +237,21 @@ const TutorDashboard = ({
           style={{ marginBottom: "20px" }}
         >
           {highestQualification}
+        </div>
+
+        <h1
+          className="normal-text form-font-white"
+          style={{
+            marginTop: "20px",
+            fontWeight: "bold",
+            fontSize: "25px",
+            marginBottom: "10px",
+          }}
+        >
+          Your Description:
+        </h1>
+        <div className="white-box normal-text">
+          {description ? description : "You have not written a description yet"}
         </div>
 
         <form>
