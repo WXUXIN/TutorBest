@@ -73,6 +73,9 @@ const TutorSchema = new mongoose.Schema({
       tuteeName: {
         type: String,
       },
+      photo: {
+        type: String
+      }
     },
   ],
 });

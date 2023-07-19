@@ -37,7 +37,7 @@ router.post("/:tutorId/request/:tuteeId", async (req, res) => {
     }
     // add to tutee object array of linking requests
     const tutee = await Tutee.findOne({ user: req.params.tuteeId }).populate("user");
-    tutor.linkingRequests.push({ tutee: tutee.user._id, tuteeName: tutee.user.name} );
+    tutor.linkingRequests.push({ tutee: tutee.user._id, tuteeName: tutee.user.name, photo: tutee.user.photo} );
     await tutor.save();
     res.json(tutor.linkingRequests);
   } catch (err) {
