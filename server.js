@@ -73,6 +73,7 @@ io.on('connection', (socket) => {
 
           // Broadcast the message to all connected clients
           io.emit('receiveMessage', message);
+          console.log('Message sent');
         }
       } catch (err) {
         console.error(err);
