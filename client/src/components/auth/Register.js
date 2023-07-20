@@ -251,10 +251,10 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
               />
             </div>
 
-            <small className="text-primary form-font-white">
+            <div className="text-primary form-font-white" style={{fontSize:'12px'}}>
               Upload Your Profile Picture
-            </small>
-            <div className="form-group">
+            </div>
+            <div className="form-group normal-text">
               <input
                 type="file"
                 name="photo"
