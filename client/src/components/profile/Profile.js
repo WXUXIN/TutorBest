@@ -391,7 +391,7 @@ const Profile = ({
                   ) : null}
             </div>
 
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             {auth.isAuthenticated && auth.loading === false && (
               <div>
                 <button

@@ -284,7 +284,7 @@ const RegisterdTutors = ({
             >
               Search
             </button>
-          </div>
+
 
           {/* search bar input rendering */}
           {searchInput ? (
@@ -310,6 +310,7 @@ const RegisterdTutors = ({
               )}
             </div>
           )}
+        </div>
         </div>
       </section>
     );
