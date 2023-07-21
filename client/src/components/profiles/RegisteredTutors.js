@@ -21,14 +21,41 @@ const RegisterdTutors = ({
     const { id } = useParams();
     const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
+
+    // This stores the selection of the level of study
+    const [levelOfStudy, setLevelOfStudy] = useState("");
+
+    // This stores the subject selected by tutee
+    const [subject, setSubject] = useState("");
+
     const navigate = useNavigate();
 
     // This stores the subjects that can be selected from the dropdown
     const [subjectOptions, setSubjectOptions] = useState([]);
 
-    // //searchbar states
+    //searchbar states
     const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+
+    // For students to select their level of study
+    const handleLevelOfStudyChange = (e) => {
+      const selectedLevelOfStudy = e.target.value;
+      setLevelOfStudy(selectedLevelOfStudy);
+
+      // Update subject options based on the selected level of study
+      if (selectedLevelOfStudy in subjectOptionsData) {
+        setSubjectOptions(subjectOptionsData[selectedLevelOfStudy]);
+      } else {
+        setSubjectOptions([]);
+      }
+
+      // Reset the selected subject every time the level of study is changed
+      setSubject("");
+    };
+
+    const handleSubjectChange = (e) => {
+      setSubject(e.target.value);
+    };
 
     // Calls the getAllProfiles action once to get the
     // latest list of profiles from the database
@@ -53,6 +80,29 @@ const RegisterdTutors = ({
       }
     }, [profiles]);
 
+    const handleSearchInputChange = (e) => {
+      const input = e.target.value;
+      setSearchInput(input);
+      setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
+    };
+
+    const handleSearchResult = () => {
+      if (searchInput) {
+        const filteredResults =
+          profiles.profiles &&
+          profiles.profiles.filter(
+            (profile) =>
+              profile.user.name &&
+              profile.user.name
+                .toLowerCase()
+                .includes(searchInput.toLowerCase())
+          );
+        setSearchResults(filteredResults);
+      } else {
+        setSearchResults(profiles.profiles);
+      }
+    };
+
     function handleChangeRoles(e) {
       setRole(e.target.value);
     }
@@ -70,26 +120,20 @@ const RegisterdTutors = ({
       }
     }
 
+    const handleSearch = () => {
+      if (levelOfStudy && subject) {
+        navigate(
+          `/filtered-profiles?levelOfStudy=${levelOfStudy}&subject=${subject}`
+        );
+      }
+    };
+
     // Display all the profiles of tutors in the database
 
     return (
       <section className="bright-overlay-bg">
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div
-            className="box-container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+        <div className="container">
+          <div className="box-container">
             <div
               style={{
                 marginBottom: "20px",
@@ -294,7 +338,7 @@ const RegisterdTutors = ({
             </div>
           )}
         </div>
-      </div>
+        </div>
       </section>
     );
   };
