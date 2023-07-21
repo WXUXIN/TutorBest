@@ -27,7 +27,7 @@ const RegisterdTutors = ({
     const [subjectOptions, setSubjectOptions] = useState([]);
 
     // //searchbar states
-    // const [searchInput, setSearchInput] = useState("");
+    const [searchInput, setSearchInput] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
     // Calls the getAllProfiles action once to get the
