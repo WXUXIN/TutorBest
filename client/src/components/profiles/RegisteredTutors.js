@@ -321,7 +321,7 @@ const RegisterdTutors = ({
                   <ProfileItem key={profile._id} profile={profile} />
                 ))
               ) : (
-                <h4 className="normal-text">No profiles found...</h4>
+                <h4 className="form-font-white medium normal-text">No profiles found...</h4>
               )}
             </div>
           ) : (
@@ -333,7 +333,7 @@ const RegisterdTutors = ({
                   ))}
                 </Fragment>
               ) : (
-                <h4 className="normal-text">No profiles found...</h4>
+                <h4 className="form-font-white medium normal-text">No profiles found...</h4>
               )}
             </div>
           )}

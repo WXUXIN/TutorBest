@@ -312,7 +312,7 @@ const Profiles = ({
                         <ProfileItem key={profile._id} profile={profile} />
                       ))
                     ) : (
-                      <h4 className="normal-text">No profiles found...</h4>
+                      <h4 className="form-font-white medium normal-text">No profiles found...</h4>
                     )}
                   </div>
                 ) : (
@@ -324,7 +324,7 @@ const Profiles = ({
                         ))}
                       </Fragment>
                     ) : profiles.profiles.length === 0 && !profiles.loading ? (
-                      <h4 className="normal-text">No profiles found...</h4>
+                      <h4 className="form-font-white medium normal-text">No profiles found...</h4>
                     ) : (
                       <Spinner />
                     )}
