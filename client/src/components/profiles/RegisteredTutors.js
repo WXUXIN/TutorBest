@@ -74,8 +74,22 @@ const RegisterdTutors = ({
 
     return (
       <section className="bright-overlay-bg">
-        <div className="container">
-          <div className="box-container">
+        <div
+          className="container"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="box-container"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <div
               style={{
                 marginBottom: "20px",
@@ -84,7 +98,7 @@ const RegisterdTutors = ({
               {isAuthenticated && (
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <h1
-                    className="normal-text"
+                    className="i-am-a-dropdown normal-text"
                     style={{ color: "white", marginRight: "5px" }}
                   >
                     I am a
@@ -132,7 +146,6 @@ const RegisterdTutors = ({
                 <h4 className="normal-text">No profiles found...</h4>
               )}
             </div>
-
           </div>
         </div>
       </section>

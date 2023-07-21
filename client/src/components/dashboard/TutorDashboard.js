@@ -120,30 +120,32 @@ const TutorDashboard = ({
     <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <h1
-              className="normal-text"
-              style={{ color: "white", marginRight: "5px" }}
-            >
-              I am a
-            </h1>
-            <select
-              className="role-dropdown"
-              value={role}
-              onChange={handleChangeRoles}
-              style={{
-                fontSize: "inherit",
-                backgroundColor: "grey",
-                color: "#e9c78c",
-                borderRadius: "30px",
-                textAlign: "center",
-                padding: "8px",
-                marginRight: "10px",
-              }}
-            >
-              <option value="tutee">Tutee</option>
-              <option value="tutor">Tutor</option>
-            </select>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <h1
+                className="i-am-a-dropdown normal-text"
+                style={{ color: "white", marginRight: "5px" }}
+              >
+                I am a
+              </h1>
+              <select
+                className="role-dropdown"
+                value={role}
+                onChange={handleChangeRoles}
+                style={{
+                  fontSize: "inherit",
+                  backgroundColor: "grey",
+                  color: "#e9c78c",
+                  borderRadius: "30px",
+                  textAlign: "center",
+                  padding: "8px",
+                  marginRight: "10px",
+                }}
+              >
+                <option value="tutee">Tutee</option>
+                <option value="tutor">Tutor</option>
+              </select>
+            </div>
           </div>
 
           <div className="welcome-container">
@@ -179,7 +181,7 @@ const TutorDashboard = ({
 
               <div
                 style={{
-                  marginTop: "10px"
+                  marginTop: "10px",
                 }}
               >
                 <button
@@ -213,7 +215,7 @@ const TutorDashboard = ({
               fontSize: "25px",
             }}
           >
-            Your Rating:
+            My Rating:
           </h1>
 
           <h1
@@ -235,7 +237,7 @@ const TutorDashboard = ({
             className="form-font-white normal-text"
             style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
           >
-            Your Subjects:
+            My Subject Offerings:
           </h1>
           <>
             {subjectList.map((subject, index) => (
@@ -269,7 +271,7 @@ const TutorDashboard = ({
               marginBottom: "10px",
             }}
           >
-            Your Highest Qualification:
+            My Highest Qualification:
           </h1>
           <div
             className="form-font-white normal-text"
@@ -287,7 +289,7 @@ const TutorDashboard = ({
               marginBottom: "10px",
             }}
           >
-            Your Description:
+            My Description:
           </h1>
           <div className="white-box normal-text">
             {description

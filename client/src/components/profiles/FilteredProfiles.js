@@ -103,32 +103,29 @@ const FilteredProfiles = ({
   useEffect(() => {
     if (profiles && profiles.profiles) {
       setSearchResults(profiles.profiles);
-      }
-    }, [profiles]);
+    }
+  }, [profiles]);
 
-    const handleSearchInputChange = (e) => {
-      const input = e.target.value;
-      setSearchInput(input);
-      setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
-    };
+  const handleSearchInputChange = (e) => {
+    const input = e.target.value;
+    setSearchInput(input);
+    setSearchResults(profiles.profiles && profiles.profiles); // Clear previous search results
+  };
 
-    const handleSearchResult = () => {
-      if (searchInput) {
-        const filteredResults =
-          profiles.profiles &&
-          profiles.profiles.filter(
-            (profile) =>
-              profile.user.name &&
-              profile.user.name
-                .toLowerCase()
-                .includes(searchInput.toLowerCase())
-          );
-        setSearchResults(filteredResults);
-      } else {
-        setSearchResults(profiles.profiles);
-      }
-    };
-
+  const handleSearchResult = () => {
+    if (searchInput) {
+      const filteredResults =
+        profiles.profiles &&
+        profiles.profiles.filter(
+          (profile) =>
+            profile.user.name &&
+            profile.user.name.toLowerCase().includes(searchInput.toLowerCase())
+        );
+      setSearchResults(filteredResults);
+    } else {
+      setSearchResults(profiles.profiles);
+    }
+  };
 
   function handleChangeRoles(e) {
     setRole(e.target.value);
@@ -266,12 +263,33 @@ const FilteredProfiles = ({
   // the student has selected
   return (
     <section className="bright-overlay-bg">
-      <div className="container">
-        <div className="box-container">
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div
+          className="box-container"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           {isAuthenticated && (
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
+            >
               <h1
-                className="normal-text"
+                className="i-am-a-dropdown normal-text"
                 style={{ color: "white", marginRight: "5px" }}
               >
                 I am a
@@ -294,16 +312,19 @@ const FilteredProfiles = ({
                 <option value="tutor">Tutor</option>
               </select>
 
-              <Link
-                to={`/registered-tutors/${user._id}`}
-                className="btn btn-primary"
-              >
-                My Tutors
-              </Link>
+              <div style={{ marginRight: "10px" }}>
+                <Link
+                  to={`/registered-tutors/${user._id}`}
+                  className="btn btn-primary"
+                >
+                  My Tutors
+                </Link>
+              </div>
+
               <button
                 className="btn btn-primary"
                 onClick={() => {
-                  navigate(`/registered-tutors/${user._id}`);
+                  navigate(`/active-chats/${user._id}`);
                 }}
               >
                 My Chats
@@ -311,12 +332,26 @@ const FilteredProfiles = ({
             </div>
           )}
 
-          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <div
+            style={{
+              marginTop: "20px",
+              marginBottom: "20px",
+              textAlign: "center",
+            }}
+          >
             <h1 className="form-font-white large normal-text">
               🔍 Search for your next tutor:
             </h1>
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-              <div style={{ marginTop: "20px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginTop: "20px",
+                }}
+              >
                 <select
                   value={levelOfStudy}
                   onChange={handleLevelOfStudyChange}
@@ -328,9 +363,6 @@ const FilteredProfiles = ({
                     borderRadius: "30px",
                     textAlign: "center",
                     padding: "8px",
-                    width: "200px",
-                    float: "left",
-                    marginRight: "10px",
                   }}
                 >
                   <option value="">Level of Study</option>
@@ -341,46 +373,38 @@ const FilteredProfiles = ({
                   ))}
                 </select>
 
-                <div style={{ marginRight: "10px" }}>
-                  <select
-                    value={subject}
-                    onChange={handleSubjectChange}
-                    className="dropdown normal-text"
-                    style={{
-                      fontSize: "inherit",
-                      backgroundColor: "grey",
-                      color: "#e9c78c",
-                      borderRadius: "30px",
-                      textAlign: "center",
-                      padding: "8px",
-                      float: "left",
-                      marginRight: "10px",
-                    }}
-                    disabled={subjectOptions.length === 0}
-                  >
-                    {subjectOptions.length === 0 ? (
-                      <option value="">Select level of study</option>
-                    ) : (
-                      <>
-                        <option value="">Select subject</option>
-                        {subjectOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </select>
-                </div>
+                <select
+                  value={subject}
+                  onChange={handleSubjectChange}
+                  className="dropdown normal-text"
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                  }}
+                  disabled={subjectOptions.length === 0}
+                >
+                  {subjectOptions.length === 0 ? (
+                    <option value="">Select level of study</option>
+                  ) : (
+                    <>
+                      <option value="">Select subject</option>
+                      {subjectOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
 
                 <button
                   className="btn btn-primary"
                   disabled={!levelOfStudy || !subject}
                   onClick={handleSearch}
-                  style={{
-                    textAlign: "center",
-                    borderRadius: "30px",
-                  }}
                 >
                   Search
                 </button>
@@ -419,65 +443,58 @@ const FilteredProfiles = ({
                 </select>
               </div>
 
-              <div style={{ marginTop: "10px" }}>
-                  {/* Search Bar */}
-                  <input
-                    className="normal-text"
-                    type="text"
-                    placeholder="Search with name"
-                    value={searchInput}
-                    onChange={handleSearchInputChange}
-                    style={{
-                      width: "300px",
-                      borderRadius: "20px",
-                      padding: "8px",
-                      fontSize: "inherit",
-                      backgroundColor: "grey",
-                      color: "#e9c78c",
-                      border: "none",
-                      outline: "none",
-                      marginRight: "10px",
-                    }}
-                  />
-                  <button
-                    style={{ marginLeft: "10px" }}
-                    className="btn btn-primary"
-                    onClick={handleSearchResult}
-                  >
-                    Search
-                  </button>
-                </div>
-
-                {/* search bar input rendering */}
-                {searchInput ? (
-                  <div>
-                    {searchResults.length > 0 ? (
-                      searchResults.map((profile) => (
-                        <ProfileItem key={profile._id} profile={profile} />
-                      ))
-                    ) : (
-                      <h4 className="normal-text">No profiles found...</h4>
-                    )}
-                  </div>
-                ) : (
-                  <div style={{ marginTop: "10px" }}>
-                {profilesList.length > 0 ? (
-                  <Fragment>
-                    {profilesList.map((profile) => (
-                      <ProfileItem
-                        key={profile._id}
-                        profile={profile}
-                        subjectAndLevel={subjectAndLevel}
-                      />
-                    ))}
-                  </Fragment>
-                  ) : (
-                  <h4 className="form-font-white medium normal-text">
-                    No tutors found...
-                  </h4>
-                )}
+              <div
+                style={{
+                  marginTop: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <input
+                  className="form-font-gold search-bar normal-text"
+                  type="text"
+                  placeholder="Search with name"
+                  value={searchInput}
+                  onChange={handleSearchInputChange}
+                />
+                <button
+                  style={{ marginLeft: "10px" }}
+                  className="btn btn-primary"
+                  onClick={handleSearchResult}
+                >
+                  Search
+                </button>
               </div>
-              )} 
+
+              {searchInput ? (
+                <div>
+                  {searchResults.length > 0 ? (
+                    searchResults.map((profile) => (
+                      <ProfileItem key={profile._id} profile={profile} />
+                    ))
+                  ) : (
+                    <h4 className="normal-text">No profiles found...</h4>
+                  )}
+                </div>
+              ) : (
+                <div style={{ marginTop: "10px" }}>
+                  {profilesList.length > 0 ? (
+                    <Fragment>
+                      {profilesList.map((profile) => (
+                        <ProfileItem
+                          key={profile._id}
+                          profile={profile}
+                          subjectAndLevel={subjectAndLevel}
+                        />
+                      ))}
+                    </Fragment>
+                  ) : (
+                    <h4 className="form-font-white medium normal-text">
+                      No tutors found...
+                    </h4>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -878,6 +878,14 @@ select option {
   color: #e9c78c;
 }
 
+
+.profile-item-name {
+  font-family: "Josefin Sans", sans-serif;
+  color: #000000;
+  font-weight: bold;
+  font-size: 30px;
+}
+
 .chat-message {
   display: flex;
   align-items: flex-start;
@@ -1007,4 +1015,8 @@ select option {
   border-radius: 20px;
   cursor: pointer;
   margin-left: auto; /* Add this line to push the button to the right */
+}
+
+.i-am-a-dropdown {
+  font-size: 30px;
 }

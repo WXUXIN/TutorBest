@@ -69,8 +69,22 @@ const ActiveChats = ({
 
     return (
       <section className="bright-overlay-bg">
-        <div className="container">
-          <div className="box-container">
+        <div
+          className="container"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div
+            className="box-container"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <div
               style={{
                 marginBottom: "20px",
@@ -79,7 +93,7 @@ const ActiveChats = ({
               {isAuthenticated && (
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <h1
-                    className="normal-text"
+                    className="i-am-a-dropdown normal-text"
                     style={{ color: "white", marginRight: "5px" }}
                   >
                     I am a
@@ -118,7 +132,11 @@ const ActiveChats = ({
               {profilesList.length > 0 ? (
                 <Fragment>
                   {profilesList.map((profile) => (
-                    <ProfileItem key={profile._id} profile={profile} />
+                    <ProfileItem
+                      key={profile._id}
+                      profile={profile}
+                      displayChatButton={true}
+                    />
                   ))}
                 </Fragment>
               ) : (
@@ -142,4 +160,6 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getCurrentChatProfiles })(ActiveChats);
+export default connect(mapStateToProps, { getCurrentChatProfiles })(
+  ActiveChats
+);
