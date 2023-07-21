@@ -120,32 +120,30 @@ const TutorDashboard = ({
     <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h1
-                className="i-am-a-dropdown normal-text"
-                style={{ color: "white", marginRight: "5px" }}
-              >
-                I am a
-              </h1>
-              <select
-                className="role-dropdown"
-                value={role}
-                onChange={handleChangeRoles}
-                style={{
-                  fontSize: "inherit",
-                  backgroundColor: "grey",
-                  color: "#e9c78c",
-                  borderRadius: "30px",
-                  textAlign: "center",
-                  padding: "8px",
-                  marginRight: "10px",
-                }}
-              >
-                <option value="tutee">Tutee</option>
-                <option value="tutor">Tutor</option>
-              </select>
-            </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h1
+              className="normal-text"
+              style={{ color: "white", marginRight: "5px" }}
+            >
+              I am a
+            </h1>
+            <select
+              className="role-dropdown"
+              value={role}
+              onChange={handleChangeRoles}
+              style={{
+                fontSize: "inherit",
+                backgroundColor: "grey",
+                color: "#e9c78c",
+                borderRadius: "30px",
+                textAlign: "center",
+                padding: "8px",
+                marginRight: "10px",
+              }}
+            >
+              <option value="tutee">Tutee</option>
+              <option value="tutor">Tutor</option>
+            </select>
           </div>
 
           <div className="welcome-container">
@@ -165,32 +163,31 @@ const TutorDashboard = ({
               )}
             </h1>
 
-            <div style={{ position: "relative", display: "inline-block" }}>
-              <button
-                className="btn btn-primary normal-text"
-                style={{ fontSize: "20px" }}
-                onClick={handleLinkingRequestsClick}
-              >
-                Linking Requests
-                {linkingRequestCount > 0 && (
-                  <div className="badge-red normal-text">
-                    {linkingRequestCount}
-                  </div>
-                )}
-              </button>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ marginLeft: "10px" }}>
+                  <button
+                    className="btn btn-primary normal-text"
+                    style={{ fontSize: "20px" }}
+                    onClick={() => {
+                      navigate(`/registered-tutors/${user._id}`);
+                    }}
+                  >
+                    My Chats
+                  </button>
+                </div>              
 
-              <div
-                style={{
-                  marginTop: "10px"
-                }}
-              >
+              <div style={{ position: "relative", display: "inline-block" }}>
                 <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    navigate(`/registered-tutors/${user._id}`);
-                  }}
+                  className="btn btn-primary normal-text"
+                  style={{ fontSize: "20px" }}
+                  onClick={handleLinkingRequestsClick}
                 >
-                  My Chats
+                  Linking Requests
+                  {linkingRequestCount > 0 && (
+                    <div className="badge-red normal-text">
+                      {linkingRequestCount}
+                    </div>
+                  )}
                 </button>
               </div>
             </div>
@@ -215,7 +212,7 @@ const TutorDashboard = ({
               fontSize: "25px",
             }}
           >
-            My Rating:
+            Your Rating:
           </h1>
 
           <h1
@@ -237,7 +234,7 @@ const TutorDashboard = ({
             className="form-font-white normal-text"
             style={{ marginTop: "20px", fontWeight: "bold", fontSize: "25px" }}
           >
-            My Subject Offerings:
+            Your Subjects:
           </h1>
           <>
             {subjectList.map((subject, index) => (
@@ -271,7 +268,7 @@ const TutorDashboard = ({
               marginBottom: "10px",
             }}
           >
-            My Highest Qualification:
+            Your Highest Qualification:
           </h1>
           <div
             className="form-font-white normal-text"
@@ -289,7 +286,7 @@ const TutorDashboard = ({
               marginBottom: "10px",
             }}
           >
-            My Description:
+            Your Description:
           </h1>
           <div className="white-box normal-text">
             {description
