@@ -415,12 +415,19 @@ img {
 
 .grey-box-requests {
   position: absolute;
-  top: 100px;
+  top: 110px;
   right: 30px;
   background: white;
   border-radius: 15px;
   background-color: grey;
   padding: 20px;
+}
+
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 /* Forms */

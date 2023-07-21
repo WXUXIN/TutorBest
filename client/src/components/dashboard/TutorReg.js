@@ -137,96 +137,83 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
   return (
     <section className="bright-overlay-bg">
       <div className="container">
-        <div className="box-container">
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h1
-                className="i-am-a-dropdown normal-text"
-                style={{ color: "white", marginRight: "5px" }}
-              >
-                I am a
-              </h1>
-              <select
-                className="role-dropdown"
-                value={role}
-                onChange={handleChangeRoles}
-                style={{
-                  fontSize: "inherit",
-                  backgroundColor: "grey",
-                  color: "#e9c78c",
-                  borderRadius: "30px",
-                  textAlign: "center",
-                  padding: "8px",
-                  marginRight: "10px",
-                }}
-              >
-                <option value="tutee">Tutee</option>
-                <option value="tutor">Tutor</option>
-              </select>
-            </div>
-          </div>
-          <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-            <h1 className="large form-font-white">
-              Please register as a tutor:
-            </h1>
-            <form className="form" onSubmit={onSubmit}>
-              <div className="form-font-white">Select your subject(s):</div>
-              {subjects.map((subject, index) => (
-                <div key={index} className="form-group">
-                  <div className="subject-wrapper">
+      <div className="box-container">
+        <h1 className="normal-text">
+          I am a
+          <select
+            value={role}
+            onChange={handleChangeRoles}
+            className="role-dropdown"
+            style={{
+              fontSize: "inherit",
+              backgroundColor: "grey",
+              color: "#e9c78c",
+              borderRadius: "30px",
+              textAlign: "center",
+              padding: "8px",
+              marginRight: "10px",
+            }}
+          >
+            <option value="tutee">Tutee</option>
+            <option value="tutor">Tutor</option>
+          </select>
+        </h1>
+        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+          <h1 className="large form-font-white">Please register as a tutor:</h1>
+          <form className="form" onSubmit={onSubmit}>
+            <div className="form-font-white">Select your subject(s):</div>
+            {subjects.map((subject, index) => (
+              <div key={index} className="form-group">
+                <div className="subject-wrapper">
+                  <select
+                    value={subject.level}
+                    onChange={(e) => handleLevelChange(index, e.target.value)}
+                    className="my"
+                    style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
+                  >
+                    <option value="">* Select Level of Study</option>
+                    {levelOfStudyTemplate.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+
+                  {subject.level && (
                     <select
-                      value={subject.level}
-                      onChange={(e) => handleLevelChange(index, e.target.value)}
+                      value={subject.subject}
+                      onChange={(e) =>
+                        handleSubjectChange(index, e.target.value)
+                      }
                       className="my"
+                      style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                     >
-                      <option value="">* Select Level of Study</option>
-                      {levelOfStudyTemplate.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
+                      {subject.subjectOptions.length === 0 ? (
+                        <option value="">Select level of study</option>
+                      ) : (
+                        <>
+                          <option value="">Select subject</option>
+                          {subject.subjectOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </>
+                      )}
                     </select>
+                  )}
 
-                    {subject.level && (
-                      <select
-                        value={subject.subject}
-                        onChange={(e) =>
-                          handleSubjectChange(index, e.target.value)
-                        }
-                        className="my"
-                      >
-                        {subject.subjectOptions.length === 0 ? (
-                          <option value="">Select level of study</option>
-                        ) : (
-                          <>
-                            <option value="">Select subject</option>
-                            {subject.subjectOptions.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </>
-                        )}
-                      </select>
-                    )}
-
-                    {subject.level !== "" && subject.subject !== "" && (
-                      <div>
-                        <small className="text-primary form-font-white">
-                          Whare is your rate? ( /hr)
-                        </small>
-                        <input
-                          type="text"
-                          placeholder="Price"
-                          name="price"
-                          value={subject.price ? `$${subject.price}` : "$"}
-                          onChange={(e) =>
-                            handlePriceChange(index, e.target.value)
-                          }
-                          className="my"
-                        />
-                      </div>
-                    )}
+                  {subject.level !== "" && subject.subject !== "" && (
+                    <input
+                      type="text"
+                      placeholder="Price"
+                      name="price"
+                      value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
+                      onChange={(e) => handlePriceChange(index, e.target.value)}
+                      className="my"
+                      style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
+                    />
+                  )}
 
                     <button
                       type="button"
@@ -247,23 +234,22 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                 <span>&#43;</span>
               </button>
 
-              {/* Qualification dropdown and input box */}
-              <div className="form-group">
-                <div className="subject-wrapper">
-                  <select
-                    value={qualification}
-                    onChange={(e) => setQualification(e.target.value)}
-                    className="my"
-                  >
-                    <option value="">
-                      * Select your highest qualification
-                    </option>
-                    <option value="Secondary School">Secondary School</option>
-                    <option value="GCE A Levels">GCE A Levels</option>
-                    <option value="Undergraduate">Undergraduate</option>
-                    <option value="Graduate">Graduate</option>
-                    <option value="Others">Others</option>
-                  </select>
+            {/* Qualification dropdown and input box */}
+            <div className="form-group">
+              <div className="subject-wrapper">
+                <select
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  className="my"
+                  style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
+                >
+                  <option value="">* Select your highest qualification</option>
+                  <option value="Secondary School">Secondary School</option>
+                  <option value="GCE A Levels">GCE A Levels</option>
+                  <option value="Undergraduate">Undergraduate</option>
+                  <option value="Graduate">Graduate</option>
+                  <option value="Others">Others</option>
+                </select>
 
                   {qualification === "Others" && (
                     <input
@@ -276,28 +262,29 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                     />
                   )}
 
-                  <div className="form-group">
-                    <small className="normal-text">Description:</small>
-                    <textarea
-                      id="description"
-                      name="description"
-                      value={description}
-                      onChange={(e) => setDes(e.target.value)}
-                      className="my"
-                      placeholder="Enter tutor description"
-                    ></textarea>
-                  </div>
+                <div className="form-group">
+                  <small className="normal-text">Description:</small>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={description}
+                    onChange={(e) => setDes(e.target.value)}
+                    className="my"
+                    placeholder="Enter tutor description"
+                    style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
+                  ></textarea>
                 </div>
               </div>
-              <input
-                type="submit"
-                style={{ fontFamily: "Josefin Sans" }}
-                className="btn btn-primary"
-                value="Join us as a Tutor!"
-              />
-            </form>
-          </div>
+            </div>
+            <input
+              type="submit"
+              style={{ fontFamily: "Josefin Sans" }}
+              className="btn btn-primary"
+              value="Join us as a Tutor!"
+            />
+          </form>
         </div>
+      </div>
       </div>
     </section>
   );

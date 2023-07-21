@@ -181,13 +181,13 @@ const TutorDashboard = ({
 
               <div
                 style={{
-                  marginTop: "10px",
+                  marginTop: "10px"
                 }}
               >
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    navigate(`/active-chats/${user._id}`);
+                    navigate(`/registered-tutors/${user._id}`);
                   }}
                 >
                   My Chats
