@@ -69,22 +69,8 @@ const ActiveChats = ({
 
     return (
       <section className="bright-overlay-bg">
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div
-            className="box-container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+        <div className="container">
+          <div className="box-container">
             <div
               style={{
                 marginBottom: "20px",
