@@ -6,7 +6,8 @@ import {
   GET_PROFILES,
   CLEAR_PROFILES,
   GET_FILTERED_PROFILES,
-  GET_REGISTERED_PROFILES
+  GET_REGISTERED_PROFILES,
+  GET_CURRENT_CHAT_PROFILES
 } from "../actions/types";
 
 const initialState = {
@@ -30,6 +31,7 @@ function profileReducer(state = initialState, action) {
     case GET_PROFILES:
     case GET_FILTERED_PROFILES:
     case GET_REGISTERED_PROFILES:
+    case GET_CURRENT_CHAT_PROFILES:
       return {
         ...state,
         profiles: payload,

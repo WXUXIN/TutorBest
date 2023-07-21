@@ -167,7 +167,7 @@ const Profiles = ({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    navigate(`/registered-tutors/${user._id}`);
+                    navigate(`/active-chats/${user._id}`);
                   }}
                 >
                   My Chats
@@ -246,15 +246,15 @@ const Profiles = ({
                   disabled={!levelOfStudy || !subject}
                   onClick={handleSearch}
                 >
-                  Search for tutors
+                  Search
                 </button>
 
                 <div style={{ marginTop: "10px" }}>
                   {/* Search Bar */}
                   <input
-                    className="search-bar normal-text"
+                    className="form-font-gold search-bar normal-text"
                     type="text"
-                    placeholder="Search for tutors..."
+                    placeholder="Search with name" 
                     value={searchInput}
                     onChange={handleSearchInputChange}
                     // style={{
@@ -270,7 +270,7 @@ const Profiles = ({
                     // }}
                   />
                   <button
-                    style={{ marginLeft: "10px" }}
+                    // style={{ marginLeft: "10px" }}
                     className="btn btn-primary"
                     onClick={handleSearchResult}
                   >

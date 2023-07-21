@@ -30,6 +30,7 @@ import FilteredProfiles from "./components/profiles/FilteredProfiles";
 import RegisteredTutors from "./components/profiles/RegisteredTutors";
 import UnauthorisedViewing from "./components/profile/UnauthorisedViewing";
 import ChatRoom from "./components/layout/ChatRoom";
+import ActiveChats from "./components/profiles/ActiveChats";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -74,6 +75,11 @@ const App = () => {
           <Route
             path="/registered-tutors/:id"
             element={<PrivateRoute component={RegisteredTutors} />}
+          />
+
+          <Route
+            path="/active-chats/:id"
+            element={<PrivateRoute component={ActiveChats} />}
           />
 
           <Route

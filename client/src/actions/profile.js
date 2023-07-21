@@ -10,6 +10,7 @@ import {
   CLEAR_PROFILES,
   GET_REPOS,
   NO_REPOS,
+  GET_CURRENT_CHAT_PROFILES
 } from "./types";
 
 import { setAlert } from "./alert";
@@ -90,7 +91,6 @@ export const getProfileById = (user_id) => async (dispatch) => {
       type: CLEAR_PROFILE,
     });
 
-    console.log("running getProfileById action")
     const res = await axios.get(`/api/profile/user/${user_id}`);
     console.log(res.data, "this would be the tutor profile searched by id");
 
@@ -162,6 +162,26 @@ export const getRegisteredProfiles = (user_id) => async (dispatch) => {
       type: GET_REGISTERED_PROFILES,
       payload: res.data,
     });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Update redux state of all tutee's chats using user_id
+export const getCurrentChatProfiles = (user_id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: CLEAR_PROFILES,
+    });
+
+    console.log("getting the current chat profiles");
+    const res = await axios.get(`/api/profile/currentChatTutors/${user_id}`);
+
+    dispatch({
+      type: GET_CURRENT_CHAT_PROFILES,
+      payload: res.data,
+    });
+
   } catch (err) {
     console.log(err);
   }

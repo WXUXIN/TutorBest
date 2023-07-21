@@ -382,7 +382,7 @@ const FilteredProfiles = ({
                     borderRadius: "30px",
                   }}
                 >
-                  Search for tutors
+                  Search
                 </button>
 
                 <select
@@ -424,7 +424,7 @@ const FilteredProfiles = ({
                   <input
                     className="normal-text"
                     type="text"
-                    placeholder="Search for tutors..."
+                    placeholder="Search with name"
                     value={searchInput}
                     onChange={handleSearchInputChange}
                     style={{

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { getRegisteredProfiles, clearProfiles } from "../../actions/profile";
+import { getCurrentChatProfiles, clearProfiles } from "../../actions/profile";
 import { Navigate, useNavigate } from "react-router-dom";
 import ProfileItem from "./ProfileItem";
 import {
@@ -11,33 +11,28 @@ import {
   levelOfStudyTemplate,
 } from "../../subjectOptionsData";
 
-const RegisterdTutors = ({
+const ActiveChats = ({
   auth: { user, isAuthenticated },
   profiles,
-  getRegisteredProfiles,
+  getCurrentChatProfiles,
 }) =>
   // I want to display all of the registered tutors in the database
   {
+    // This is the id of the user
     const { id } = useParams();
     const [profilesList, setProfiles] = useState([]);
     const [role, setRole] = useState("tutee");
     const navigate = useNavigate();
-
-    // This stores the subjects that can be selected from the dropdown
-    const [subjectOptions, setSubjectOptions] = useState([]);
-
-    // //searchbar states
-    // const [searchInput, setSearchInput] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
 
     // Calls the getAllProfiles action once to get the
     // latest list of profiles from the database
     useEffect(() => {
       clearProfiles();
       console.log("useEffect called for profiles");
+
       // This will call the getAllProfiles action
       // to store all the profiles in the redux store
-      getRegisteredProfiles(id);
+      getCurrentChatProfiles(id);
     }, []);
 
     // Updates the profilesList state variable
@@ -47,11 +42,11 @@ const RegisterdTutors = ({
     }, [profiles.profiles]);
 
     // updating of search results spontaneously
-    useEffect(() => {
-      if (profiles && profiles.profiles) {
-        setSearchResults(profiles.profiles);
-      }
-    }, [profiles]);
+    // useEffect(() => {
+    //   if (profiles && profiles.profiles) {
+    //     setSearchResults(profiles.profiles);
+    //   }
+    // }, [profiles]);
 
     function handleChangeRoles(e) {
       setRole(e.target.value);
@@ -107,14 +102,12 @@ const RegisterdTutors = ({
                     <option value="tutor">Tutor</option>
                   </select>
 
-                  <button
+                  <Link
+                    to={`/registered-tutors/${user._id}`}
                     className="btn btn-primary"
-                    onClick={() => {
-                      navigate(`/active-chats/${user._id}`);
-                    }}
                   >
-                    My Chats
-                  </button>
+                    My Tutors
+                  </Link>
                 </div>
               )}
             </div>
@@ -132,16 +125,15 @@ const RegisterdTutors = ({
                 <h4 className="normal-text">No profiles found...</h4>
               )}
             </div>
-
           </div>
         </div>
       </section>
     );
   };
 
-RegisterdTutors.propTypes = {
+ActiveChats.propTypes = {
   auth: PropTypes.isRequired,
-  getRegisteredProfiles: PropTypes.func.isRequired,
+  getCurrentChatProfiles: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 
@@ -150,6 +142,4 @@ const mapStateToProps = (state) => ({
   profiles: state.profiles,
 });
 
-export default connect(mapStateToProps, { getRegisteredProfiles })(
-  RegisterdTutors
-);
+export default connect(mapStateToProps, { getCurrentChatProfiles })(ActiveChats);
