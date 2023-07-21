@@ -144,9 +144,18 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
             value={role}
             onChange={handleChangeRoles}
             className="role-dropdown"
+            style={{
+              fontSize: "inherit",
+              backgroundColor: "grey",
+              color: "#e9c78c",
+              borderRadius: "30px",
+              textAlign: "center",
+              padding: "8px",
+              marginRight: "10px",
+            }}
           >
-            <option value="tutee">tutee</option>
-            <option value="tutor">tutor</option>
+            <option value="tutee">Tutee</option>
+            <option value="tutor">Tutor</option>
           </select>
         </h1>
         <div style={{ marginTop: "20px", marginBottom: "20px" }}>
@@ -160,6 +169,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                     value={subject.level}
                     onChange={(e) => handleLevelChange(index, e.target.value)}
                     className="my"
+                    style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                   >
                     <option value="">* Select Level of Study</option>
                     {levelOfStudyTemplate.map((option) => (
@@ -176,6 +186,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                         handleSubjectChange(index, e.target.value)
                       }
                       className="my"
+                      style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                     >
                       {subject.subjectOptions.length === 0 ? (
                         <option value="">Select level of study</option>
@@ -200,6 +211,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                       value={subject.price ? `SGD ${subject.price}/hr` : `SGD`}
                       onChange={(e) => handlePriceChange(index, e.target.value)}
                       className="my"
+                      style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                     />
                   )}
 
@@ -229,6 +241,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                   value={qualification}
                   onChange={(e) => setQualification(e.target.value)}
                   className="my"
+                  style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                 >
                   <option value="">* Select your highest qualification</option>
                   <option value="Secondary School">Secondary School</option>
@@ -258,6 +271,7 @@ const TutorReg = ({ auth: { user }, setAlert, tutorReg }) => {
                     onChange={(e) => setDes(e.target.value)}
                     className="my"
                     placeholder="Enter tutor description"
+                    style={{backgroundColor:'grey', color:"#e9c78c", border: "none"}}
                   ></textarea>
                 </div>
               </div>
