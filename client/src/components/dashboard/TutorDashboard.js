@@ -107,7 +107,7 @@ const TutorDashboard = ({
     return <Navigate to="/TutorReg" />;
   }
 
-  // when the user selects tutor, we will render the tutor dashboard
+  // when the user selects tutor, we will render the tutor dashboards
   if (role === "tutee") {
     return <Navigate to="/profiles" />;
   }
