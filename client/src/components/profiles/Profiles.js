@@ -133,7 +133,8 @@ const Profiles = ({
         <div className="container">
           <div className="box-container">
             {isAuthenticated && (
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
+                <div style={{ display: "flex", alignItems: "center"}}>
                 <h1
                   className="normal-text"
                   style={{ color: "white", marginRight: "5px" }}
@@ -157,13 +158,17 @@ const Profiles = ({
                   <option value="tutee">Tutee</option>
                   <option value="tutor">Tutor</option>
                 </select>
-
+                
+                <div>
                 <Link
                   to={`/registered-tutors/${user._id}`}
                   className="btn btn-primary"
                 >
                   My Tutors
                 </Link>
+                </div>
+                
+                <div>
                 <button
                   className="btn btn-primary"
                   onClick={() => {
@@ -172,6 +177,27 @@ const Profiles = ({
                 >
                   My Chats
                 </button>
+                </div>
+                </div>
+
+                <div style={{display:'flex', alignItems:'center'}}>
+                  <img
+                    style={{
+                      borderRadius: "50%",
+                      width: "70px",
+                      height: "70px",
+                    }}
+                    src={`../../../../uploads/${user.photo}`}
+                  />
+                  <h1 className="normal-text" 
+                   style={{
+                    fontWeight:'bold',
+                    fontSize:'20px',
+                    marginLeft:'10px'
+                   }}> 
+                    {user.name}
+                  </h1>
+                </div>
               </div>
             )}
 

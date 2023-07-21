@@ -190,9 +190,7 @@ const TutorDashboard = ({
                   )}
                 </button>
               </div>
-
             </div>
-
           </div>
 
           <img
