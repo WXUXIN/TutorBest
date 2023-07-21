@@ -140,47 +140,74 @@ const RegisterdTutors = ({
               }}
             >
               {isAuthenticated && (
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <h1
-                    className="normal-text"
-                    style={{ color: "white", marginRight: "5px" }}
-                  >
-                    I am a
-                  </h1>
-                  <select
-                    className="role-dropdown"
-                    value={role}
-                    onChange={handleChangeRoles}
-                    style={{
-                      fontSize: "inherit",
-                      backgroundColor: "grey",
-                      color: "#e9c78c",
-                      borderRadius: "30px",
-                      textAlign: "center",
-                      padding: "8px",
-                      marginRight: "10px",
-                    }}
-                  >
-                    <option value="tutee">Tutee</option>
-                    <option value="tutor">Tutor</option>
-                  </select>
-
-                  <Link
-                    to={`/registered-tutors/${user._id}`}
-                    className="btn btn-primary"
-                  >
-                    My Tutors
-                  </Link>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => {
-                      navigate(`/registered-tutors/${user._id}`);
-                    }}
-                  >
-                    My Chats
-                  </button>
+                <div style={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
+                <div style={{ display: "flex", alignItems: "center"}}>
+                <h1
+                  className="normal-text"
+                  style={{ color: "white", marginRight: "5px" }}
+                >
+                  I am a
+                </h1>
+                <select
+                  className="role-dropdown"
+                  value={role}
+                  onChange={handleChangeRoles}
+                  style={{
+                    fontSize: "inherit",
+                    backgroundColor: "grey",
+                    color: "#e9c78c",
+                    borderRadius: "30px",
+                    textAlign: "center",
+                    padding: "8px",
+                    marginRight: "10px",
+                  }}
+                >
+                  <option value="tutee">Tutee</option>
+                  <option value="tutor">Tutor</option>
+                </select>
+                
+                <div>
+                <Link
+                  to={`/registered-tutors/${user._id}`}
+                  className="btn btn-primary"
+                >
+                  My Tutors
+                </Link>
                 </div>
-              )}
+                
+                <div>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    navigate(`/registered-tutors/${user._id}`);
+                  }}
+                >
+                  My Chats
+                </button>
+              </div>
+             </div>
+
+             <div style={{display:'flex', alignItems:'center'}}>
+               <img
+                 style={{
+                   borderRadius: "50%",
+                   width: "70px",
+                   height: "70px",
+                 }}
+                 src={`../../../../uploads/${user.photo}`}
+               />
+               <h1 className="normal-text" 
+                style={{
+                 fontWeight:'bold',
+                 fontSize:'20px',
+                 marginLeft:'10px'
+                }}> 
+                 {user.name}
+               </h1>
+             </div>
+           </div>
+          )}
+
             </div>
 
             {/* <div style={{ marginTop: "20px", marginBottom: "20px" }}>

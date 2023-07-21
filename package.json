@@ -40,8 +40,22 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/plugin-syntax-jsx": "^7.22.5",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "babel-jest": "^29.6.1",
     "concurrently": "^8.0.1",
+    "jest": "^27.5.1",
     "nodemon": "^2.0.22",
+    "redux-mock-store": "^1.5.4",
     "tailwindcss": "^3.3.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }
