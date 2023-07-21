@@ -130,27 +130,13 @@ const Profiles = ({
     // Display all the profiles of tutors in the database
     return (
       <section className="bright-overlay-bg">
-        <div
-          className="container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <div
-            className="box-container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+        <div className="container">
+          <div className="box-container">
             {isAuthenticated && (
               <div style={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
                 <div style={{ display: "flex", alignItems: "center"}}>
                 <h1
-                  className="i-am-a-dropdown normal-text"
+                  className="normal-text"
                   style={{ color: "white", marginRight: "5px" }}
                 >
                   I am a
@@ -186,7 +172,7 @@ const Profiles = ({
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    navigate(`/active-chats/${user._id}`);
+                    navigate(`/registered-tutors/${user._id}`);
                   }}
                 >
                   My Chats
@@ -215,26 +201,12 @@ const Profiles = ({
               </div>
             )}
 
-            <div
-              style={{
-                marginTop: "20px",
-                marginBottom: "20px",
-                textAlign: "center",
-              }}
-            >
+            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
               <h1 className="form-font-white large normal-text">
                 🔍 Search for your next tutor:
               </h1>
               <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                    marginTop: "20px",
-                  }}
-                >
+                <div style={{ marginTop: "20px" }}>
                   <select
                     value={levelOfStudy}
                     onChange={handleLevelOfStudyChange}
@@ -246,6 +218,8 @@ const Profiles = ({
                       borderRadius: "30px",
                       textAlign: "center",
                       padding: "8px",
+                      float: "left",
+                      marginRight: "10px",
                     }}
                   >
                     <option value="">Level of Study</option>
@@ -254,8 +228,14 @@ const Profiles = ({
                         {option}
                       </option>
                     ))}
-                  </select>
 
+                    {/* <option value="Primary School">Primary School</option>
+              <option value="Secondary School">Secondary School</option>
+              <option value="Junior College">Junior College</option> */}
+                  </select>
+                </div>
+
+                <div style={{ marginRight: "10px" }}>
                   <select
                     value={subject}
                     onChange={handleSubjectChange}
@@ -267,6 +247,8 @@ const Profiles = ({
                       borderRadius: "30px",
                       textAlign: "center",
                       padding: "8px",
+                      float: "left",
+                      marginRight: "10px",
                     }}
                     disabled={subjectOptions.length === 0}
                   >
@@ -283,32 +265,38 @@ const Profiles = ({
                       </>
                     )}
                   </select>
-
-                  <button
-                    className="btn btn-primary"
-                    disabled={!levelOfStudy || !subject}
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </button>
                 </div>
 
-                <div
-                  style={{
-                    marginTop: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
+                <button
+                  className="btn btn-primary"
+                  disabled={!levelOfStudy || !subject}
+                  onClick={handleSearch}
                 >
+                  Search for tutors
+                </button>
+
+                <div style={{ marginTop: "10px" }}>
                   {/* Search Bar */}
                   <input
-                    className="form-font-gold search-bar normal-text"
+                    className="search-bar normal-text"
                     type="text"
-                    placeholder="Search with name"
+                    placeholder="Search for tutors..."
                     value={searchInput}
                     onChange={handleSearchInputChange}
+                    // style={{
+                    //   width: "300px",
+                    //   borderRadius: "20px",
+                    //   padding: "8px",
+                    //   fontSize: "inherit",
+                    //   backgroundColor: "grey",
+                    //   color: "#e9c78c",
+                    //   border: "none",
+                    //   outline: "none",
+                    //   marginRight: "10px",
+                    // }}
                   />
                   <button
+                    style={{ marginLeft: "10px" }}
                     className="btn btn-primary"
                     onClick={handleSearchResult}
                   >
