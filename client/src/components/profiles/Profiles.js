@@ -202,6 +202,7 @@ const Profiles = ({
             )}
 
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+              <div style={{alignItems:'center'}}>
               <h1 className="form-font-white large normal-text">
                 🔍 Search for your next tutor:
               </h1>
@@ -302,6 +303,7 @@ const Profiles = ({
                   >
                     Search
                   </button>
+                </div>
                 </div>
 
                 {/* search bar input rendering */}
