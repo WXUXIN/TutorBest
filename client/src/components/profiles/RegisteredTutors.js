@@ -140,65 +140,72 @@ const RegisterdTutors = ({
               }}
             >
               {isAuthenticated && (
-                <div style={{ display: "flex", alignItems: "center", justifyContent:'space-between' }}>
-                <div style={{ display: "flex", alignItems: "center"}}>
-                <h1
-                  className="normal-text"
-                  style={{ color: "white", marginRight: "5px" }}
-                >
-                  I am a
-                </h1>
-                <select
-                  className="role-dropdown"
-                  value={role}
-                  onChange={handleChangeRoles}
+                <div
                   style={{
-                    fontSize: "inherit",
-                    backgroundColor: "grey",
-                    color: "#e9c78c",
-                    borderRadius: "30px",
-                    textAlign: "center",
-                    padding: "8px",
-                    marginRight: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  <option value="tutee">Tutee</option>
-                  <option value="tutor">Tutor</option>
-                </select>
-                  
-                <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    navigate(`/active-chats/${user._id}`);
-                  }}
-                >
-                  My Chats
-                </button>
-              </div>
-             </div>
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <h1
+                      className="normal-text"
+                      style={{ color: "white", marginRight: "5px" }}
+                    >
+                      I am a
+                    </h1>
+                    <select
+                      className="role-dropdown"
+                      value={role}
+                      onChange={handleChangeRoles}
+                      style={{
+                        fontSize: "inherit",
+                        backgroundColor: "grey",
+                        color: "#e9c78c",
+                        borderRadius: "30px",
+                        textAlign: "center",
+                        padding: "8px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <option value="tutee">Tutee</option>
+                      <option value="tutor">Tutor</option>
+                    </select>
 
-             <div style={{display:'flex', alignItems:'center'}}>
-               <img
-                 style={{
-                   borderRadius: "50%",
-                   width: "70px",
-                   height: "70px",
-                 }}
-                 src={`../../../../uploads/${user.photo}`}
-               />
-               <h1 className="normal-text" 
-                style={{
-                 fontWeight:'bold',
-                 fontSize:'20px',
-                 marginLeft:'10px'
-                }}> 
-                 {user.name}
-               </h1>
-             </div>
-           </div>
-          )}
+                    <div>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => {
+                          navigate(`/active-chats/${user._id}`);
+                        }}
+                      >
+                        My Chats
+                      </button>
+                    </div>
+                  </div>
 
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <img
+                      style={{
+                        borderRadius: "50%",
+                        width: "70px",
+                        height: "70px",
+                      }}
+                      src={`../../../../uploads/${user.photo}`}
+                    />
+                    <h1
+                      className="normal-text"
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "20px",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      {user.name}
+                    </h1>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* <div style={{ marginTop: "20px", marginBottom: "20px" }}>
@@ -303,32 +310,35 @@ const RegisterdTutors = ({
               Search
             </button>
 
-
-          {/* search bar input rendering */}
-          {searchInput ? (
-            <div>
-              {searchResults.length > 0 ? (
-                searchResults.map((profile) => (
-                  <ProfileItem key={profile._id} profile={profile} />
-                ))
-              ) : (
-                <h4 className="form-font-white medium normal-text">No profiles found...</h4>
-              )}
-            </div>
-          ) : (
-            <div style={{ marginTop: "10px" }}>
-              {profilesList.length > 0 ? (
-                <Fragment>
-                  {profilesList.map((profile) => (
+            {/* search bar input rendering */}
+            {searchInput ? (
+              <div>
+                {searchResults.length > 0 ? (
+                  searchResults.map((profile) => (
                     <ProfileItem key={profile._id} profile={profile} />
-                  ))}
-                </Fragment>
-              ) : (
-                <h4 className="form-font-white medium normal-text">No profiles found...</h4>
-              )}
-            </div>
-          )}
-        </div>
+                  ))
+                ) : (
+                  <h4 className="form-font-white medium normal-text">
+                    No profiles found...
+                  </h4>
+                )}
+              </div>
+            ) : (
+              <div style={{ marginTop: "10px" }}>
+                {profilesList.length > 0 ? (
+                  <Fragment>
+                    {profilesList.map((profile) => (
+                      <ProfileItem key={profile._id} profile={profile} />
+                    ))}
+                  </Fragment>
+                ) : (
+                  <h4 className="form-font-white medium normal-text">
+                    No profiles found...
+                  </h4>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
     );
