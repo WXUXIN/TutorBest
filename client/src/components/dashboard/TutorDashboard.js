@@ -169,7 +169,7 @@ const TutorDashboard = ({
                     className="btn btn-primary normal-text"
                     style={{ fontSize: "20px" }}
                     onClick={() => {
-                      navigate(`/registered-tutors/${user._id}`);
+                      navigate(`/active-chats/${user._id}`);
                     }}
                   >
                     My Chats

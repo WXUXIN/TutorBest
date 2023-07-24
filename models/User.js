@@ -27,56 +27,6 @@ const UserSchema = new mongoose.Schema({
     photo: {
         type: String
     }
-
-    // Relevant to tutors only:
-    // "subjects": [{
-    //     "subject": {
-    //         type: String,
-    //         required: true
-    //     },
-    //     "price": {
-    //         type: Number,
-    //         required: true
-    //     },
-    //     "level": {
-    //         type: String,
-    //         required: true
-    //     }
-    // }],
-    // "description": {
-    //     "type": "String"
-    // },
-    // "highestQualification": {
-    //     "type": "String"
-    // },
-    // "tutees": [{
-    //     "tutee": {
-    //         "type": "String"
-    //     }
-    // }],
-    // "ratings": [{
-    //     "rating": {
-    //         "type": "Number"
-    //     }, 
-    //     "tutee": {
-    //         "type": "String"
-    //     }
-    // }],
-
-    // Relevant to tutees only:
-    // "tutors": [{
-    //     "tutor": {
-    //         "type": "String"
-    //     }
-    // }],
-    // "reviews": [{
-    //     "review": {
-    //         "type": "String"
-    //     },
-    //     "tutor": {
-    //         "type": "String"
-    //     }
-    // }]
 });
 
 

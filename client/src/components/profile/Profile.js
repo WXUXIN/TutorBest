@@ -16,7 +16,6 @@ import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { sendLinkingRequest, unlinkPair } from "../../actions/linkingActions";
 import { getChatID } from "../../actions/chatRoom";
-import { set } from "mongoose";
 
 const Profile = ({
   getProfileById,
@@ -27,7 +26,7 @@ const Profile = ({
   getRegisteredProfiles,
   getChatID,
   sendLinkingRequest,
-  unlinkPair,
+  unlinkPair
 }) => {
   // This gets the id from the url
   // profile id
@@ -48,8 +47,6 @@ const Profile = ({
 
   // control confirmation of unlink
   const [showUnlink, setShowUnlink] = useState(false);
-
-  const [loadFinish, setLoadFinish] = useState(false);
 
   const navigate = useNavigate();
 
@@ -107,31 +104,29 @@ const Profile = ({
   };
 
   // Update redux profile by tutor ID
-  // useEffect(() => {}, [getProfileById, id]);
+  useEffect(() => {
+    getProfileById(id);
+  }, [getProfileById, id]);
 
   // Used to check if the user has rated the tutor
   useEffect(() => {
-    getProfileById(id).then((profile) => {
-      if (profile && auth.user) {
-        // Makes sure if the user is logged in, they cannot view their own profile
-        if (profile.user._id === auth.user._id) {
-          navigate("/TutorDashboard");
-        }
-        getRegisteredProfiles(auth.user._id);
-        const tuteeIds = profile.ratings.map((rating) => rating.tutee.tuteeId);
-        if (auth.user._id) {
-          const tuteeId = auth.user._id;
-          setHasRated(tuteeIds.includes(tuteeId));
-        }
+    if (profile && auth.user) {
+      // Makes sure if the user is logged in, they cannot view their own profile
+      if (profile.user._id === auth.user._id) {
+        navigate("/TutorDashboard");
       }
-    });
-    setLoadFinish(true);
-  }, 
-  [auth.user]);
-  // [profile, auth.user]);
+      getRegisteredProfiles(auth.user._id);
+      const tuteeIds = profile.ratings.map((rating) => rating.tutee.tuteeId);
+      if (auth.user._id) {
+        const tuteeId = auth.user._id;
+        setHasRated(tuteeIds.includes(tuteeId));
+      }
+    }
+  }, [profile, auth.user]);
 
   // check if sent linking request
   useEffect(() => {
+    console.log("hi");
     try {
       const requests = profile.linkingRequests.map((request) => request.tutee);
       setIsRequestPending(requests.includes(auth.user._id));
@@ -160,12 +155,12 @@ const Profile = ({
   }
 
   // Only when the profile is loaded, display the profile
-  if (!profile || loading || !auth.user || !loadFinish) {
+  if (!profile || loading || !auth.user) {
     return <Spinner />;
   }
 
   // Makes sure if the user is logged in, they cannot view their own profile
-  if (!loading && (profile.user._id === auth.user._id)) {
+  if (profile.user._id === auth.user._id) {
     return <Navigate to="/TutorDashboard" />;
   }
 
@@ -173,7 +168,7 @@ const Profile = ({
     <section className="bright-overlay-bg">
       <div className="container">
         <div className="box-container">
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{display:'flex', justifyContent:'space-between'}}>
             <h1
               className="form-font-gold normal-text"
               style={{ fontWeight: "bold", fontSize: "50px" }}
@@ -181,14 +176,12 @@ const Profile = ({
               {profile.user.name}
             </h1>
             {auth.isAuthenticated && auth.loading === false && isLinked && (
-              <button
-                className="btn btn-primary normal-text"
-                style={{ fontSize: "20px" }}
+              <button className="btn btn-primary normal-text"
+                style={{ fontSize:'20px'}}
                 onClick={handleShowUnlink}
               >
-                Unlink
-              </button>
-            )}
+              Unlink</button>
+              )}
           </div>
 
           <img
@@ -306,96 +299,67 @@ const Profile = ({
 
           <h1
             className="form-font-white normal-text"
-            style={{
-              marginTop: "20px",
-              marginBottom: "20px",
-              fontWeight: "bold",
-              fontSize: "25px",
-            }}
+            style={{ marginTop: "20px", marginBottom:'20px', fontWeight: "bold", fontSize: "25px" }}
           >
             Tutor's reviews:
           </h1>
           <div>
-            {profile.ratings.length > 0 ? (
-              profile.ratings
-                .slice(0, showReviewCount)
-                .map((review, index) => (
-                  <ReviewBox review={review} key={index} />
-                ))
-            ) : (
-              <div className="normal-text form-font-white">
-                No reviews yet ...
-              </div>
+          {profile.ratings.length > 0 ? (
+            profile.ratings.slice(0, showReviewCount).map((review, index) => (
+              <ReviewBox review={review} key={index} />
+            ))
+          ) : (
+            <div className="normal-text form-font-white">
+              No reviews yet ...
+            </div>
             )}
 
             {/* Show More button */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {profile.ratings.length > showReviewCount &&
-                showReviewCount === 3 && (
-                  <button
-                    className="btn btn-primary"
-                    style={{
-                      marginTop: "10px",
-                      backgroundColor: "grey",
-                      color: "white",
-                    }}
-                    onClick={() => setShowReviewCount(profile.ratings.length)}
-                  >
-                    Show More
-                  </button>
-                )}
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
 
-              {/* Show Less button */}
-              {showReviewCount > 3 && (
-                <button
-                  className="btn btn-primary"
-                  style={{
-                    marginTop: "10px",
-                    backgroundColor: "grey",
-                    color: "white",
-                  }}
-                  onClick={() => setShowReviewCount(3)}
-                >
-                  Show Less
-                </button>
-              )}
+            {profile.ratings.length > showReviewCount && showReviewCount === 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white'}}
+                onClick={() => setShowReviewCount(profile.ratings.length)}
+              >
+                Show More
+              </button>
+            )}
+
+            {/* Show Less button */}
+            {showReviewCount > 3 && (
+              <button
+                className="btn btn-primary"
+                style={{ marginTop: '10px', backgroundColor:'grey', color: 'white' }}   
+                onClick={() => setShowReviewCount(3)}
+              >
+                Show Less
+              </button>
+            )}
             </div>
           </div>
 
           {/* unlink button */}
-          {auth.isAuthenticated &&
-            auth.loading === false &&
-            isLinked &&
+          {auth.isAuthenticated && auth.loading === false && isLinked && 
             showUnlink && (
-              <div
-                className="grey-box-requests"
-                style={{ display: "flex", alignItems: "center" }}
-              >
-                <h1 className="normal-text" style={{ fontWeight: "bold" }}>
-                  {" "}
-                  Confirm Unlink?{" "}
-                </h1>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <button
-                    className="green-box normal-text"
-                    style={{ marginLeft: "15px" }}
-                    onClick={() => {
-                      unlinkPair(profile.user._id, auth.user._id);
-                      setIsLinked(false);
-                    }}
-                  >
-                    ✓
-                  </button>
-                </div>
+            <div className="grey-box-requests" style={{display:'flex', alignItems:'center'}}>
+              <h1 className="normal-text" style={{fontWeight: 'bold'}}> Confirm Unlink? </h1>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+                <button
+                  className="green-box normal-text"
+                  style={{ marginLeft: "15px" }}
+                  onClick={() => { 
+                    unlinkPair(profile.user._id, auth.user._id);
+                    setIsLinked(false);
+                  }}
+                >
+                  ✓
+                </button>
               </div>
-            )}
+            </div>
+          )}
+
 
           {/* {auth.isAuthenticated && auth.loading === false && (
             // Chat with tutor button
@@ -405,36 +369,27 @@ const Profile = ({
           )} */}
 
           {/* if user has sent linking request */}
-          <div style={{ marginTop: "20px" }}>
-            {auth.isAuthenticated &&
-            auth.loading === false &&
-            !isLinked &&
-            !isRequestPending ? (
-              <div>
-                <hr
-                  style={{ borderTop: "1px solid #ccc", marginBottom: "20px" }}
-                />
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    console.log(profile.user._id);
-                    console.log(auth.user._id);
-                    sendLinkingRequest(profile.user._id, auth.user._id);
-                    setIsRequestPending(true);
-                  }}
-                >
-                  Send Link Request!
-                </button>
-              </div>
-            ) : !isLinked && isRequestPending ? (
-              <div style={{ marginTop: "20px" }}>
-                <hr
-                  style={{ borderTop: "1px solid #ccc", marginBottom: "20px" }}
-                />
-                <h1 className="normal-text">Request pending..</h1>
-              </div>
-            ) : null}
-          </div>
+          <div style={{ marginTop: '20px' }}>
+            {auth.isAuthenticated && auth.loading === false && !isLinked &&
+              !isRequestPending ? (
+                <div>
+                  <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+                  <button className="btn btn-primary" 
+                    onClick={() => {
+                      console.log(profile.user._id) 
+                      console.log(auth.user._id)
+                      sendLinkingRequest(profile.user._id, auth.user._id);
+                      setIsRequestPending(true);
+                    }}>
+                    Send Link Request!
+                  </button>
+                </div> ) : !isLinked && isRequestPending ? (
+                    <div style={{ marginTop: '20px' }}>
+                      <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
+                      <h1 className="normal-text">Request pending..</h1>
+                    </div>
+                  ) : null}
+            </div>
 
           <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             {auth.isAuthenticated && auth.loading === false && (
@@ -457,9 +412,7 @@ const Profile = ({
             isLinked &&
             !hasRated && (
               <>
-                <hr
-                  style={{ borderTop: "1px solid #ccc", marginBottom: "20px" }}
-                />
+                <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
                 <button
                   className="btn btn-primary"
                   onClick={toggleRatingVisibility}
@@ -471,9 +424,7 @@ const Profile = ({
 
           {isRatingVisible && (
             <div>
-              <hr
-                style={{ borderTop: "1px solid #ccc", marginBottom: "20px" }}
-              />
+              <hr style={{ borderTop: '1px solid #ccc', marginBottom: '20px' }} />
               <RateTutor
                 tutorId={profile.user._id}
                 findTutorById={findTutorById}

@@ -165,21 +165,12 @@ const RegisterdTutors = ({
                   <option value="tutee">Tutee</option>
                   <option value="tutor">Tutor</option>
                 </select>
-                
-                <div>
-                <Link
-                  to={`/registered-tutors/${user._id}`}
-                  className="btn btn-primary"
-                >
-                  My Tutors
-                </Link>
-                </div>
-                
+                  
                 <div>
                 <button
                   className="btn btn-primary"
                   onClick={() => {
-                    navigate(`/registered-tutors/${user._id}`);
+                    navigate(`/active-chats/${user._id}`);
                   }}
                 >
                   My Chats
