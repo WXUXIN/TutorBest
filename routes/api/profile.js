@@ -131,7 +131,7 @@ router.get("/currentChatTutors/:user_id", async ({ params: { user_id } }, res) =
     // 2 Get list of all user_id of tutors who are in the same chat room as tutee
     const tutorUserIds = chatRooms.map((chatRoom) => {
       if (chatRoom.user1 === user_id) {
-        return chatRoom.user1;
+        return chatRoom.user1
       } else {
         return chatRoom.user2;
       }

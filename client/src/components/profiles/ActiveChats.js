@@ -28,7 +28,6 @@ const ActiveChats = ({
     // latest list of profiles from the database
     useEffect(() => {
       clearProfiles();
-      console.log("useEffect called for profiles");
 
       // This will call the getAllProfiles action
       // to store all the profiles in the redux store

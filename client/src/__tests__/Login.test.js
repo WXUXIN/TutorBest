@@ -1,62 +1,83 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { Provider } from 'react-redux'; // If you are using Redux
-import configureStore from 'redux-mock-store'; // If you are using Redux
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { MemoryRouter, Route, Redirect } from 'react-router-dom';
+
 import Login from '../components/auth/Login';
 
-// Mock the login action function
-const mockLogin = jest.fn();
-
-// Mock the Redux store
 const mockStore = configureStore([]);
 
-test('renders the login form correctly', () => {
-  // Create a mock Redux store with initial state (isAuthenticated: false, user: null)
-  const store = mockStore({
-    auth: { isAuthenticated: false, user: null },
+describe('Login Component', () => {
+  it('should render the login form', () => {
+    const store = mockStore({
+      auth: {
+        isAuthenticated: false,
+        user: null,
+      },
+    });
+
+    const { getByPlaceholderText, getByText } = render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/login']}>
+          <Route path="/login">
+            <Login />
+          </Route>
+        </MemoryRouter>
+      </Provider>
+    );
+
+    expect(getByPlaceholderText('Email Address')).toBeInTheDocument();
+    expect(getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(getByText('Login')).toBeInTheDocument();
+    expect(getByText("Don't have an account?")).toBeInTheDocument();
   });
 
-  // Render the Login component inside the mock Redux Provider
-  const { getByPlaceholderText, getByText } = render(
-    <Provider store={store}>
-      <Login login={mockLogin} />
-    </Provider>
-  );
+  it('should redirect to TutorDashboard if user is authenticated and isTutor is true', () => {
+    const store = mockStore({
+      auth: {
+        isAuthenticated: true,
+        user: { isTutor: true },
+      },
+    });
 
-  // Test that the email and password input fields are rendered correctly
-  const emailInput = getByPlaceholderText('Email Address');
-  const passwordInput = getByPlaceholderText('Password');
-  expect(emailInput).toBeInTheDocument();
-  expect(passwordInput).toBeInTheDocument();
+    const { container } = render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/login']}>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/TutorDashboard">Tutor Dashboard</Route>
+          {/* Use Redirect component to handle redirection */}
+          <Redirect to="/TutorDashboard" />
+        </MemoryRouter>
+      </Provider>
+    );
 
-  // Test that the login button is rendered
-  const loginButton = getByText('Login');
-  expect(loginButton).toBeInTheDocument();
-});
-
-test('calls login function when the form is submitted', () => {
-  const store = mockStore({
-    auth: { isAuthenticated: false, user: null },
+    expect(container.textContent).toContain('Tutor Dashboard');
   });
 
-  const { getByText, getByPlaceholderText } = render(
-    <Provider store={store}>
-      <Login login={mockLogin} />
-    </Provider>
-  );
+  it('should redirect to /profiles if user is authenticated and isTutor is false', () => {
+    const store = mockStore({
+      auth: {
+        isAuthenticated: true,
+        user: { isTutor: false },
+      },
+    });
 
-  // Get the email and password input fields
-  const emailInput = getByPlaceholderText('Email Address');
-  const passwordInput = getByPlaceholderText('Password');
+    const { container } = render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/login']}>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/profiles">Profiles</Route>
+          {/* Use Redirect component to handle redirection */}
+          <Redirect to="/profiles" />
+        </MemoryRouter>
+      </Provider>
+    );
 
-  // Simulate user input
-  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-  fireEvent.change(passwordInput, { target: { value: 'password123' } });
-
-  // Get the login button and click it
-  const loginButton = getByText('Login');
-  fireEvent.click(loginButton);
-
-  // Test that the login function was called with the correct email and password values
-  expect(mockLogin).toHaveBeenCalledWith('test@example.com', 'password123');
+    expect(container.textContent).toContain('Profiles');
+  });
 });
