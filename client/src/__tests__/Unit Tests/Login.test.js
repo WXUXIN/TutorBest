@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { MemoryRouter, Route, Redirect } from 'react-router-dom';
 
-import Login from '../components/auth/Login';
+import Login from '../../components/auth/Login';
 
 const mockStore = configureStore([]);
 
